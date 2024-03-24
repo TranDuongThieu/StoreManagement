@@ -4,6 +4,8 @@
 
 package com.hcmute.storemanagement;
 
+import com.hcmute.storemanagement.views.authen.Authen;
+
 /**
  *
  * @author thieu
@@ -11,6 +13,10 @@ package com.hcmute.storemanagement;
 public class StoreManagement {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Authen().setVisible(true);
+            }
+        });
     }
 }
