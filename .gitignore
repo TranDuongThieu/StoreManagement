@@ -1,3 +1,5 @@
+target/
+
 ### NetBeans ###
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
