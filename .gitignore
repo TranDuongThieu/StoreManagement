@@ -17,4 +17,5 @@ nbdist/
 *.war
 *.ear
 *.nar
+*.lst
 hs_err_pid*
