@@ -5,6 +5,7 @@
 package com.hcmute.storemanagement;
 
 import com.hcmute.storemanagement.views.authen.Authen;
+import com.hcmute.storemanagement.views.dashboard.Dashboard;
 
 /**
  *
@@ -15,7 +16,7 @@ public class StoreManagement {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Authen().setVisible(true);
+                new Dashboard().setVisible(true);
             }
         });
     }
