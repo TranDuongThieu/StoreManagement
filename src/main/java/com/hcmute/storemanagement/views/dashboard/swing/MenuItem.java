@@ -2,6 +2,7 @@ package com.hcmute.storemanagement.views.dashboard.swing;
 
 import com.hcmute.storemanagement.views.dashboard.model.Model_Menu;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,6 +16,8 @@ public class MenuItem extends javax.swing.JPanel {
     public MenuItem(Model_Menu data) {
         initComponents();
         setOpaque(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         if (data.getType() == Model_Menu.MenuType.MENU) {
             lbIcon.setIcon(data.toIcon());
             lbName.setText(data.getName());
@@ -43,6 +46,8 @@ public class MenuItem extends javax.swing.JPanel {
 
         lbIcon = new javax.swing.JLabel();
         lbName = new javax.swing.JLabel();
+
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lbIcon.setForeground(new java.awt.Color(255, 255, 255));
 

@@ -4,7 +4,14 @@
  */
 package com.hcmute.storemanagement.views.dashboard;
 
+import com.hcmute.storemanagement.views.authen.Authen;
+import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
+import com.hcmute.storemanagement.views.dashboard.form.Form_1;
+import com.hcmute.storemanagement.views.dashboard.form.Form_2;
+import com.hcmute.storemanagement.views.dashboard.form.Form_3;
+import com.hcmute.storemanagement.views.staff_dashboard.StaffDashBoardMain;
 import java.awt.Color;
+import javax.swing.JComponent;
 
 /**
  *
@@ -12,13 +19,44 @@ import java.awt.Color;
  */
 public class Dashboard extends javax.swing.JFrame {
 
+    private Form_1 form1;
+    private Form_2 form2;
+    private Form_3 form3;
+    private StaffDashBoardMain staffDashboard;
+
     /**
      * Creates new form Dashboard
      */
     public Dashboard() {
         initComponents();
-        setBackground(new Color(0,0,0,0));
+//        setBackground(new Color(0, 0, 0, 0));
         menu1.initMoving(Dashboard.this);
+        form1 = new Form_1();
+        form2 = new Form_2();
+        form3 = new Form_3();
+        staffDashboard = new StaffDashBoardMain();
+        menu1.initMoving(Dashboard.this);
+        menu1.addEventMenuSelected(new EventMenuSelected() {
+            @Override
+            public void selected(int index) {
+                System.out.println(index);
+                if (index == 1) {
+                    setForm(staffDashboard);
+                } else if (index == 2) {
+                    setForm(form2);
+                } else if (index == 12) {
+                    dispose();
+                    new Authen().setVisible(true);
+                }
+            }
+        });
+    }
+
+    private void setForm(JComponent com) {
+        mainPanel.removeAll();
+        mainPanel.add(com);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }
 
     /**
@@ -35,8 +73,7 @@ public class Dashboard extends javax.swing.JFrame {
         menu1 = new com.hcmute.storemanagement.views.dashboard.component.Menu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1180, 657));
+        setPreferredSize(new java.awt.Dimension(1280, 657));
 
         panelBorder2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -48,14 +85,14 @@ public class Dashboard extends javax.swing.JFrame {
         panelBorder2Layout.setHorizontalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder2Layout.createSequentialGroup()
-                .addComponent(menu1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(menu1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1031, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1031, Short.MAX_VALUE))
         );
         panelBorder2Layout.setVerticalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-            .addComponent(menu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menu1, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

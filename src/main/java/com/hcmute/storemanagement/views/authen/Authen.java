@@ -1,6 +1,5 @@
 package com.hcmute.storemanagement.views.authen;
 
-
 import com.hcmute.storemanagement.views.authen.component.PanelCover;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import java.awt.event.ActionEvent;
@@ -32,7 +31,7 @@ public class Authen extends javax.swing.JFrame {
     private void init() {
         layout = new MigLayout("fill, insets 0");
         cover = new PanelCover();
-        loginAndRegister = new PanelLoginAndRegister();
+        loginAndRegister = new PanelLoginAndRegister(this);
         TimingTarget target = new TimingTargetAdapter() {
             @Override
             public void timingEvent(float fraction) {
@@ -93,6 +92,10 @@ public class Authen extends javax.swing.JFrame {
                 }
             }
         });
+    }
+
+    public void closeForm() {
+        this.dispose();
     }
 
     @SuppressWarnings("unchecked")
