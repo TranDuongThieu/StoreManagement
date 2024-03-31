@@ -1,5 +1,7 @@
 package com.hcmute.storemanagement.views.staff_dashboard;
 
+import com.hcmute.storemanagement.views.authen.Authen;
+import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
 import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
@@ -23,60 +25,24 @@ public class StaffDashboard extends javax.swing.JFrame {
     public StaffDashboard() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        init();
-        //  Animator start form animatePoint to TagetPoint
-        animator = PropertySetter.createAnimator(500, mainPanel, "imageLocation", animatePoint, mainPanel.getTargetLocation());
-        animator.addTarget(new PropertySetter(mainPanel, "imageSize", new Dimension(180, 120), mainPanel.getTargetSize()));
-        animator.addTarget(new TimingTargetAdapter() {
+        
+        menu_staff2.initMoving(StaffDashboard.this);
+       menu_staff2.addEventMenuSelected(new EventMenuSelected() {
             @Override
-            public void end() {
-                mainPanel.setImageOld(null);
-            }
-        });
-        animator.setResolution(0);
-        animator.setAcceleration(.5f);
-        animator.setDeceleration(.5f);
-    }
-
-    private void init() {
-        home = new FormHome();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(home);
-        testData();
-    }
-
-    private void testData() {
-        home.setEvent(new EventItem() {
-            @Override
-            public void itemClick(Component com, ModelItem item) {
-                if (itemSelected != null) {
-                    mainPanel.setImageOld(itemSelected.getImage());
-                }
-                if (itemSelected != item) {
-                    if (!animator.isRunning()) {
-                        itemSelected = item;
-                        animatePoint = getLocationOf(com);
-                        mainPanel.setImage(item.getImage());
-                        mainPanel.setImageLocation(animatePoint);
-                        mainPanel.setImageSize(new Dimension(180, 120));
-                        mainPanel.repaint();
-                        home.setSelected(com);
-                        home.showItem(item);
-                        animator.start();
-                    }
+            public void selected(int index) {
+                System.out.println(index);
+                 if (index == 9) {
+                    dispose();
+                    new Authen().setVisible(true);
                 }
             }
         });
-        int ID = 1;
-        for (int i = 0; i <= 5; i++) {
-            home.addItem(new ModelItem(ID++, "4DFWD PULSE", "This product is excluded from all promotional discounts and offers.", 160, "Adidas", new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\img1.png")));
-            home.addItem(new ModelItem(ID++, "FORUM MID", "This product is excluded from all promotional discounts and offers.", 100, "Adidas",  new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\img2.png")));
-            home.addItem(new ModelItem(ID++, "SUPERNOVA", "NMD City Stock 2", 150, "Adidas",  new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\img3.png")));
-            home.addItem(new ModelItem(ID++, "Adidas", "NMD City Stock 2", 160, "Adidas", new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\img6.png")));
-            home.addItem(new ModelItem(ID++, "Adidas", "NMD City Stock 2", 120, "Adidas",  new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\img5.png")));
-            home.addItem(new ModelItem(ID++, "4DFWD PULSE", "This product is excluded from all promotional discounts and offers.", 160, "Adidas",  new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\img4.png")));
-        }
+      
     }
+
+   
+
+    
 
     private Point getLocationOf(Component com) {
         Point p = home.getPanelItemLocation();
@@ -93,46 +59,50 @@ public class StaffDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        background1 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Background();
-        mainPanel = new com.hcmute.storemanagement.views.staff_dashboard.swing.MainPanel();
+        panelBorder1 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
+        mainPanelStaff = new javax.swing.JPanel();
+        menu_staff2 = new com.hcmute.storemanagement.views.staff_dashboard.component.Menu_staff();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1280, 657));
 
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1152, Short.MAX_VALUE)
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 512, Short.MAX_VALUE)
-        );
+        panelBorder1.setPreferredSize(new java.awt.Dimension(1281, 657));
 
-        javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
-        background1.setLayout(background1Layout);
-        background1Layout.setHorizontalGroup(
-            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        mainPanelStaff.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanelStaff.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
+        panelBorder1.setLayout(panelBorder1Layout);
+        panelBorder1Layout.setHorizontalGroup(
+            panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addComponent(menu_staff2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(mainPanelStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        background1Layout.setVerticalGroup(
-            background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        panelBorder1Layout.setVerticalGroup(
+            panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanelStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addComponent(menu_staff2, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,7 +148,8 @@ public class StaffDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.Background background1;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.MainPanel mainPanel;
+    private javax.swing.JPanel mainPanelStaff;
+    private com.hcmute.storemanagement.views.staff_dashboard.component.Menu_staff menu_staff2;
+    private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder1;
     // End of variables declaration//GEN-END:variables
 }

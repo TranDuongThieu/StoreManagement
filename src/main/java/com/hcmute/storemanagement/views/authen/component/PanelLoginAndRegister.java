@@ -7,6 +7,7 @@ import com.hcmute.storemanagement.views.authen.swing.Button;
 import com.hcmute.storemanagement.views.authen.swing.MyPasswordField;
 import com.hcmute.storemanagement.views.authen.swing.MyTextField;
 import com.hcmute.storemanagement.views.dashboard.Dashboard;
+import com.hcmute.storemanagement.views.staff_dashboard.StaffDashboard;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -108,8 +109,11 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 if (account.getQuyenNguoiDung().equals("admin")) {
                     new Dashboard().setVisible(true);
                     authenForm.closeForm();
- 
-               }
+                } else if (account.getQuyenNguoiDung().equals("staff")) {
+                    new StaffDashboard().setVisible(true);
+                    authenForm.closeForm();
+
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong password. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);
             }
