@@ -4,11 +4,12 @@ import javax.swing.Icon;
 
 public class ModelItem {
 
-    public int getItemID() {
+  
+    public String getItemID() {
         return itemID;
     }
 
-    public void setItemID(int itemID) {
+    public void setItemID(String itemID) {
         this.itemID = itemID;
     }
 
@@ -28,20 +29,20 @@ public class ModelItem {
         this.description = description;
     }
 
+    public String getGuarantee() {
+        return Guarantee;
+    }
+
+    public void setGuarantee(String Guarantee) {
+        this.Guarantee = Guarantee;
+    }
+
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
     }
 
     public Icon getImage() {
@@ -52,22 +53,47 @@ public class ModelItem {
         this.image = image;
     }
 
-    public ModelItem(int itemID, String itemName, String description, double price, String brandName, Icon image) {
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+
+    public int getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(int warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    
+    
+    
+    public ModelItem(String itemID, String itemName, String description, String Guarantee, double price, Icon image, int sold, int warehouse) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.description = description;
+        this.Guarantee = Guarantee;
         this.price = price;
-        this.brandName = brandName;
         this.image = image;
+        this.sold = sold;
+        this.warehouse = warehouse;
     }
+
+    
 
     public ModelItem() {
     }
 
-    private int itemID;
+    private String itemID;
     private String itemName;
     private String description;
+    private String Guarantee;
     private double price;
-    private String brandName;
     private Icon image;
+    private int sold;
+    private int warehouse;
 }

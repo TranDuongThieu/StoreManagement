@@ -4,7 +4,7 @@
  */
 package com.hcmute.storemanagement.controllers.Account;
 
-import com.hcmute.storemanagement.DAO.DBConnection;
+import com.hcmute.storemanagement.service.DBConnection;
 import com.hcmute.storemanagement.models.TaiKhoan;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

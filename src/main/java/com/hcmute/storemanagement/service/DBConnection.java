@@ -1,4 +1,4 @@
-package com.hcmute.storemanagement.DAO;
+package com.hcmute.storemanagement.service;
 
 import java.sql.*;
 

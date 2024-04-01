@@ -3,6 +3,7 @@ package com.hcmute.storemanagement.views.dashboard.swing;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.model.Model_Menu;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -85,6 +86,7 @@ public class ListMenu<E extends Object> extends JList<E> {
                     data = new Model_Menu("", o + "", Model_Menu.MenuType.EMPTY);
                 }
                 MenuItem item = new MenuItem(data);
+
                 item.setSelected(selectedIndex == index);
                 item.setOver(overIndex == index);
                 return item;

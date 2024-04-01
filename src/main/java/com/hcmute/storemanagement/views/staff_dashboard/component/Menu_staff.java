@@ -40,22 +40,25 @@ public class Menu_staff extends javax.swing.JPanel {
 
     private void init() {
         jLabel3.setIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\logo.png"));
-        
+
         listMenu1.addItem(new Model_Menu("", "Product", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("product", "Product", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("product", "GRN", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("product", "GDN", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("product", "All Product", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("phone", "Phone", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("laptop", "LapTop", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("headphone", "Headphone", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
+
+        listMenu1.addItem(new Model_Menu("", "Order", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("bill", "Bill", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
 
         listMenu1.addItem(new Model_Menu("", "Calendar", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("calendar", "Work schedule", Model_Menu.MenuType.MENU));        
+        listMenu1.addItem(new Model_Menu("calendar", "Work schedule", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("jobreg", "Job registration", Model_Menu.MenuType.MENU));
-        
+
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
         listMenu1.addItem(new Model_Menu("logout", "Logout", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
-        
-        
 
         panelMoving4.setSize(WIDTH, 0);
     }

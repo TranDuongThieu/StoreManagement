@@ -49,13 +49,16 @@ public class FormHome extends javax.swing.JPanel {
         }
         ((Item) item).setSelected(true);
     }
+    
 
     public void showItem(ModelItem data) {
         lbItemName.setText(data.getItemName());
         txtDescription.setText(data.getDescription());
-        lbBrand.setText(data.getBrandName());
+        lbGuarantee.setText(data.getGuarantee());
         DecimalFormat df = new DecimalFormat("$#,##0.00");
         lbPrice.setText(df.format(data.getPrice()));
+        lbSold.setText(String.valueOf(data.getSold()));
+        lbWarehouse.setText(String.valueOf(data.getWarehouse()));
     }
 
     public Point getPanelItemLocation() {
@@ -75,6 +78,12 @@ public class FormHome extends javax.swing.JPanel {
         lbBrand = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         txtDescription = new javax.swing.JTextPane();
+        lbWarehouse = new javax.swing.JLabel();
+        lbGuarantee = new javax.swing.JLabel();
+        lbSold = new javax.swing.JLabel();
+        lb1 = new javax.swing.JLabel();
+        lb2 = new javax.swing.JLabel();
+        lb3 = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -101,6 +110,27 @@ public class FormHome extends javax.swing.JPanel {
         txtDescription.setForeground(new java.awt.Color(178, 178, 178));
         txtDescription.setFocusable(false);
 
+        lbWarehouse.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lbWarehouse.setForeground(new java.awt.Color(76, 76, 76));
+
+        lbGuarantee.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        lbGuarantee.setForeground(new java.awt.Color(76, 76, 76));
+
+        lbSold.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lbSold.setForeground(new java.awt.Color(76, 76, 76));
+
+        lb1.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        lb1.setForeground(new java.awt.Color(76, 76, 76));
+        lb1.setText("Guarantee:");
+
+        lb2.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lb2.setForeground(new java.awt.Color(76, 76, 76));
+        lb2.setText("Warehouse:");
+
+        lb3.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lb3.setForeground(new java.awt.Color(76, 76, 76));
+        lb3.setText("Sold: ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -108,22 +138,37 @@ public class FormHome extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbBrand)
-                            .addComponent(lbPrice))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lbItemName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10))))
+                        .addGap(10, 10, 10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lb3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbSold))
+                            .addComponent(lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbGuarantee, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbBrand)
+                            .addComponent(lbPrice)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lb2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbWarehouse)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(196, 196, 196)
+                .addGap(181, 181, 181)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbItemName)
@@ -133,7 +178,21 @@ public class FormHome extends javax.swing.JPanel {
                 .addComponent(lbBrand)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbGuarantee)
+                        .addComponent(lb1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lb2)
+                            .addComponent(lbWarehouse))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lb3)
+                            .addComponent(lbSold))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -142,8 +201,8 @@ public class FormHome extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,9 +214,15 @@ public class FormHome extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lb1;
+    private javax.swing.JLabel lb2;
+    private javax.swing.JLabel lb3;
     private javax.swing.JLabel lbBrand;
+    private javax.swing.JLabel lbGuarantee;
     private javax.swing.JLabel lbItemName;
     private javax.swing.JLabel lbPrice;
+    private javax.swing.JLabel lbSold;
+    private javax.swing.JLabel lbWarehouse;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.PanelItem panelItem;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JTextPane txtDescription;

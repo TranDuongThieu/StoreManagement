@@ -13,15 +13,16 @@ public class SanPham {
     private String tenSanPham;
     private String moTa;
     private String thoiHanBaoHanh;
-    private String hinhAnh;
+    private byte[] hinhAnh;
     private int soLuongDaBan;
     private int soLuongTrongKho;
     private String maDanhMuc;
+    private int gia;
 
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String tenSanPham, String moTa, String thoiHanBaoHanh, String hinhAnh, int soLuongDaBan, int soLuongTrongKho, String maDanhMuc) {
+    public SanPham(String maSanPham, String tenSanPham, String moTa, String thoiHanBaoHanh, byte[] hinhAnh, int soLuongDaBan, int soLuongTrongKho, String maDanhMuc, int gia) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.moTa = moTa;
@@ -30,6 +31,7 @@ public class SanPham {
         this.soLuongDaBan = soLuongDaBan;
         this.soLuongTrongKho = soLuongTrongKho;
         this.maDanhMuc = maDanhMuc;
+        this.gia = gia;
     }
 
     public String getMaSanPham() {
@@ -64,11 +66,11 @@ public class SanPham {
         this.thoiHanBaoHanh = thoiHanBaoHanh;
     }
 
-    public String getHinhAnh() {
+    public byte[] getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(String hinhAnh) {
+    public void setHinhAnh(byte[] hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 
@@ -95,5 +97,14 @@ public class SanPham {
     public void setMaDanhMuc(String maDanhMuc) {
         this.maDanhMuc = maDanhMuc;
     }
+
+    public int getGia() {
+        return gia;
+    }
+
+    public void setGia(int gia) {
+        this.gia = gia;
+    }
+
     
 }
