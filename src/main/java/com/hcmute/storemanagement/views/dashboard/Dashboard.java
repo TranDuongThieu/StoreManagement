@@ -40,7 +40,7 @@ public class Dashboard extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 System.out.println(index);
-                if (index == 1) {
+                if (index == 8) {
                     setForm(staffDashboard);
                 } else if (index == 2) {
                     setForm(form2);

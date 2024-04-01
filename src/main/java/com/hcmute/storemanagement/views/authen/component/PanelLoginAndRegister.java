@@ -46,7 +46,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
 
         MyTextField txtTenNhanVien = new MyTextField();
         txtTenNhanVien.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\user.png"));
-        txtTenNhanVien.setHint("Tên nhân viên");
+        txtTenNhanVien.setHint("Fullname");
         register.add(txtTenNhanVien, "w 60%");
 
         MyPasswordField txtPass = new MyPasswordField();
@@ -65,6 +65,19 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         cmd.setText("SIGN UP");
         register.add(cmd, "w 40%, h 40");
 
+        cmd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                register(txtUser, txtTenNhanVien, txtPass, txtConfirmPass);
+            }
+        });
+
+    }
+
+    public void register(MyTextField txtUser, MyTextField txtTenNhanVien, MyPasswordField txtPass, MyPasswordField txtConfirmPass) {
+    
+        
+        
     }
 
     private void initLogin() {
@@ -112,7 +125,6 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 } else if (account.getQuyenNguoiDung().equals("staff")) {
                     new StaffDashboard().setVisible(true);
                     authenForm.closeForm();
-
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong password. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);
