@@ -9,6 +9,7 @@ import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.form.Form_1;
 import com.hcmute.storemanagement.views.dashboard.form.Form_2;
 import com.hcmute.storemanagement.views.dashboard.form.Form_3;
+import com.hcmute.storemanagement.views.dashboard.form.Statistical;
 import com.hcmute.storemanagement.views.staff_dashboard.StaffDashBoardProduct;
 import java.awt.Color;
 import javax.swing.JComponent;
@@ -22,7 +23,6 @@ public class Dashboard extends javax.swing.JFrame {
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
-    private StaffDashBoardProduct staffDashboard;
 
     /**
      * Creates new form Dashboard
@@ -31,25 +31,26 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
 //        setBackground(new Color(0, 0, 0, 0));
         menu1.initMoving(Dashboard.this);
-        form1 = new Form_1();
-        form2 = new Form_2();
-        form3 = new Form_3();
-        staffDashboard = new StaffDashBoardProduct();
+          
         menu1.initMoving(Dashboard.this);
         menu1.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
                 System.out.println(index);
+                if(index == 0){
+                    setForm(new Statistical());
+                }
                 if (index == 8) {
-                    setForm(staffDashboard);
+                    setForm( new StaffDashBoardProduct());
                 } else if (index == 2) {
-                    setForm(form2);
+                    setForm(new Form_2());
                 } else if (index == 12) {
                     dispose();
                     new Authen().setVisible(true);
                 }
             }
         });
+        setForm(new Statistical());
     }
 
     private void setForm(JComponent com) {

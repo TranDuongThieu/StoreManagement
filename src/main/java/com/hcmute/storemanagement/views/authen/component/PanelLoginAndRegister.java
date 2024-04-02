@@ -71,7 +71,6 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 register(txtUser, txtTenNhanVien, txtPass, txtConfirmPass);
             }
         });
-
     }
 
     public void register(MyTextField txtUser, MyTextField txtTenNhanVien, MyPasswordField txtPass, MyPasswordField txtConfirmPass) {
