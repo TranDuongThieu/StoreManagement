@@ -12,7 +12,13 @@ public class TaiKhoan {
     private String tenDangNhap;
     private String matKhau;
     private String quyenNguoiDung;
-
+    private static  TaiKhoan instance;
+    public static TaiKhoan getInstance(){
+        if (instance == null){
+            instance = new TaiKhoan();
+        }
+        return instance;
+    }
     public TaiKhoan() {
     }
 
