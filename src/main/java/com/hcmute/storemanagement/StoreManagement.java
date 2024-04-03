@@ -4,13 +4,17 @@
 
 package com.hcmute.storemanagement;
 
-/**
- *
- * @author thieu
- */
+import com.hcmute.storemanagement.views.dashboard.Dashboard;
+import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffDashboard;
+
+
 public class StoreManagement {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new StaffDashboard().setVisible(true);
+            }
+        });
     }
 }
