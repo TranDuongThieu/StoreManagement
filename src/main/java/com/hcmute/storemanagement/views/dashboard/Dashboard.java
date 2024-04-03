@@ -24,7 +24,7 @@ public class Dashboard extends javax.swing.JFrame {
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
-    private StaffDashBoardProduct staffDashboard;
+    private DashBoardProductForm staffDashboardProduct;
     private StaffForm staffForm;
 
     /**
@@ -38,7 +38,7 @@ public class Dashboard extends javax.swing.JFrame {
         form2 = new Form_2();
         form3 = new Form_3();
         staffForm = new StaffForm();
-        staffDashboard = new StaffDashBoardProduct();
+        staffDashboardProduct = new DashBoardProductForm();
         menu1.initMoving(Dashboard.this);
         menu1.addEventMenuSelected(new EventMenuSelected() {
             @Override

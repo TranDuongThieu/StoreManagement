@@ -66,7 +66,7 @@ public class CalendarCustom extends javax.swing.JPanel {
             .addGap(0, 222, Short.MAX_VALUE)
         );
 
-        jPanel1.setBackground(new java.awt.Color(97, 49, 237));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(32, 0, 127));
 
@@ -82,16 +82,16 @@ public class CalendarCustom extends javax.swing.JPanel {
         );
 
         lbTime.setFont(new java.awt.Font("sansserif", 1, 48)); // NOI18N
-        lbTime.setForeground(new java.awt.Color(201, 201, 201));
+        lbTime.setForeground(new java.awt.Color(0, 169, 255));
         lbTime.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTime.setText("9:32:00");
 
         lbType.setFont(new java.awt.Font("sansserif", 1, 25)); // NOI18N
-        lbType.setForeground(new java.awt.Color(201, 201, 201));
+        lbType.setForeground(new java.awt.Color(0, 169, 255));
         lbType.setText("PM");
 
         lbDate.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lbDate.setForeground(new java.awt.Color(201, 201, 201));
+        lbDate.setForeground(new java.awt.Color(0, 169, 255));
         lbDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbDate.setText("Sunday, 30/05/2021");
 
@@ -135,7 +135,7 @@ public class CalendarCustom extends javax.swing.JPanel {
         });
 
         lbMonthYear.setFont(new java.awt.Font("sansserif", 1, 30)); // NOI18N
-        lbMonthYear.setForeground(new java.awt.Color(97, 49, 237));
+        lbMonthYear.setForeground(new java.awt.Color(0, 169, 255));
         lbMonthYear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbMonthYear.setText("Month - Year");
 

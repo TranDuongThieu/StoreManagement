@@ -68,8 +68,8 @@ public class Menu_staff extends javax.swing.JPanel {
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         GradientPaint g = new GradientPaint(
-                0, 0, Color.decode("#ba5370"), // Starting point color
-                0, getHeight(), Color.decode("#f4e2d8") // Ending point color
+                0, 0, Color.decode("#00A9FF"), // Starting point color
+                0, getHeight(), Color.decode("#89CFF3") // Ending point color
         );
 //        GradientPaint g = new GradientPaint(0, 0, Color.decode("#1CB5E0"), 0, getHeight(), Color.decode("#000046"));
         g2.setPaint(g);

@@ -28,28 +28,102 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        calendarCustom11 = new com.hcmute.storemanagement.views.staff_dashboard.form.CalendarCustom();
+        calendarCustom1 = new com.hcmute.storemanagement.views.staff_dashboard.form.CalendarCustom();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        button11 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
+        dateTextField1 = new com.hcmute.storemanagement.views.staff_dashboard.swing.DateTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel1.setText("Date:");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel3.setText("Shift:");
+
+        jCheckBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jCheckBox1.setForeground(new java.awt.Color(51, 51, 51));
+        jCheckBox1.setText("TWO 13:00Pm - 18:00Pm");
+
+        jCheckBox2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jCheckBox2.setForeground(new java.awt.Color(51, 51, 51));
+        jCheckBox2.setText("ONE 8:00Am - 11:30Am ");
+
+        jCheckBox3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jCheckBox3.setForeground(new java.awt.Color(51, 51, 51));
+        jCheckBox3.setText("THREE 19:00Pm - 23:00Pm");
+
+        button11.setBackground(new java.awt.Color(210, 245, 253));
+        button11.setForeground(new java.awt.Color(51, 51, 51));
+        button11.setText("Add");
+        button11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
+        dateTextField1.setText("dd-MM-yyyy");
+        dateTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(calendarCustom11, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 305, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(calendarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox1)
+                            .addComponent(jCheckBox2)
+                            .addComponent(jCheckBox3)
+                            .addComponent(dateTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(button11, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(calendarCustom11, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 301, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(dateTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jCheckBox2))
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox3)
+                        .addGap(53, 53, 53)
+                        .addComponent(button11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(calendarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(303, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.hcmute.storemanagement.views.staff_dashboard.form.CalendarCustom calendarCustom11;
+    private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button11;
+    private com.hcmute.storemanagement.views.staff_dashboard.form.CalendarCustom calendarCustom1;
+    private com.hcmute.storemanagement.views.staff_dashboard.swing.DateTextField dateTextField1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
