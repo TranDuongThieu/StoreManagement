@@ -1,13 +1,8 @@
 package com.hcmute.storemanagement.views.dashboard.form;
 
-import com.hcmute.storemanagement.views.AdminDashboard.chart.ModelChartLine;
-import com.hcmute.storemanagement.views.AdminDashboard.chart.ModelChartPie;
-import com.raven.model.ModelStaff;
-import java.awt.Color;
+import com.hcmute.storemanagement.controllers.Staff.StaffController;
+import com.hcmute.storemanagement.models.NhanVien;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 public class StaffForm extends javax.swing.JPanel {
@@ -20,21 +15,33 @@ public class StaffForm extends javax.swing.JPanel {
     private void initData() {
         //  Test Data table
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
-        Random r = new Random();
-        for (int i = 0; i < 20; i++) {
-            String status;
-            int ran = r.nextInt(3);
-            if (ran == 0) {
-                status = "Pending";
-            } else if (ran == 1) {
-                status = "Approved";
-            } else {
-                status = "Cancel";
-            }
-            model.addRow(new ModelStaff(new ImageIcon(), "Mr Raven", "Male", "raven_programming@gmail.com", status).toDataTable());
-        }
-        table1.fixTable(jScrollPane);
+        StaffController staffController = new StaffController();
+      
+//            model.addRow(new ModelStaff(new ImageIcon(), "Mr Raven", "Male", "raven_programming@gmail.com", status).toDataTable());
+        ArrayList<NhanVien> staffList = staffController.getAllStaff();
+        for (NhanVien staff : staffList)
+            model.addRow(staff.toDataTable());
         
+        table1.fixTable(jScrollPane);
+//        List<ModelChartPie> list1 = new ArrayList<>();
+//        list1.add(new ModelChartPie("Monday", 10, new Color(4, 174, 243)));
+//        list1.add(new ModelChartPie("Tuesday", 150, new Color(215, 39, 250)));
+//        list1.add(new ModelChartPie("Wednesday", 80, new Color(44, 88, 236)));
+//        list1.add(new ModelChartPie("Thursday", 100, new Color(21, 202, 87)));
+//        list1.add(new ModelChartPie("Friday", 125, new Color(127, 63, 255)));
+//        list1.add(new ModelChartPie("Saturday", 80, new Color(238, 167, 35)));
+//        list1.add(new ModelChartPie("Sunday", 200, new Color(245, 79, 99)));
+////        chartPie.setModel(list1);
+//        //  Test data chart line
+//        List<ModelChartLine> list = new ArrayList<>();
+//        list.add(new ModelChartLine("Monday", 10));
+//        list.add(new ModelChartLine("Tuesday", 150));
+//        list.add(new ModelChartLine("Wednesday", 80));
+//        list.add(new ModelChartLine("Thursday", 100));
+//        list.add(new ModelChartLine("Friday", 125));
+//        list.add(new ModelChartLine("Saturday", 80));
+//        list.add(new ModelChartLine("Sunday", 200));
+//        chartLine1.setModel(list);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,7 +50,7 @@ public class StaffForm extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
-        table1 = new com.hcmute.storemanagement.views.AdminDashboard.swing.Table();
+        table1 = new com.hcmute.storemanagement.views.dashboard.Table.swing.Table();
 
         setBackground(new java.awt.Color(250, 250, 250));
 
@@ -56,7 +63,7 @@ public class StaffForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Profile", "Name", "Gender", "Email", "Status"
+                "ID", "Họ Và Tên", "Ngày Sinh", "Giới Tính", "CCCD", "Số Điện Thoại", "Email", "Địa Chỉ"
             }
         ));
         jScrollPane.setViewportView(table1);
@@ -66,20 +73,22 @@ public class StaffForm extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 1014, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -87,6 +96,6 @@ public class StaffForm extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane;
-    private com.hcmute.storemanagement.views.AdminDashboard.swing.Table table1;
+    private com.hcmute.storemanagement.views.dashboard.Table.swing.Table table1;
     // End of variables declaration//GEN-END:variables
 }
