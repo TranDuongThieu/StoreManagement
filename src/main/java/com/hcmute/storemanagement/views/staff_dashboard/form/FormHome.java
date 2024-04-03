@@ -85,7 +85,6 @@ public class FormHome extends javax.swing.JPanel {
         lb2 = new javax.swing.JLabel();
         lb3 = new javax.swing.JLabel();
         button12 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
-        button13 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
 
         setOpaque(false);
 
@@ -138,11 +137,6 @@ public class FormHome extends javax.swing.JPanel {
         button12.setText("Add Bill");
         button12.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
-        button13.setBackground(new java.awt.Color(210, 245, 253));
-        button13.setForeground(new java.awt.Color(0, 0, 0));
-        button13.setText("Buy");
-        button13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,7 +157,6 @@ public class FormHome extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(button13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 6, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -212,11 +205,9 @@ public class FormHome extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lb3)
                             .addComponent(lbSold))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -237,7 +228,6 @@ public class FormHome extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button12;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lb1;

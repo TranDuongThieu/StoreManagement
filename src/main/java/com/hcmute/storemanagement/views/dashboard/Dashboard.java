@@ -4,7 +4,7 @@
  */
 package com.hcmute.storemanagement.views.dashboard;
 
-import com.hcmute.storemanagement.views.AdminDashboard.form.StaffForm;
+import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.form.Form_1;
