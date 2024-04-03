@@ -4,6 +4,7 @@
  */
 package com.hcmute.storemanagement.views.dashboard;
 
+import com.hcmute.storemanagement.views.AdminDashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.form.Form_1;
@@ -23,6 +24,8 @@ public class Dashboard extends javax.swing.JFrame {
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
+    private StaffDashBoardProduct staffDashboard;
+    private StaffForm staffForm;
 
     /**
      * Creates new form Dashboard
@@ -31,7 +34,11 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
 //        setBackground(new Color(0, 0, 0, 0));
         menu1.initMoving(Dashboard.this);
-          
+        form1 = new Form_1();
+        form2 = new Form_2();
+        form3 = new Form_3();
+        staffForm = new StaffForm();
+        staffDashboard = new StaffDashBoardProduct();
         menu1.initMoving(Dashboard.this);
         menu1.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -43,8 +50,12 @@ public class Dashboard extends javax.swing.JFrame {
                 if (index == 8) {
                     setForm(new DashBoardProductForm());
                 } else if (index == 2) {
-                    setForm(new Form_2());
-                } else if (index == 12) {
+                    setForm(form2);
+                } 
+                else if (index == 4){
+                    setForm(staffForm);
+                }
+                else if (index == 12) {
                     dispose();
                     new Authen().setVisible(true);
                 }
@@ -80,9 +91,9 @@ public class Dashboard extends javax.swing.JFrame {
         panelBorder2Layout.setHorizontalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder2Layout.createSequentialGroup()
-                .addComponent(menu1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE))
+                .addComponent(menu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1157, Short.MAX_VALUE))
         );
         panelBorder2Layout.setVerticalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
