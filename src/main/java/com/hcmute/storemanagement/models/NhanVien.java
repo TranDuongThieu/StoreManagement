@@ -107,7 +107,8 @@ public class NhanVien {
     public void setTenDangNhap(String tenDangNhap) {
         this.tenDangNhap = tenDangNhap;
     }
-    
-    
+     public Object[] toDataTable() {
+        return new Object[]{ maNhanVien,  tenNhanVien,  ngaySinh,  gioiTinh,  CCCD,    soDienThoai,  email, diaChi};
+    }
     
 }
