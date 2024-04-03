@@ -13,16 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author DELL
- */
 public class StaffDashboardgetProduct {
 
-    /**
-     *
-     * @return
-     */
+
     public List<SanPham> getAllSanPham() {
         List<SanPham> sanPhams = new ArrayList<>();
         Connection connection = null;

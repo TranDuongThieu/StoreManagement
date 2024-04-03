@@ -4,14 +4,10 @@
 
 package com.hcmute.storemanagement;
 
-import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.Dashboard;
-import com.hcmute.storemanagement.views.staff_dashboard.StaffDashboard;
+import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffDashboard;
 
-/**
- *
- * @author thieu
- */
+
 public class StoreManagement {
 
     public static void main(String[] args) {
