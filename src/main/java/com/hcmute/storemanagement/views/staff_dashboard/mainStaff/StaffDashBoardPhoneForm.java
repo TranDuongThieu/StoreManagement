@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.hcmute.storemanagement.views.staff_dashboard;
+package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
-import com.hcmute.storemanagement.controllers.Staff.StaffDashboardgetProduct;
-import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
 import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
@@ -14,20 +12,23 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.List;
 import javax.swing.ImageIcon;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
-public class StaffDashBoardProduct extends javax.swing.JPanel {
+/**
+ *
+ * @author DELL
+ */
+public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
 
-    private FormHome home;
+    private FormHome formHome;
     private Animator animator;
     private Point animatePoint;
     private ModelItem itemSelected;
 
-    public StaffDashBoardProduct() {
+    public StaffDashBoardPhoneForm() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
@@ -45,22 +46,15 @@ public class StaffDashBoardProduct extends javax.swing.JPanel {
         animator.setDeceleration(.5f);
     }
 
-    public List<SanPham> allProduct() {
-        StaffDashboardgetProduct getAllProduct = new StaffDashboardgetProduct();
-        List<SanPham> sanPham = getAllProduct.getAllSanPham();
-        return sanPham;
-    }
-
     private void init() {
-        home = new FormHome();
+        formHome = new FormHome();
         mainPanel1.setLayout(new BorderLayout());
-        mainPanel1.add(home);
-        List<SanPham> sanPham = allProduct();
-        testData(sanPham);
+        mainPanel1.add(formHome);
+        testData();
     }
 
-    private void testData(List<SanPham> sanPham) {
-        home.setEvent(new EventItem() {
+    private void testData() {
+        formHome.setEvent(new EventItem() {
             @Override
             public void itemClick(Component com, ModelItem item) {
                 if (itemSelected != null) {
@@ -74,24 +68,30 @@ public class StaffDashBoardProduct extends javax.swing.JPanel {
                         mainPanel1.setImageLocation(animatePoint);
                         mainPanel1.setImageSize(new Dimension(180, 120));
                         mainPanel1.repaint();
-                        home.setSelected(com);
-                        home.showItem(item);
+                        formHome.setSelected(com);
+                        formHome.showItem(item);
                         animator.start();
                     }
                 }
             }
         });
 
-        for (SanPham sp : sanPham) {
-            home.addItem(new ModelItem(sp.getMaSanPham(), sp.getTenSanPham(), sp.getMoTa(), sp.getThoiHanBaoHanh(), sp.getGia(), new ImageIcon(sp.getHinhAnh()), sp.getSoLuongDaBan(), sp.getSoLuongTrongKho()));
+        int ID = 1;
+        for (int i = 0; i <= 5; i++) {
+
+            formHome.addItem(new ModelItem("1", "Iphone 15", "This product is excluded from all promotional discounts and offers.", "12 tháng", 160, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\Iphone15.png"), 100, 1000));
+//            
+//            formHome.addItem(new ModelItem(ID++, "Iphone 14", "This product is excluded from all promotional discounts and offers.", "12 tháng", 150, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone14.png"), 100, 112));
+//            formHome.addItem(new ModelItem(ID++, "Iphone 13", "This product is excluded from all promotional discounts and offers.", "12 tháng", 140, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone13.png"), 50, 134));
+//            formHome.addItem(new ModelItem(ID++, "Iphone 12", "This product is excluded from all promotional discounts and offers.", "12 tháng", 130, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone12.png"), 192, 114));
+//            formHome.addItem(new ModelItem(ID++, "Iphone 11", "This product is excluded from all promotional discounts and offers.", "12 tháng", 120, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone11.png"), 102, 232));
+//            formHome.addItem(new ModelItem(ID++, "Iphone 10", "This product is excluded from all promotional discounts and offers.", "12 tháng", 110, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone10.png"), 123, 121));
+
         }
-        
-    
-        
     }
 
     private Point getLocationOf(Component com) {
-        Point p = home.getPanelItemLocation();
+        Point p = formHome.getPanelItemLocation();
         int x = p.x;
         int y = p.y;
         int itemX = com.getX();
@@ -107,6 +107,12 @@ public class StaffDashBoardProduct extends javax.swing.JPanel {
 
         background1 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Background();
         mainPanel1 = new com.hcmute.storemanagement.views.staff_dashboard.swing.MainPanel();
+
+        setPreferredSize(new java.awt.Dimension(1050, 683));
+
+        background1.setPreferredSize(new java.awt.Dimension(1050, 683));
+
+        mainPanel1.setPreferredSize(new java.awt.Dimension(1093, 683));
 
         javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
         mainPanel1.setLayout(mainPanel1Layout);
@@ -129,14 +135,14 @@ public class StaffDashBoardProduct extends javax.swing.JPanel {
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background1, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

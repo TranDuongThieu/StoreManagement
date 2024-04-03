@@ -13,7 +13,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-    
     <!-- Dependencies Section -->
     <dependencies>
         <dependency>
@@ -33,6 +32,7 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>12.6.1.jre11</version>
         </dependency>
+       
     </dependencies>
     
 </project>

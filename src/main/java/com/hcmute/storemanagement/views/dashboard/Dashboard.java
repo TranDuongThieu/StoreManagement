@@ -10,7 +10,8 @@ import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.form.Form_1;
 import com.hcmute.storemanagement.views.dashboard.form.Form_2;
 import com.hcmute.storemanagement.views.dashboard.form.Form_3;
-import com.hcmute.storemanagement.views.staff_dashboard.StaffDashBoardProduct;
+import com.hcmute.storemanagement.views.dashboard.form.Statistical;
+import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.DashBoardProductForm;
 import java.awt.Color;
 import javax.swing.JComponent;
 
@@ -43,8 +44,11 @@ public class Dashboard extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 System.out.println(index);
+                if(index == 0){
+                    setForm(new Statistical());
+                }
                 if (index == 8) {
-                    setForm(staffDashboard);
+                    setForm(new DashBoardProductForm());
                 } else if (index == 2) {
                     setForm(form2);
                 } 
@@ -57,6 +61,7 @@ public class Dashboard extends javax.swing.JFrame {
                 }
             }
         });
+        setForm(new Statistical());
     }
 
     private void setForm(JComponent com) {
