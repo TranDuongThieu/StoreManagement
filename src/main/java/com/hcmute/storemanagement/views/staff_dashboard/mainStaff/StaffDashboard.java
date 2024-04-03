@@ -1,4 +1,4 @@
-package com.hcmute.storemanagement.views.staff_dashboard;
+package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
@@ -16,14 +16,14 @@ public class StaffDashboard extends javax.swing.JFrame {
     private Animator animator;
     private Point animatePoint;
     private ModelItem itemSelected;
-    private StaffDashBoardProduct staffDashboardProduct;
-    private StaffDashBoardPhone staffDashboardPhone;
+    private DashBoardProductForm staffDashboardProduct;
+    private StaffDashBoardPhoneForm staffDashboardPhone;
 
     public StaffDashboard() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        staffDashboardProduct = new StaffDashBoardProduct();
-        staffDashboardPhone = new StaffDashBoardPhone();
+        staffDashboardProduct = new DashBoardProductForm();
+        staffDashboardPhone = new StaffDashBoardPhoneForm();
         menu_staff1.initMoving(StaffDashboard.this);
         menu_staff1.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -33,9 +33,12 @@ public class StaffDashboard extends javax.swing.JFrame {
                     setForm(staffDashboardProduct);
                 }
                 if (index == 2){
-                    setForm(staffDashboardPhone);
+                    setForm(new StaffDashBoardPhoneForm());
                 }
-                if (index == 10) {
+                if (index == 10){
+                    setForm(new StaffDashboardWorkSchedule());
+                }
+                if (index == 13) {
                     dispose();
                     new Authen().setVisible(true);
                 }
@@ -72,7 +75,6 @@ public class StaffDashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1280, 657));
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
         panelBorder1.setPreferredSize(new java.awt.Dimension(1280, 657));
