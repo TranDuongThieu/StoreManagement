@@ -35,7 +35,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                 if (index == 2){
                     setForm(staffDashboardPhone);
                 }
-                if (index == 10) {
+                if (index == 13) {
                     dispose();
                     new Authen().setVisible(true);
                 }
