@@ -7,7 +7,7 @@ public class ModelItem {
     public String getItemID() {
         return itemID;
     }
-
+    public String Hello;
     public void setItemID(String itemID) {
         this.itemID = itemID;
     }
