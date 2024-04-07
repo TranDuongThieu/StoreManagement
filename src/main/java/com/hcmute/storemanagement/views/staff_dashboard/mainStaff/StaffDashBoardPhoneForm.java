@@ -69,7 +69,7 @@ public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
                         mainPanel1.setImageSize(new Dimension(180, 120));
                         mainPanel1.repaint();
                         formHome.setSelected(com);
-                        formHome.showItem(item);
+                   //     formHome.showItem(item);
                         animator.start();
                     }
                 }
@@ -79,7 +79,7 @@ public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
         int ID = 1;
         for (int i = 0; i <= 5; i++) {
 
-           // formHome.addItem(new ModelItem("1", "Iphone 15", "This product is excluded from all promotional discounts and offers.", "12 tháng", 160, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\Iphone15.png"), 100, 1000));
+        //formHome.addItem(new ModelItem("1", "Iphone 15", "This product is excluded from all promotional discounts and offers.", "12 tháng", 160, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\Iphone15.png"), 100, 1000));
         }
     }
 

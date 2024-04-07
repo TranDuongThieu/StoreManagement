@@ -5,7 +5,9 @@
 package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
 import com.hcmute.storemanagement.controllers.Staff.StaffDashboardgetProduct;
+import com.hcmute.storemanagement.controllers.Staff.getSpecificationsWithIdItem;
 import com.hcmute.storemanagement.models.SanPham;
+import com.hcmute.storemanagement.models.ThongTinSanPham;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
 import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
@@ -59,34 +61,42 @@ public class DashBoardProductForm extends javax.swing.JPanel {
         testData(sanPham);
     }
 
+  
+    
     private void testData(List<SanPham> sanPham) {
         home.setEvent(new EventItem() {
             @Override
             public void itemClick(Component com, ModelItem item) {
-                if (itemSelected != null) {
-                    mainPanel1.setImageOld(itemSelected.getImage());
-                }
-                if (itemSelected != item) {
-                    if (!animator.isRunning()) {
-                        itemSelected = item;
-                        animatePoint = getLocationOf(com);
-                        mainPanel1.setImage(item.getImage());
-                        mainPanel1.setImageLocation(animatePoint);
-                        mainPanel1.setImageSize(new Dimension(180, 120));
-                        mainPanel1.repaint();
-                        home.setSelected(com);
-                        home.showItem(item);
-                        animator.start();
+                if (item != null) {
+                    // Lấy mã
+                    String maSanPham = item.getItemID();
+                    getSpecificationsWithIdItem gettAllThongSo = new getSpecificationsWithIdItem();
+                    List<ThongTinSanPham> ttSanPham = gettAllThongSo.getAllThongSo(maSanPham);
+                    
+                    // Tiếp tục với các hành động khác nếu cần
+                    if (itemSelected != null) {
+                        mainPanel1.setImageOld(itemSelected.getImage());
+                    }
+                    if (itemSelected != item) {
+                        if (!animator.isRunning()) {
+                            itemSelected = item;
+                            animatePoint = getLocationOf(com);
+                            mainPanel1.setImage(item.getImage());
+                            mainPanel1.setImageLocation(animatePoint);
+                            mainPanel1.setImageSize(new Dimension(180, 120));
+                            mainPanel1.repaint();
+                            home.setSelected(com);
+                            home.showItem(item, ttSanPham);
+                            animator.start();
+                        }
                     }
                 }
             }
         });
         for (SanPham sp : sanPham) {
-        //    home.addItem(new ModelItem(sp.getMaSanPham(), sp.getTenSanPham(), sp.getMoTa(), sp.getThoiHanBaoHanh(), sp.getGia(), new ImageIcon(sp.getHinhAnh()), sp.getSoLuongDaBan(), sp.getSoLuongTrongKho()));
+            home.addItem(new ModelItem(sp.getMaSanPham(), sp.getTenSanPham(), sp.getMoTa(), sp.getThoiHanBaoHanh(), sp.getGia(), new ImageIcon(sp.getHinhAnh()), sp.getSoLuongDaBan(), sp.getSoLuongTrongKho()));
         }
-        
-    
-        
+
     }
 
     private Point getLocationOf(Component com) {

@@ -68,23 +68,8 @@ public class ModelItem {
         this.warehouse = warehouse;
     }
 
-    public String getParameterName() {
-        return parameterName;
-    }
-
-    public void setParameterName(String parameterName) {
-        this.parameterName = parameterName;
-    }
-
-    public String getParameterValue() {
-        return parameterValue;
-    }
-
-    public void setParameterValue(String parameterValue) {
-        this.parameterValue = parameterValue;
-    }
-
-    public ModelItem(String itemID, String itemName, String description, String Guarantee, double price, Icon image, int sold, int warehouse, String parameterName, String parameterValue) {
+   
+    public ModelItem(String itemID, String itemName, String description, String Guarantee, double price, Icon image, int sold, int warehouse) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.description = description;
@@ -93,8 +78,7 @@ public class ModelItem {
         this.image = image;
         this.sold = sold;
         this.warehouse = warehouse;
-        this.parameterName = parameterName;
-        this.parameterValue = parameterValue;
+
     }
     
     public ModelItem() {
@@ -108,8 +92,7 @@ public class ModelItem {
     private Icon image;
     private int sold;
     private int warehouse;
-    private String parameterName;
-    private String parameterValue;
+
 
     
 }

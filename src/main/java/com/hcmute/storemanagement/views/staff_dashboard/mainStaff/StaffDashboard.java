@@ -37,7 +37,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                     setForm(new StaffDashBoardPhoneForm());
                 }
                 if (index == 10){
-                    setForm(new workSchedule());
+                    setForm(new StaffDashboardWorkSchedule());
                 }
                 if (index == 13) {
                     dispose();
