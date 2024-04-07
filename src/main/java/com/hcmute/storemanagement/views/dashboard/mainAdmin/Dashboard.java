@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.hcmute.storemanagement.views.dashboard;
+package com.hcmute.storemanagement.views.dashboard.mainAdmin;
 
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
-import com.hcmute.storemanagement.views.dashboard.form.Form_1;
-import com.hcmute.storemanagement.views.dashboard.form.Form_2;
-import com.hcmute.storemanagement.views.dashboard.form.Form_3;
+
 import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.DashBoardProductForm;
@@ -21,9 +19,7 @@ import javax.swing.JComponent;
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    private Form_1 form1;
-    private Form_2 form2;
-    private Form_3 form3;
+
     private DashBoardProductForm staffDashboardProduct;
     private StaffForm staffForm;
 
@@ -34,9 +30,7 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
 //        setBackground(new Color(0, 0, 0, 0));
         menu1.initMoving(Dashboard.this);
-        form1 = new Form_1();
-        form2 = new Form_2();
-        form3 = new Form_3();
+     
         staffForm = new StaffForm();
         staffDashboardProduct = new DashBoardProductForm();
         menu1.initMoving(Dashboard.this);
@@ -50,7 +44,7 @@ public class Dashboard extends javax.swing.JFrame {
                 if (index == 8) {
                     setForm(new DashBoardProductForm());
                 } else if (index == 2) {
-                    setForm(form2);
+                    
                 } 
                 else if (index == 4){
                     setForm(staffForm);

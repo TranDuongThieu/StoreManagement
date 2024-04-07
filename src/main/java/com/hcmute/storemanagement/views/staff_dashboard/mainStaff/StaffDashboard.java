@@ -2,6 +2,7 @@ package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
+import com.hcmute.storemanagement.views.staff_dashboard.component.workSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import java.awt.Color;
@@ -36,7 +37,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                     setForm(new StaffDashBoardPhoneForm());
                 }
                 if (index == 10){
-                    setForm(new StaffDashboardWorkSchedule());
+                    setForm(new workSchedule());
                 }
                 if (index == 13) {
                     dispose();

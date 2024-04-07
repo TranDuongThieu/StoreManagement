@@ -6,7 +6,7 @@ import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.authen.swing.Button;
 import com.hcmute.storemanagement.views.authen.swing.MyPasswordField;
 import com.hcmute.storemanagement.views.authen.swing.MyTextField;
-import com.hcmute.storemanagement.views.dashboard.Dashboard;
+import com.hcmute.storemanagement.views.dashboard.mainAdmin.Dashboard;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffDashboard;
 import java.awt.Color;
 import java.awt.Cursor;

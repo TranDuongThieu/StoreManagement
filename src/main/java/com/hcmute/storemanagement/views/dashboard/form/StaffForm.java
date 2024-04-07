@@ -2,6 +2,7 @@ package com.hcmute.storemanagement.views.dashboard.form;
 
 import com.hcmute.storemanagement.controllers.Staff.StaffController;
 import com.hcmute.storemanagement.models.NhanVien;
+import com.hcmute.storemanagement.views.dashboard.Table.Cell.TableActionCellRender;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -9,39 +10,28 @@ public class StaffForm extends javax.swing.JPanel {
 
     public StaffForm() {
         initComponents();
+        table1.getColumnModel().getColumn(8).setCellRenderer(new TableActionCellRender());
+
         initData();
     }
 
     private void initData() {
-        //  Test Data table
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
         StaffController staffController = new StaffController();
-      
-//            model.addRow(new ModelStaff(new ImageIcon(), "Mr Raven", "Male", "raven_programming@gmail.com", status).toDataTable());
+
         ArrayList<NhanVien> staffList = staffController.getAllStaff();
-        for (NhanVien staff : staffList)
-            model.addRow(staff.toDataTable());
-        
-        table1.fixTable(jScrollPane);
-//        List<ModelChartPie> list1 = new ArrayList<>();
-//        list1.add(new ModelChartPie("Monday", 10, new Color(4, 174, 243)));
-//        list1.add(new ModelChartPie("Tuesday", 150, new Color(215, 39, 250)));
-//        list1.add(new ModelChartPie("Wednesday", 80, new Color(44, 88, 236)));
-//        list1.add(new ModelChartPie("Thursday", 100, new Color(21, 202, 87)));
-//        list1.add(new ModelChartPie("Friday", 125, new Color(127, 63, 255)));
-//        list1.add(new ModelChartPie("Saturday", 80, new Color(238, 167, 35)));
-//        list1.add(new ModelChartPie("Sunday", 200, new Color(245, 79, 99)));
-////        chartPie.setModel(list1);
-//        //  Test data chart line
-//        List<ModelChartLine> list = new ArrayList<>();
-//        list.add(new ModelChartLine("Monday", 10));
-//        list.add(new ModelChartLine("Tuesday", 150));
-//        list.add(new ModelChartLine("Wednesday", 80));
-//        list.add(new ModelChartLine("Thursday", 100));
-//        list.add(new ModelChartLine("Friday", 125));
-//        list.add(new ModelChartLine("Saturday", 80));
-//        list.add(new ModelChartLine("Sunday", 200));
-//        chartLine1.setModel(list);
+        for (NhanVien staff : staffList) {
+            Object[] rowData = staff.toDataTable(); // Lấy dữ liệu từ đối tượng NhanVien
+
+            // Kiểm tra nếu dữ liệu không đủ cho số lượng cột, thêm giá trị null vào cột cuối cùng
+            if (rowData.length < model.getColumnCount()) {
+                Object[] newRowData = new Object[model.getColumnCount()];
+                System.arraycopy(rowData, 0, newRowData, 0, rowData.length);
+                rowData = newRowData;
+            }
+
+            model.addRow(rowData); // Thêm hàng vào mô hình
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -63,7 +53,7 @@ public class StaffForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Họ Và Tên", "Ngày Sinh", "Giới Tính", "CCCD", "Số Điện Thoại", "Email", "Địa Chỉ"
+                "ID", "Full Name", "Date of birth", "Gender", "CCCD", "Phone", "Email", "Address", "Action"
             }
         ));
         jScrollPane.setViewportView(table1);
@@ -87,8 +77,8 @@ public class StaffForm extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
