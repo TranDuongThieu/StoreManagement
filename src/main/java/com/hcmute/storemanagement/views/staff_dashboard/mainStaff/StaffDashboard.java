@@ -36,10 +36,10 @@ public class StaffDashboard extends javax.swing.JFrame {
                 if (index == 2){
                     setForm(new StaffDashBoardPhoneForm());
                 }
-                if (index == 10){
+                if (index == 12){
                     setForm(new StaffDashboardWorkSchedule());
                 }
-                if (index == 13) {
+                if (index == 15) {
                     dispose();
                     new Authen().setVisible(true);
                 }
@@ -89,7 +89,7 @@ public class StaffDashboard extends javax.swing.JFrame {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addComponent(menu_staff1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(mainPanelStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 1039, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

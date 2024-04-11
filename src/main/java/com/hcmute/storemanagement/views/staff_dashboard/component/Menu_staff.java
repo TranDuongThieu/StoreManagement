@@ -45,11 +45,13 @@ public class Menu_staff extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("product", "All Product", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("phone", "Phone", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("laptop", "LapTop", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("headphone", "Headphone", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("tablet", "Tablet", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("accessory", "Accessory", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
 
         listMenu1.addItem(new Model_Menu("", "Order", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("bill", "Bill", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("bill", "Payment", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("bill", "Transaction", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
 
         listMenu1.addItem(new Model_Menu("", "Calendar", Model_Menu.MenuType.TITLE));
