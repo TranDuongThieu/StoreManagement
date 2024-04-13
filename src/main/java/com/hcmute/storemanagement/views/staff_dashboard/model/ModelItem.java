@@ -4,11 +4,10 @@ import javax.swing.Icon;
 
 public class ModelItem {
 
-  
     public String getItemID() {
         return itemID;
     }
-
+    public String Hello;
     public void setItemID(String itemID) {
         this.itemID = itemID;
     }
@@ -69,9 +68,7 @@ public class ModelItem {
         this.warehouse = warehouse;
     }
 
-    
-    
-    
+   
     public ModelItem(String itemID, String itemName, String description, String Guarantee, double price, Icon image, int sold, int warehouse) {
         this.itemID = itemID;
         this.itemName = itemName;
@@ -81,10 +78,9 @@ public class ModelItem {
         this.image = image;
         this.sold = sold;
         this.warehouse = warehouse;
+
     }
-
     
-
     public ModelItem() {
     }
 
@@ -96,4 +92,7 @@ public class ModelItem {
     private Icon image;
     private int sold;
     private int warehouse;
+
+
+    
 }

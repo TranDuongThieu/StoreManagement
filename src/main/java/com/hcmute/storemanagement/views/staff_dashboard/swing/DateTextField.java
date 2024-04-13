@@ -8,78 +8,43 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 public class DateTextField extends JTextField {
 
-    private Icon prefixIcon;
-    private Icon suffixIcon;
-    private String hint = "";
-
     public DateTextField() {
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setBackground(new Color(0, 0, 0, 0));
-        setForeground(Color.decode("#7A8C8D"));
-        setFont(new java.awt.Font("sansserif", 0, 13));
-        setSelectionColor(new Color(75, 175, 152));
+        setBorder(new LineBorder(Color.BLACK, 1, true)); // Viền đen mỏng với bo góc là 5
+        setSelectionColor(new Color(220, 204, 182));
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(210,245,253)); // Màu nền
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10); // Hình chữ nhật tròn với bo góc là 5
-        g2.setColor(Color.BLACK); // Màu viền đen
-        g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 5, 5); // Vẽ viền bo góc
-        paintIcon(g); // Vẽ icon nếu có
-        super.paintComponent(g);
-    }
-
+    
+    private final String hint = "dd-MM-yyyy"; // Thay hint thành "dd-MM-yyyy"
+    private final int margin = 6; // Đặt margin là 6
+    
+ 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (getText().isEmpty()) {
+        if (getText().length() == 0) {
             int h = getHeight();
             ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             Insets ins = getInsets();
             FontMetrics fm = g.getFontMetrics();
-            g.setColor(new Color(200, 200, 200));
-            g.drawString(hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
+            int c0 = getBackground().getRGB();
+            int c1 = getForeground().getRGB();
+            int m = 0xfefefefe;
+            int c2 = ((c0 & m) >>> 1) + ((c1 & m) >>> 1);
+            g.setColor(new Color(c2, true));
+            g.drawString(hint, ins.left + margin, h / 2 + fm.getAscent() / 2 - 2); // Thêm margin vào left
         }
     }
-
-    private void paintIcon(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        if (prefixIcon != null) {
-            Image prefix = ((ImageIcon) prefixIcon).getImage();
-            int y = (getHeight() - prefixIcon.getIconHeight()) / 2;
-            g2.drawImage(prefix, 10, y, this);
-        }
-        if (suffixIcon != null) {
-            Image suffix = ((ImageIcon) suffixIcon).getImage();
-            int y = (getHeight() - suffixIcon.getIconHeight()) / 2;
-            g2.drawImage(suffix, getWidth() - suffixIcon.getIconWidth() - 10, y, this);
-        }
+    
+     @Override
+    public Insets getInsets() {
+        Insets ins = super.getInsets();
+        return new Insets(ins.top, ins.left + margin, ins.bottom, ins.right);
     }
-
-    private void initBorder() {
-        int left = 15;
-        int right = 15;
-        //  5 is default
-        if (prefixIcon != null) {
-            //  prefix is left
-            left = prefixIcon.getIconWidth() + 15;
-        }
-        if (suffixIcon != null) {
-            //  suffix is right
-            right = suffixIcon.getIconWidth() + 15;
-        }
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, left, 10, right));
-    }
+    
 }

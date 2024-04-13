@@ -1,18 +1,25 @@
 package com.hcmute.storemanagement.views.authen.component;
 
-import com.hcmute.storemanagement.controllers.Account.AccountController;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffTaiKhoanDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffNhanVienDao;
+import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.models.TaiKhoan;
+import com.hcmute.storemanagement.service.StaffNhanVienService;
+import com.hcmute.storemanagement.service.StaffTaiKhoanService;
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.authen.swing.Button;
 import com.hcmute.storemanagement.views.authen.swing.MyPasswordField;
 import com.hcmute.storemanagement.views.authen.swing.MyTextField;
-import com.hcmute.storemanagement.views.dashboard.Dashboard;
+import com.hcmute.storemanagement.views.dashboard.mainAdmin.Dashboard;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffDashboard;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -74,9 +81,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
     }
 
     public void register(MyTextField txtUser, MyTextField txtTenNhanVien, MyPasswordField txtPass, MyPasswordField txtConfirmPass) {
-    
-        
-        
+
     }
 
     private void initLogin() {
@@ -105,24 +110,42 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         cmd.setForeground(new Color(250, 250, 250));
         cmd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                login(txtEmail.getText().toString(), txtPass.getText().toString());
+                try {
+                    login(txtEmail.getText().toString(), txtPass.getText().toString());
+                } catch (SQLException ex) {
+                    Logger.getLogger(PanelLoginAndRegister.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         cmd.setText("SIGN IN");
         login.add(cmd, "w 40%, h 40");
     }
 
-    public void login(String username, String password) {
-        AccountController accountController = new AccountController();
-        TaiKhoan account = accountController.getAccountByUsername(username);
+    public class GlobalVariables {
+        public static String userId; // Biến toàn cục lưu trữ ID của người dùng
+        public static String fullName;
+    }
+
+    public void login(String username, String password) throws SQLException {
+        StaffTaiKhoanService staffTaiKhoanService = new StaffTaiKhoanService();
+        TaiKhoan account = staffTaiKhoanService.getAccountByUsername(username);
+        // ID & NAME STAFF
+        StaffNhanVienService staffCtr = new StaffNhanVienService();
+        NhanVien idNhanVien = staffCtr.getUserIdByUserName(username);
+        String id = idNhanVien.getMaNhanVien();
+        String name = idNhanVien.getTenNhanVien();
         if (account != null) {
             if (account.getMatKhau().equals(password)) {
                 System.out.println("Login successful.");
                 if (account.getQuyenNguoiDung().equals("admin")) {
                     new Dashboard().setVisible(true);
+                    GlobalVariables.userId = id;
+                    GlobalVariables.fullName = name;                    
                     authenForm.closeForm();
                 } else if (account.getQuyenNguoiDung().equals("staff")) {
                     new StaffDashboard().setVisible(true);
+                    GlobalVariables.userId = id;
+                    GlobalVariables.fullName = name;                 
                     authenForm.closeForm();
                 }
             } else {

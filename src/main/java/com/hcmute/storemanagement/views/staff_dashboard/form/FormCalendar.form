@@ -114,6 +114,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell9">
       <Properties>
@@ -124,6 +127,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell10">
       <Properties>
@@ -134,6 +140,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell11">
       <Properties>
@@ -144,6 +153,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell12">
       <Properties>
@@ -154,6 +166,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell13">
       <Properties>
@@ -164,6 +179,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell14">
       <Properties>
@@ -174,6 +192,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell15">
       <Properties>
@@ -184,6 +205,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell16">
       <Properties>
@@ -194,6 +218,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell17">
       <Properties>
@@ -204,6 +231,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell18">
       <Properties>
@@ -214,6 +244,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell19">
       <Properties>
@@ -224,6 +257,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell20">
       <Properties>
@@ -234,6 +270,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell21">
       <Properties>
@@ -244,6 +283,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell22">
       <Properties>
@@ -254,6 +296,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell23">
       <Properties>
@@ -264,6 +309,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell24">
       <Properties>
@@ -274,6 +322,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell25">
       <Properties>
@@ -284,6 +335,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell26">
       <Properties>
@@ -294,6 +348,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell27">
       <Properties>
@@ -304,6 +361,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell28">
       <Properties>
@@ -314,6 +374,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell29">
       <Properties>
@@ -324,6 +387,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell30">
       <Properties>
@@ -334,6 +400,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell31">
       <Properties>
@@ -344,6 +413,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell32">
       <Properties>
@@ -354,6 +426,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell33">
       <Properties>
@@ -364,6 +439,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell34">
       <Properties>
@@ -374,6 +452,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell35">
       <Properties>
@@ -384,6 +465,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell36">
       <Properties>
@@ -394,6 +478,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell37">
       <Properties>
@@ -404,6 +491,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell38">
       <Properties>
@@ -414,6 +504,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell39">
       <Properties>
@@ -424,6 +517,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell40">
       <Properties>
@@ -434,6 +530,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell41">
       <Properties>
@@ -444,6 +543,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell42">
       <Properties>
@@ -454,6 +556,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell43">
       <Properties>
@@ -464,6 +569,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell44">
       <Properties>
@@ -474,6 +582,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell45">
       <Properties>
@@ -484,6 +595,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell46">
       <Properties>
@@ -494,6 +608,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell47">
       <Properties>
@@ -504,6 +621,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell48">
       <Properties>
@@ -514,6 +634,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
     <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.Cell" name="cell49">
       <Properties>
@@ -524,6 +647,9 @@
           <Font name="Arial" size="14" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="getDateClick"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

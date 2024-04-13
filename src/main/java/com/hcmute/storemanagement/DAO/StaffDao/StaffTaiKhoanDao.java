@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.hcmute.storemanagement.controllers.Account;
+package com.hcmute.storemanagement.DAO.StaffDao;
 
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffTaiKhoanDao;
+import com.hcmute.storemanagement.DAO.AbstractDao.AbstractDao;
 import com.hcmute.storemanagement.service.DBConnection;
 import com.hcmute.storemanagement.models.TaiKhoan;
 import java.sql.Connection;
@@ -15,7 +17,16 @@ import java.sql.SQLException;
  *
  * @author thieu
  */
-public class AccountController {
+public class StaffTaiKhoanDao extends AbstractDao<TaiKhoan> implements IStaffTaiKhoanDao{
+
+    public StaffTaiKhoanDao() {
+        super(TaiKhoan.class);
+    }
+    
+    @Override
+    public String getTableName() {
+        return "TAIKHOAN"; 
+    }
 
     public TaiKhoan getAccountByUsername(String userName) {
         TaiKhoan taiKhoan = null;

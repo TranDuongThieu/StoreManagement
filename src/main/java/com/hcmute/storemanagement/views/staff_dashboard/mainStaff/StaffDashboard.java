@@ -2,11 +2,15 @@ package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
+import com.hcmute.storemanagement.views.staff_dashboard.component.workSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import org.jdesktop.animation.timing.Animator;
 
@@ -19,7 +23,7 @@ public class StaffDashboard extends javax.swing.JFrame {
     private DashBoardProductForm staffDashboardProduct;
     private StaffDashBoardPhoneForm staffDashboardPhone;
 
-    public StaffDashboard() {
+    public StaffDashboard() throws SQLException {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         staffDashboardProduct = new DashBoardProductForm();
@@ -35,10 +39,14 @@ public class StaffDashboard extends javax.swing.JFrame {
                 if (index == 2){
                     setForm(new StaffDashBoardPhoneForm());
                 }
-                if (index == 10){
-                    setForm(new StaffDashboardWorkSchedule());
+                if (index == 12){
+                    try {
+                        setForm(new StaffDashboardWorkSchedule());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-                if (index == 13) {
+                if (index == 15) {
                     dispose();
                     new Authen().setVisible(true);
                 }
@@ -88,7 +96,7 @@ public class StaffDashboard extends javax.swing.JFrame {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addComponent(menu_staff1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(mainPanelStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 1039, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -105,7 +113,7 @@ public class StaffDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, 1241, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, 1259, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +131,11 @@ public class StaffDashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StaffDashboard().setVisible(true);
+                try {
+                    new StaffDashboard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

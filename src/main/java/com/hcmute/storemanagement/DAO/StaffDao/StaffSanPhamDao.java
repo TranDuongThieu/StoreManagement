@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.hcmute.storemanagement.controllers.Staff;
+package com.hcmute.storemanagement.DAO.StaffDao;
 
+import com.hcmute.storemanagement.DAO.AbstractDao.AbstractDao;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.service.DBConnection;
 import java.sql.Connection;
@@ -13,8 +14,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDashboardgetProduct {
+public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPhamDao{
 
+    public StaffSanPhamDao(){
+        super(SanPham.class);
+    }
 
     public List<SanPham> getAllSanPham() {
         List<SanPham> sanPhams = new ArrayList<>();

@@ -4,8 +4,12 @@
 
 package com.hcmute.storemanagement;
 
-import com.hcmute.storemanagement.views.dashboard.Dashboard;
+import com.hcmute.storemanagement.views.authen.Authen;
+import com.hcmute.storemanagement.views.dashboard.mainAdmin.Dashboard;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffDashboard;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class StoreManagement {
@@ -13,7 +17,7 @@ public class StoreManagement {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StaffDashboard().setVisible(true);
+                new Authen().setVisible(true);
             }
         });
     }

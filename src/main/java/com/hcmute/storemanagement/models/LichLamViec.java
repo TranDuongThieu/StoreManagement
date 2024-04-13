@@ -12,20 +12,11 @@ import java.util.Date;
  */
 public class LichLamViec {
      private String maNhanVien;
-    private int thuTrongTuan;
-    private int maCa;
-    private Date ngayBatDau;
-    private Date ngayKetThua;
+    private Date ngayLamViec;
+        private int maCa;
+
 
     public LichLamViec() {
-    }
-
-    public LichLamViec(String maNhanVien, int thuTrongTuan, int maCa, Date ngayBatDau, Date ngayKetThua) {
-        this.maNhanVien = maNhanVien;
-        this.thuTrongTuan = thuTrongTuan;
-        this.maCa = maCa;
-        this.ngayBatDau = ngayBatDau;
-        this.ngayKetThua = ngayKetThua;
     }
 
     public String getMaNhanVien() {
@@ -36,12 +27,12 @@ public class LichLamViec {
         this.maNhanVien = maNhanVien;
     }
 
-    public int getThuTrongTuan() {
-        return thuTrongTuan;
+    public Date getNgayLamViec() {
+        return ngayLamViec;
     }
 
-    public void setThuTrongTuan(int thuTrongTuan) {
-        this.thuTrongTuan = thuTrongTuan;
+    public void setNgayLamViec(Date ngayLamViec) {
+        this.ngayLamViec = ngayLamViec;
     }
 
     public int getMaCa() {
@@ -52,21 +43,11 @@ public class LichLamViec {
         this.maCa = maCa;
     }
 
-    public Date getNgayBatDau() {
-        return ngayBatDau;
+    public LichLamViec(String maNhanVien, Date ngayLamViec, int maCa) {
+        this.maNhanVien = maNhanVien;
+        this.ngayLamViec = ngayLamViec;
+        this.maCa = maCa;
     }
 
-    public void setNgayBatDau(Date ngayBatDau) {
-        this.ngayBatDau = ngayBatDau;
-    }
-
-    public Date getNgayKetThua() {
-        return ngayKetThua;
-    }
-
-    public void setNgayKetThua(Date ngayKetThua) {
-        this.ngayKetThua = ngayKetThua;
-    }
-    
     
 }

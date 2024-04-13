@@ -30,9 +30,9 @@ public class Table extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
                 TableHeader h = new TableHeader(o + "");
-//                if (i1 == 0 || i1 == 4) {
-//                    h.setHorizontalAlignment(JLabel.CENTER);
-//                }
+                if (i1 == 0 || i1 == 4) {
+                    h.setHorizontalAlignment(JLabel.CENTER);
+                }
                 return h;
             }
         });
@@ -61,14 +61,22 @@ public class Table extends JTable {
 
     @Override
     public Component prepareRenderer(TableCellRenderer tcr, int i, int i1) {
-
+        if(i1==0){
+            Icon icon = (Icon) getValueAt(i, 0);
+            TableCell_Image cell = new TableCell_Image(icon);
+            return cell;
+        } else if(i1 == 4){
+            TableCell_Status cell = new TableCell_Status(getValueAt(i, 4).toString());
+            return cell;
+        }
+        else{
         String values = "";
         if (getValueAt(i, i1) != null) {
             values = getValueAt(i, i1).toString();
         }
         TableCell cell = new TableCell(values);
         return cell;
-
+                }
     }
 
     @Override

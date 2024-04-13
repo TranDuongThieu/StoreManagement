@@ -2,17 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.hcmute.storemanagement.views.dashboard;
+package com.hcmute.storemanagement.views.dashboard.mainAdmin;
 
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
-import com.hcmute.storemanagement.views.dashboard.form.Form_1;
-import com.hcmute.storemanagement.views.dashboard.form.Form_2;
-import com.hcmute.storemanagement.views.dashboard.form.Form_3;
+
 import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.DashBoardProductForm;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 /**
@@ -21,22 +22,18 @@ import javax.swing.JComponent;
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    private Form_1 form1;
-    private Form_2 form2;
-    private Form_3 form3;
+
     private DashBoardProductForm staffDashboardProduct;
     private StaffForm staffForm;
 
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
+    public Dashboard() throws SQLException {
         initComponents();
 //        setBackground(new Color(0, 0, 0, 0));
         menu1.initMoving(Dashboard.this);
-        form1 = new Form_1();
-        form2 = new Form_2();
-        form3 = new Form_3();
+     
         staffForm = new StaffForm();
         staffDashboardProduct = new DashBoardProductForm();
         menu1.initMoving(Dashboard.this);
@@ -48,9 +45,13 @@ public class Dashboard extends javax.swing.JFrame {
                     setForm(new Statistical());
                 }
                 if (index == 8) {
-                    setForm(new DashBoardProductForm());
+                    try {
+                        setForm(new DashBoardProductForm());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (index == 2) {
-                    setForm(form2);
+                    
                 } 
                 else if (index == 4){
                     setForm(staffForm);
@@ -115,38 +116,16 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+                try {
+                    new Dashboard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

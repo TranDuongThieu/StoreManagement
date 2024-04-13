@@ -8,7 +8,7 @@ public class TableCell_Status extends javax.swing.JPanel {
     public TableCell_Status(String status) {
         initComponents();
         setOpaque(false);
-//        labelStatus1.setText(status);
+        labelStatus1.setText(status);
     }
 
     @SuppressWarnings("unchecked")

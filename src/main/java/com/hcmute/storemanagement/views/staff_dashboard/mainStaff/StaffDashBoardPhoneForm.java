@@ -69,7 +69,7 @@ public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
                         mainPanel1.setImageSize(new Dimension(180, 120));
                         mainPanel1.repaint();
                         formHome.setSelected(com);
-                        formHome.showItem(item);
+                   //     formHome.showItem(item);
                         animator.start();
                     }
                 }
@@ -79,14 +79,7 @@ public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
         int ID = 1;
         for (int i = 0; i <= 5; i++) {
 
-            formHome.addItem(new ModelItem("1", "Iphone 15", "This product is excluded from all promotional discounts and offers.", "12 tháng", 160, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\Iphone15.png"), 100, 1000));
-//            
-//            formHome.addItem(new ModelItem(ID++, "Iphone 14", "This product is excluded from all promotional discounts and offers.", "12 tháng", 150, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone14.png"), 100, 112));
-//            formHome.addItem(new ModelItem(ID++, "Iphone 13", "This product is excluded from all promotional discounts and offers.", "12 tháng", 140, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone13.png"), 50, 134));
-//            formHome.addItem(new ModelItem(ID++, "Iphone 12", "This product is excluded from all promotional discounts and offers.", "12 tháng", 130, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone12.png"), 192, 114));
-//            formHome.addItem(new ModelItem(ID++, "Iphone 11", "This product is excluded from all promotional discounts and offers.", "12 tháng", 120, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone11.png"), 102, 232));
-//            formHome.addItem(new ModelItem(ID++, "Iphone 10", "This product is excluded from all promotional discounts and offers.", "12 tháng", 110, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\iphone10.png"), 123, 121));
-
+        //formHome.addItem(new ModelItem("1", "Iphone 15", "This product is excluded from all promotional discounts and offers.", "12 tháng", 160, new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\image\\Iphone15.png"), 100, 1000));
         }
     }
 
