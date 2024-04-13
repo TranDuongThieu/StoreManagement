@@ -45,6 +45,11 @@ public class workSchedule extends javax.swing.JPanel {
         cbShift3.setForeground(new java.awt.Color(51, 51, 51));
         cbShift3.setText("THREE 19:00 - 23.00 Pm");
         cbShift3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        cbShift3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbShift3ActionPerformed(evt);
+            }
+        });
 
         cbShift2.setForeground(new java.awt.Color(51, 51, 51));
         cbShift2.setText("TWO 13:00 - 18:00 Pm");
@@ -153,6 +158,10 @@ public class workSchedule extends javax.swing.JPanel {
     private void clickAddWorkSchedule(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickAddWorkSchedule
 
     }//GEN-LAST:event_clickAddWorkSchedule
+
+    private void cbShift3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbShift3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbShift3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

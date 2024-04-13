@@ -16,6 +16,6 @@ public interface IStaffLichLamViecService {
 
     List<LichLamViec> getWorkScheduleWithID(String UserID);
 
-    boolean insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift);
+    int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift);
 
 }

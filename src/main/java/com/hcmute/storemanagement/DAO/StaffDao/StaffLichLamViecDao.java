@@ -56,7 +56,8 @@ public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
         return lich1NhanVien;
     }
 
-    public boolean insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
+    public int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
+    int soLuongCaThem = 0;
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
@@ -73,15 +74,12 @@ public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
             // Thực thi câu lệnh INSERT cho mỗi giá trị maCa trong danh sách
             int result = preparedStatement.executeUpdate();
             insertedRecords += result;
+            soLuongCaThem++;
         }
-
-        // Trả về true nếu có ít nhất một bản ghi được thêm mới
-        return insertedRecords > 0;
+        return soLuongCaThem;
     } catch (Exception e) {
         e.printStackTrace();
-        // Xử lý ngoại lệ nếu có
     } finally {
-        // Đóng kết nối và giải phóng tài nguyên
         try {
             if (resultSet != null) {
                 resultSet.close();
@@ -98,6 +96,6 @@ public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
     }
     
     // Trả về false nếu không có bản ghi nào được thêm mới
-    return false;
+    return soLuongCaThem;
 }
 }

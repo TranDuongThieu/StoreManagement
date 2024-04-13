@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 
 public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
@@ -142,7 +143,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         cbShift1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         cbShift2.setForeground(new java.awt.Color(0, 0, 0));
-        cbShift2.setText("ONE 8.00 - 11.30 Am");
+        cbShift2.setText("TWO 13:00 - 18:00 Pm");
         cbShift2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         cbShift3.setForeground(new java.awt.Color(0, 0, 0));
@@ -180,11 +181,11 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(cbShift1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(cbShift2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cbShift3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4))
                 .addContainerGap())
@@ -232,19 +233,38 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Lấy ngày tháng năm (Theo định dạng của SQL)
+    public List<Integer> checkLichTrung(List<Integer> listShif, Date ngay) {
+        StaffLichLamViecService staffWSch = new StaffLichLamViecService();
+        ArrayList<LichLamViec> lichLamViecs = (ArrayList<LichLamViec>) staffWSch.getWorkScheduleWithID(PanelLoginAndRegister.GlobalVariables.userId);
+        List<Integer> caTrung = new ArrayList<>();
 
+        for (LichLamViec lichLamViec : lichLamViecs) {
+            if (lichLamViec.getNgayLamViec().equals(ngay) && listShif.contains(lichLamViec.getMaCa())) {
+                // Ngày và ca làm việc trùng khớp
+                caTrung.add(lichLamViec.getMaCa());
+            }
+        }
+        return caTrung;
+    }
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+
+        int demCaDuocChon = 0;
+        Date currentDate = new Date();
         Date dateValue = txtDate.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
         String userId = PanelLoginAndRegister.GlobalVariables.userId;
         // check null
-        if (dateValue == null) {
+        if (dateValue != null && dateValue.before(currentDate)) {
+            JOptionPane.showMessageDialog(this, "Đăng ký không thành công. Vui lòng chọn ngày sau ngày hiện tại!");
+        }
+        else if (dateValue == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày!!!");
         } else if (!cbShift1.isSelected() && !cbShift2.isSelected() && !cbShift3.isSelected()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ca làm!!");
         } else {
+
+            // Convert string qua date để lưu xuống SQL
             String formattedDate = sdf.format(dateValue);
             java.util.Date date = null;
             try {
@@ -252,31 +272,43 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày phù hợp!!!");
             }
-            // List lưu danh sách mã ca 
+            // List lưu danh sách mã ca đưuọc chọn trên giao diện
             List<Integer> listShif = new ArrayList<>();
-
             if (cbShift1.isSelected()) {
                 listShif.add(1);
+                demCaDuocChon++;
             }
             if (cbShift2.isSelected()) {
                 listShif.add(2);
+                demCaDuocChon++;
             }
             if (cbShift3.isSelected()) {
                 listShif.add(3);
+                demCaDuocChon++;
             }
 
-            // lưu ngày làm việc 
-            StaffLNgayLamViecService staffLNgayLamViecService = new StaffLNgayLamViecService();
-            // Thêm ngày được chọn vào bảng nếu chưa có
-            staffLNgayLamViecService.checkAndInsertNgayLamViec(date);
-
-            StaffLichLamViecService lichlamviec = new StaffLichLamViecService();
-            lichlamviec.insertLichLamViec(userId, date, listShif);
-
-            try {
-                initTablePaymentData();
-            } catch (SQLException ex) {
-                Logger.getLogger(StaffDashboardWorkSchedule.class.getName()).log(Level.SEVERE, null, ex);
+            // checktrung
+            List<Integer> checkTrung = checkLichTrung(listShif, date);
+            if (checkTrung==null || checkTrung.isEmpty()) {
+                StaffLNgayLamViecService staffLNgayLamViecService = new StaffLNgayLamViecService();
+                // Thêm ngày được chọn vào bảng nếu chưa có
+                staffLNgayLamViecService.checkAndInsertNgayLamViec(date);
+                // add dữ liệu vào lịch làm việc
+                StaffLichLamViecService lichlamviec = new StaffLichLamViecService();
+                int isInsertLich = lichlamviec.insertLichLamViec(userId, date, listShif);
+                if (isInsertLich > 0) {
+                    JOptionPane.showMessageDialog(this, "<html><div style='text-align: center;'>Trong " + demCaDuocChon + " ca được chọn <br/> Bạn đã thêm thành công " + isInsertLich + " ca làm việc</div></html>");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm lịch không thành công");
+                }
+                // Đổ dữ liệu vào lại trong bảng
+                try {
+                    initTablePaymentData();
+                } catch (SQLException ex) {
+                    Logger.getLogger(StaffDashboardWorkSchedule.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Bạn đã đăng ký trùng ca " + checkTrung + " vào ngày " + formattedDate);
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed

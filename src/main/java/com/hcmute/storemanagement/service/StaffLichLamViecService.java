@@ -17,7 +17,7 @@ public class StaffLichLamViecService implements IStaffLichLamViecService{
     }
 
     @Override
-    public boolean insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
+    public int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
         return stLichLamViecDao.insertLichLamViec(UserID, Ngay, listShift);
     }
     
