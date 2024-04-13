@@ -5,11 +5,12 @@ import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.
 import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.ModelAction;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.ModelProfile;
 import java.text.DecimalFormat;
+import java.util.Date;
 import javax.swing.Icon;
 
 public class ModelWorkSchedule {
 
-    public ModelWorkSchedule(Icon icon, String name, String date, int shift) {
+    public ModelWorkSchedule(Icon icon, String name, Date date, int shift) {
         this.icon = icon;
         this.name = name;
         this.date = date;
@@ -32,11 +33,11 @@ public class ModelWorkSchedule {
         this.name = name;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -48,6 +49,7 @@ public class ModelWorkSchedule {
         this.shift = shift;
     }
 
+    
    
  
     
@@ -56,7 +58,7 @@ public class ModelWorkSchedule {
 
     private Icon icon;
     private String name;
-    private String date;
+    private Date date;
     private int shift;
 
     public Object[] toRowTable(EventAction event) {

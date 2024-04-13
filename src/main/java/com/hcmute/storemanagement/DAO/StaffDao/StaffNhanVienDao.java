@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.hcmute.storemanagement.controllers.Staff;
+package com.hcmute.storemanagement.DAO.StaffDao;
 
+import com.hcmute.storemanagement.DAO.AbstractDao.AbstractDao;
 import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.service.DBConnection;
 import java.sql.Connection;
@@ -16,8 +17,13 @@ import java.util.ArrayList;
  *
  * @author thieu
  */
-public class StaffController {
-     public ArrayList<NhanVien> getAllStaff() {
+public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNhanVienDao{
+
+    public StaffNhanVienDao(){
+        super(NhanVien.class);
+    }
+
+    public ArrayList<NhanVien> getAllStaff() {
         ArrayList<NhanVien> staffList = new ArrayList<NhanVien>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -75,4 +81,31 @@ public class StaffController {
 
         return staffList;
     }
+
+    public NhanVien getUserIdByUserName(String userName) {
+        NhanVien nhanVien = new NhanVien();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM NHANVIEN WHERE TenDangNhap = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            // Thiết lập giá trị cho tham số userName
+            preparedStatement.setString(1, userName);
+            // Thực thi câu truy vấn SQL
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                nhanVien.setMaNhanVien(resultSet.getString("MaNhanVien"));
+                nhanVien.setTenNhanVien(resultSet.getString("TenNhanVien"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            // Handle exceptions
+        }
+        return nhanVien;
+    }
+
 }

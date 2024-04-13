@@ -11,6 +11,9 @@ import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.DashBoardProductForm;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 /**
@@ -26,7 +29,7 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
+    public Dashboard() throws SQLException {
         initComponents();
 //        setBackground(new Color(0, 0, 0, 0));
         menu1.initMoving(Dashboard.this);
@@ -42,7 +45,11 @@ public class Dashboard extends javax.swing.JFrame {
                     setForm(new Statistical());
                 }
                 if (index == 8) {
-                    setForm(new DashBoardProductForm());
+                    try {
+                        setForm(new DashBoardProductForm());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (index == 2) {
                     
                 } 
@@ -109,38 +116,16 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+                try {
+                    new Dashboard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

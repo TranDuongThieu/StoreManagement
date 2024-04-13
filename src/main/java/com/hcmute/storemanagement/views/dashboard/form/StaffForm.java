@@ -1,23 +1,24 @@
 package com.hcmute.storemanagement.views.dashboard.form;
 
-import com.hcmute.storemanagement.controllers.Staff.StaffController;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffNhanVienDao;
 import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.views.dashboard.Table.Cell.TableActionCellRender;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class StaffForm extends javax.swing.JPanel {
 
-    public StaffForm() {
+    public StaffForm() throws SQLException {
         initComponents();
         table1.getColumnModel().getColumn(8).setCellRenderer(new TableActionCellRender());
 
         initData();
     }
 
-    private void initData() {
+    private void initData() throws SQLException {
         DefaultTableModel model = (DefaultTableModel) table1.getModel();
-        StaffController staffController = new StaffController();
+        StaffNhanVienDao staffController = new StaffNhanVienDao();
 
         ArrayList<NhanVien> staffList = staffController.getAllStaff();
         for (NhanVien staff : staffList) {

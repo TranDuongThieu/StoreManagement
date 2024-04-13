@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.hcmute.storemanagement.controllers.Staff;
+package com.hcmute.storemanagement.DAO.StaffDao;
 
+import com.hcmute.storemanagement.DAO.AbstractDao.AbstractDao;
 import com.hcmute.storemanagement.models.ThongSoSanPham;
 import com.hcmute.storemanagement.models.ThongTinSanPham;
 import com.hcmute.storemanagement.service.DBConnection;
@@ -18,7 +19,11 @@ import java.util.List;
  *
  * @author DELL
  */
-public class getSpecificationsWithIdItem {
+public class StaffThongTinSanPhamDao extends AbstractDao<ThongTinSanPham> implements IstaffThongTinSanPhamDao{
+
+    public StaffThongTinSanPhamDao() {
+        super(ThongTinSanPham.class);
+    }
 
     public List<ThongTinSanPham> getAllThongSo(String IdSp) {
         List<ThongTinSanPham> ttsanPhams = new ArrayList<>();

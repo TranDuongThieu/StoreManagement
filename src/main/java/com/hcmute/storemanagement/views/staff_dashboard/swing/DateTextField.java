@@ -8,18 +8,12 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 public class DateTextField extends JTextField {
-
-    private Icon prefixIcon;
-    private Icon suffixIcon;
 
     public DateTextField() {
         setBorder(new LineBorder(Color.BLACK, 1, true)); // Viền đen mỏng với bo góc là 5
@@ -28,7 +22,8 @@ public class DateTextField extends JTextField {
     
     private final String hint = "dd-MM-yyyy"; // Thay hint thành "dd-MM-yyyy"
     private final int margin = 6; // Đặt margin là 6
-
+    
+ 
     @Override
     public void paint(Graphics g) {
         super.paint(g);

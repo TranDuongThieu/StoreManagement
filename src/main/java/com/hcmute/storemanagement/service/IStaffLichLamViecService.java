@@ -1,0 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package com.hcmute.storemanagement.service;
+
+import com.hcmute.storemanagement.models.LichLamViec;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * @author DELL
+ */
+public interface IStaffLichLamViecService {
+
+    List<LichLamViec> getWorkScheduleWithID(String UserID);
+
+    boolean insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift);
+
+}

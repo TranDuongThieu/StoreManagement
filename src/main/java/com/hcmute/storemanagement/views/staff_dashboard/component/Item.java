@@ -41,11 +41,11 @@ public class Item extends javax.swing.JPanel {
         lbItemName.setText(data.getItemName());
         lbDescription.setText(data.getDescription());
 //        lbDescription.setVisible(false);
-        lbGuarantee.setText(data.getGuarantee());
+        lbGuaranteeOut.setText(data.getGuarantee());
         DecimalFormat df = new DecimalFormat("$#,##0.00");
         lbPrice.setText(df.format(data.getPrice()));
-        lb2.setText(String.valueOf(data.getSold()));
-        lb1.setText(String.valueOf(data.getWarehouse()));
+        lbSoldOut.setText(String.valueOf(data.getSold()));
+        lbWarehouseOut.setText(String.valueOf(data.getWarehouse()));
     }
     
     @Override
@@ -70,12 +70,12 @@ public class Item extends javax.swing.JPanel {
         lbDescription = new javax.swing.JLabel();
         lbPrice = new javax.swing.JLabel();
         pic = new com.hcmute.storemanagement.views.staff_dashboard.swing.PictureBox();
-        lbGuarantee = new javax.swing.JLabel();
-        lb1 = new javax.swing.JLabel();
-        lb2 = new javax.swing.JLabel();
+        lbGuaranteeOut = new javax.swing.JLabel();
+        lbWarehouseOut = new javax.swing.JLabel();
+        lbSoldOut = new javax.swing.JLabel();
         lbWarehouse1 = new javax.swing.JLabel();
-        lbSold1 = new javax.swing.JLabel();
-        lbGuarantee1 = new javax.swing.JLabel();
+        lbSold = new javax.swing.JLabel();
+        lbGuarantee = new javax.swing.JLabel();
 
         lbItemName.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         lbItemName.setForeground(new java.awt.Color(76, 76, 76));
@@ -89,29 +89,29 @@ public class Item extends javax.swing.JPanel {
         lbPrice.setForeground(new java.awt.Color(76, 76, 76));
         lbPrice.setText("$0.00");
 
-        lbGuarantee.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        lbGuarantee.setForeground(new java.awt.Color(76, 76, 76));
-        lbGuarantee.setText("Guarantee");
+        lbGuaranteeOut.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        lbGuaranteeOut.setForeground(new java.awt.Color(76, 76, 76));
+        lbGuaranteeOut.setText("Guarantee");
 
-        lb1.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lb1.setForeground(new java.awt.Color(76, 76, 76));
-        lb1.setText("Warehouse:");
+        lbWarehouseOut.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lbWarehouseOut.setForeground(new java.awt.Color(76, 76, 76));
+        lbWarehouseOut.setText("Warehouse:");
 
-        lb2.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lb2.setForeground(new java.awt.Color(76, 76, 76));
-        lb2.setText("Sold");
+        lbSoldOut.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lbSoldOut.setForeground(new java.awt.Color(76, 76, 76));
+        lbSoldOut.setText("Sold");
 
         lbWarehouse1.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
         lbWarehouse1.setForeground(new java.awt.Color(76, 76, 76));
         lbWarehouse1.setText("Warehouse:");
 
-        lbSold1.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
-        lbSold1.setForeground(new java.awt.Color(76, 76, 76));
-        lbSold1.setText("Sold:");
+        lbSold.setFont(new java.awt.Font("sansserif", 0, 10)); // NOI18N
+        lbSold.setForeground(new java.awt.Color(76, 76, 76));
+        lbSold.setText("Sold:");
 
-        lbGuarantee1.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        lbGuarantee1.setForeground(new java.awt.Color(76, 76, 76));
-        lbGuarantee1.setText("Guarantee:");
+        lbGuarantee.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        lbGuarantee.setForeground(new java.awt.Color(76, 76, 76));
+        lbGuarantee.setText("Guarantee:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -131,21 +131,21 @@ public class Item extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbSold1)
+                                .addComponent(lbSold)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lb2)
+                                .addComponent(lbSoldOut)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lbPrice))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbWarehouse1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lb1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbWarehouseOut, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(58, 58, 58)))
                         .addGap(36, 36, 36))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbGuarantee1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
                         .addComponent(lbGuarantee, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(lbGuaranteeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -159,12 +159,12 @@ public class Item extends javax.swing.JPanel {
                 .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbGuarantee)
-                    .addComponent(lbGuarantee1))
+                    .addComponent(lbGuaranteeOut)
+                    .addComponent(lbGuarantee))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbWarehouse1)
-                    .addComponent(lb1))
+                    .addComponent(lbWarehouseOut))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -172,22 +172,22 @@ public class Item extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbSold1)
-                            .addComponent(lb2))))
+                            .addComponent(lbSold)
+                            .addComponent(lbSoldOut))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lb1;
-    private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbDescription;
     private javax.swing.JLabel lbGuarantee;
-    private javax.swing.JLabel lbGuarantee1;
+    private javax.swing.JLabel lbGuaranteeOut;
     private javax.swing.JLabel lbItemName;
     private javax.swing.JLabel lbPrice;
-    private javax.swing.JLabel lbSold1;
+    private javax.swing.JLabel lbSold;
+    private javax.swing.JLabel lbSoldOut;
     private javax.swing.JLabel lbWarehouse1;
+    private javax.swing.JLabel lbWarehouseOut;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.PictureBox pic;
     // End of variables declaration//GEN-END:variables
 }

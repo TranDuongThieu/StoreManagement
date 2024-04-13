@@ -8,6 +8,9 @@ import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import org.jdesktop.animation.timing.Animator;
 
@@ -20,7 +23,7 @@ public class StaffDashboard extends javax.swing.JFrame {
     private DashBoardProductForm staffDashboardProduct;
     private StaffDashBoardPhoneForm staffDashboardPhone;
 
-    public StaffDashboard() {
+    public StaffDashboard() throws SQLException {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         staffDashboardProduct = new DashBoardProductForm();
@@ -37,7 +40,11 @@ public class StaffDashboard extends javax.swing.JFrame {
                     setForm(new StaffDashBoardPhoneForm());
                 }
                 if (index == 12){
-                    setForm(new StaffDashboardWorkSchedule());
+                    try {
+                        setForm(new StaffDashboardWorkSchedule());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 if (index == 15) {
                     dispose();
@@ -106,7 +113,7 @@ public class StaffDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, 1241, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, 1259, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +131,11 @@ public class StaffDashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StaffDashboard().setVisible(true);
+                try {
+                    new StaffDashboard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

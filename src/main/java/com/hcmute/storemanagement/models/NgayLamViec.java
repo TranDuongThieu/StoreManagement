@@ -4,26 +4,30 @@
  */
 package com.hcmute.storemanagement.models;
 
+import java.util.Date;
+
 /**
  *
  * @author DELL
  */
-public class ThuTrongTuan {
-    private int thuTrongTuan;
+public class NgayLamViec {
+    private Date thuTrongTuan;
 
-    public ThuTrongTuan() {
+    public NgayLamViec() {
     }
 
-    public ThuTrongTuan(int thuTrongTuan) {
+    public NgayLamViec(Date thuTrongTuan) {
         this.thuTrongTuan = thuTrongTuan;
     }
 
-    public int getThuTrongTuan() {
+    public Date getThuTrongTuan() {
         return thuTrongTuan;
     }
 
-    public void setThuTrongTuan(int thuTrongTuan) {
+    public void setThuTrongTuan(Date thuTrongTuan) {
         this.thuTrongTuan = thuTrongTuan;
     }
+    
+
     
 }

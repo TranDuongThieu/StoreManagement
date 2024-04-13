@@ -4,10 +4,10 @@
  */
 package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
-import com.hcmute.storemanagement.controllers.Staff.StaffDashboardgetProduct;
-import com.hcmute.storemanagement.controllers.Staff.getSpecificationsWithIdItem;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.models.ThongTinSanPham;
+import com.hcmute.storemanagement.service.StaffSanPhamService;
+import com.hcmute.storemanagement.service.StaffThongTinSanPhamService;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
 import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
@@ -16,6 +16,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.ImageIcon;
 import org.jdesktop.animation.timing.Animator;
@@ -29,7 +30,7 @@ public class DashBoardProductForm extends javax.swing.JPanel {
     private Point animatePoint;
     private ModelItem itemSelected;
 
-    public DashBoardProductForm() {
+    public DashBoardProductForm() throws SQLException {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
@@ -47,13 +48,13 @@ public class DashBoardProductForm extends javax.swing.JPanel {
         animator.setDeceleration(.5f);
     }
 
-    public List<SanPham> allProduct() {
-        StaffDashboardgetProduct getAllProduct = new StaffDashboardgetProduct();
+    public List<SanPham> allProduct() throws SQLException {
+        StaffSanPhamService getAllProduct = new StaffSanPhamService();
         List<SanPham> sanPham = getAllProduct.getAllSanPham();
         return sanPham;
     }
 
-    private void init() {
+    private void init() throws SQLException {
         home = new FormHome();
         mainPanel1.setLayout(new BorderLayout());
         mainPanel1.add(home);
@@ -70,7 +71,8 @@ public class DashBoardProductForm extends javax.swing.JPanel {
                 if (item != null) {
                     // Lấy mã
                     String maSanPham = item.getItemID();
-                    getSpecificationsWithIdItem gettAllThongSo = new getSpecificationsWithIdItem();
+                    StaffThongTinSanPhamService gettAllThongSo = null;
+                    gettAllThongSo = new StaffThongTinSanPhamService();
                     List<ThongTinSanPham> ttSanPham = gettAllThongSo.getAllThongSo(maSanPham);
                     
                     // Tiếp tục với các hành động khác nếu cần
