@@ -15,4 +15,5 @@ import java.util.List;
 public interface IStaffLichLamViecDao {
     List<LichLamViec> getWorkScheduleWithID(String UserID);
     int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift);
+    void delete1rowLichLamViec(String UserID, Date Ngay, int MaCa);
 }

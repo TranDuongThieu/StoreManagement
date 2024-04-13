@@ -5,11 +5,11 @@ import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 
 public class ModelAction {
 
-    public ModelWorkSchedule getStudent() {
+    public ModelWorkSchedule getWorkSchedule() {
         return student;
     }
 
-    public void setStudent(ModelWorkSchedule student) {
+    public void setWorkSchedule(ModelWorkSchedule student) {
         this.student = student;
     }
 

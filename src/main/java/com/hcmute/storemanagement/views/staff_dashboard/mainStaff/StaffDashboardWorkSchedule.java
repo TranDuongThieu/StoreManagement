@@ -10,6 +10,7 @@ import com.hcmute.storemanagement.service.StaffLichLamViecService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.EventAction;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,9 +22,10 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
 
 public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
+
+    private String idUser = PanelLoginAndRegister.GlobalVariables.userId;
 
     public StaffDashboardWorkSchedule() throws SQLException {
         initComponents();
@@ -32,18 +34,69 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
     }
 
+    private void deleterowLichLamViec(String userId, Date ngay, int maCa) throws SQLException {
+        StaffLichLamViecService staffLichLamViecService = new StaffLichLamViecService();
+        staffLichLamViecService.delete1rowLichLamViec(userId, ngay, maCa);
+
+        // Xóa hàng trong mô hình dữ liệu
+        DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            Object objUserID = model.getValueAt(i, 0);
+            Object objNgay = model.getValueAt(i, 1);
+            Object objCa = model.getValueAt(i, 2);
+            // Kiểm tra xem hàng có thông tin tương ứng với việc xóa hay không
+            if (objUserID.equals(userId) && objNgay.equals(ngay) && objCa.equals(maCa)) {
+                model.removeRow(i);
+                break;
+            }
+        }
+        
+    }
+
     private void initTablePaymentData() throws SQLException {
 
         EventAction eventAction = new EventAction() {
             @Override
-            public void delete(ModelWorkSchedule student) {
-                //showMessage("Delete Student : " + student.getName());
-                System.out.println(".delete()");
+            public void delete(ModelWorkSchedule student, ActionEvent e) {
+                // Lấy vị trí hàng được chọn
+                int row = tbPayment.getSelectedRow();
+                // Lấy giá trị từ hàng và cột tương ứng, lấy được đối tượng object
+                Object userID = tbPayment.getValueAt(row, 0);
+                Object ngayObj = tbPayment.getValueAt(row, 1);
+                Object caObj = tbPayment.getValueAt(row, 2);
+                // Chuyển đổi Object ngay thành kiểu Date
+                Date ngay = null;
+                if (ngayObj != null) {
+                    if (ngayObj instanceof Date) {
+                        ngay = (Date) ngayObj;
+                    } else if (ngayObj instanceof String) {
+                        try {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            ngay = dateFormat.parse((String) ngayObj);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(StaffDashboardWorkSchedule.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                int ca = 0;
+                if (caObj != null) {
+                    if (caObj instanceof Integer) {
+                        ca = (int) caObj;
+                    } else if (caObj instanceof String) {
+                        ca = Integer.parseInt((String) caObj);
+
+                    }
+                }
+                try {
+                    deleterowLichLamViec(idUser, ngay, ca);
+                } catch (SQLException ex) {
+                    Logger.getLogger(StaffDashboardWorkSchedule.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             @Override
-            public void update(ModelWorkSchedule student) {
-                //showMessage("Update Student : " + student.getName());
+            public void update(ModelWorkSchedule student, ActionEvent e) {
                 System.out.println(".update()");
             }
         };
@@ -56,6 +109,10 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             model.addRow(new ModelWorkSchedule(icon, PanelLoginAndRegister.GlobalVariables.fullName, lich.getNgayLamViec(), lich.getMaCa()).toRowTable(eventAction));
         }
 
+    }
+    
+    public void showTable(){
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -257,8 +314,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         // check null
         if (dateValue != null && dateValue.before(currentDate)) {
             JOptionPane.showMessageDialog(this, "Đăng ký không thành công. Vui lòng chọn ngày sau ngày hiện tại!");
-        }
-        else if (dateValue == null) {
+        } else if (dateValue == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày!!!");
         } else if (!cbShift1.isSelected() && !cbShift2.isSelected() && !cbShift3.isSelected()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ca làm!!");
@@ -289,7 +345,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
             // checktrung
             List<Integer> checkTrung = checkLichTrung(listShif, date);
-            if (checkTrung==null || checkTrung.isEmpty()) {
+            if (checkTrung == null || checkTrung.isEmpty()) {
                 StaffLNgayLamViecService staffLNgayLamViecService = new StaffLNgayLamViecService();
                 // Thêm ngày được chọn vào bảng nếu chưa có
                 staffLNgayLamViecService.checkAndInsertNgayLamViec(date);
@@ -298,6 +354,10 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                 int isInsertLich = lichlamviec.insertLichLamViec(userId, date, listShif);
                 if (isInsertLich > 0) {
                     JOptionPane.showMessageDialog(this, "<html><div style='text-align: center;'>Trong " + demCaDuocChon + " ca được chọn <br/> Bạn đã thêm thành công " + isInsertLich + " ca làm việc</div></html>");
+                    cbShift1.setSelected(false);
+                    cbShift2.setSelected(false);
+                    cbShift3.setSelected(false);
+                    txtDate.setDate(null);
                 } else {
                     JOptionPane.showMessageDialog(this, "Thêm lịch không thành công");
                 }

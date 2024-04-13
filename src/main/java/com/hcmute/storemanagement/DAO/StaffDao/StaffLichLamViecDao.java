@@ -57,45 +57,80 @@ public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
     }
 
     public int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
-    int soLuongCaThem = 0;
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
-    int insertedRecords = 0; // Biến đếm số bản ghi được thêm vào bảng LICHLAMVIEC
-    try {
-        connection = DBConnection.getConnection();
-        String query = "INSERT INTO LICHLAMVIEC (MaNhanVien, NgayLamViec, MaCa) VALUES (?, ?, ?)";
-        preparedStatement = connection.prepareStatement(query);
+        int soLuongCaThem = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int insertedRecords = 0; // Biến đếm số bản ghi được thêm vào bảng LICHLAMVIEC
+        try {
+            connection = DBConnection.getConnection();
+            String query = "INSERT INTO LICHLAMVIEC (MaNhanVien, NgayLamViec, MaCa) VALUES (?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query);
 
-        for (Integer maCa : listShift) {
+            for (Integer maCa : listShift) {
+                preparedStatement.setString(1, UserID);
+                preparedStatement.setDate(2, new java.sql.Date(Ngay.getTime()));
+                preparedStatement.setInt(3, maCa);
+                // Thực thi câu lệnh INSERT cho mỗi giá trị maCa trong danh sách
+                int result = preparedStatement.executeUpdate();
+                insertedRecords += result;
+                soLuongCaThem++;
+            }
+            return soLuongCaThem;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Trả về false nếu không có bản ghi nào được thêm mới
+        return soLuongCaThem;
+    }
+
+    public void delete1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String query = "DELETE FROM LICHLAMVIEC WHERE MaNhanVien = ? AND NgayLamViec = ? AND MaCa = ?";
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, UserID);
             preparedStatement.setDate(2, new java.sql.Date(Ngay.getTime()));
-            preparedStatement.setInt(3, maCa);
-            // Thực thi câu lệnh INSERT cho mỗi giá trị maCa trong danh sách
+            preparedStatement.setInt(3, MaCa);
+            // Thực thi và trả về số lượng hàng bị ảnh hưởng 
             int result = preparedStatement.executeUpdate();
-            insertedRecords += result;
-            soLuongCaThem++;
-        }
-        return soLuongCaThem;
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
+
+            if (result > 0) {
+                System.out.println("Xóa thành công!");
+            } else {
+                System.out.println("Không tìm thấy bản ghi để xóa!");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-    
-    // Trả về false nếu không có bản ghi nào được thêm mới
-    return soLuongCaThem;
-}
 }
