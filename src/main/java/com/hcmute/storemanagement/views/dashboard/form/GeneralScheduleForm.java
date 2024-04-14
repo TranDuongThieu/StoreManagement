@@ -4,12 +4,21 @@
  */
 package com.hcmute.storemanagement.views.dashboard.form;
 
+import com.hcmute.storemanagement.controllers.WorkScheduleController;
+import com.hcmute.storemanagement.models.GeneralSchedule;
+import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -20,9 +29,27 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
     /**
      * Creates new form GeneralSchedule
      */
+    ArrayList<GeneralSchedule> listSchedule;
+
+    class MultiLineTableCellRenderer extends JTextArea implements TableCellRenderer {
+
+        public MultiLineTableCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+    }
+
     public GeneralScheduleForm() {
         initComponents();
         table1.setRowHeight(100);
+        table1.setDefaultRenderer(Object.class, new MultiLineTableCellRenderer());
         txtDate.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -41,6 +68,24 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         // Set current date in txtDate
         Date currentDate = new Date();
         txtDate.setDate(currentDate);
+    }
+
+    private ArrayList<String> getDatesFromMondayToSunday(Date monday) {
+        ArrayList<String> dates = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(monday);
+
+        // Add Monday to the list
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dates.add(sdf.format(cal.getTime()));
+
+        // Add the rest of the days until Sunday
+        for (int i = 0; i < 6; i++) {
+            cal.add(Calendar.DATE, 1);
+            dates.add(sdf.format(cal.getTime()));
+        }
+
+        return dates;
     }
 
     private void handleDateSelection(Date selectedDate) {
@@ -71,7 +116,53 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         // Update the labels with Monday and Sunday dates
         lbDateFrom.setText(formattedMonday);
         lbDateTo.setText(formattedSunday);
-        
+
+        ArrayList<String> weekDates = getDatesFromMondayToSunday(monday);
+        WorkScheduleController scheduleController = new WorkScheduleController();
+        listSchedule = scheduleController.getScheduleFromDateToDate(formattedMonday, formattedSunday);
+        for (GeneralSchedule sc : listSchedule) {
+            String formatday = sdf.format(sc.getNgayLamViec());
+            System.out.println(sc.getHoten() + " " + sc.getMaCa() + " " + formatday);
+        }
+        ArrayList<String> ca1 = new ArrayList<String>();
+        ArrayList<String> ca2 = new ArrayList<String>();
+        ArrayList<String> ca3 = new ArrayList<String>();
+        ca1.add("Ca 1");
+        ca2.add("Ca 2");
+        ca3.add("Ca 3");
+        for (int i = 1; i < 8; i++) {
+            ca1.add("");
+            ca2.add("");
+            ca3.add("");
+        }
+        for (int i = 0; i < weekDates.size(); i++) {
+            for (GeneralSchedule sc : listSchedule) {
+                if (sdf.format(sc.getNgayLamViec()).equals(weekDates.get(i))) {
+                    if (sc.getMaCa() == 1) {
+                        ca1.set(i + 1, ca1.get(i + 1) + sc.getHoten() + "\n");
+                    }
+                    if (sc.getMaCa() == 2) {
+                        ca2.set(i + 1, ca2.get(i + 1) + sc.getHoten() + "\n");
+
+                    }
+                    if (sc.getMaCa() == 3) {
+                        ca3.set(i + 1, ca3.get(i + 1) + sc.getHoten() + "\n");
+
+                    }
+                }
+            }
+        }
+
+        DefaultTableModel model = (DefaultTableModel) table1.getModel();
+        model.setRowCount(0);
+        String[][] rowData = new String[3][];
+        rowData[0] = ca1.toArray(new String[0]);
+        rowData[1] = ca2.toArray(new String[0]);
+        rowData[2] = ca3.toArray(new String[0]);
+
+        for (String[] row : rowData) {
+            model.addRow(row);
+        }
 
     }
 
