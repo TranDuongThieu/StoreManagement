@@ -6,6 +6,7 @@ package com.hcmute.storemanagement.views.dashboard.mainAdmin;
 
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
+import com.hcmute.storemanagement.views.dashboard.form.GeneralScheduleForm;
 
 import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
@@ -25,6 +26,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private DashBoardProductForm staffDashboardProduct;
     private StaffForm staffForm;
+    private GeneralScheduleForm generalScheduleForm;
 
     /**
      * Creates new form Dashboard
@@ -36,6 +38,7 @@ public class Dashboard extends javax.swing.JFrame {
      
         staffForm = new StaffForm();
         staffDashboardProduct = new DashBoardProductForm();
+        generalScheduleForm = new GeneralScheduleForm();
         menu1.initMoving(Dashboard.this);
         menu1.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -55,6 +58,9 @@ public class Dashboard extends javax.swing.JFrame {
                 } 
                 else if (index == 4){
                     setForm(staffForm);
+                }
+                else if (index == 5) {
+                    setForm(generalScheduleForm);
                 }
                 else if (index == 12) {
                     dispose();
