@@ -35,30 +35,26 @@ public class Table extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean focus, int i, int i1) {
                 if (o instanceof ModelProfile) {
-                    System.out.println(".profile()");
                     ModelProfile data = (ModelProfile) o;
                     Profile cell = new Profile(data);
                     if (selected) {
                         //cell.setBackground(new Color(239, 244, 255));
-                        cell.setBackground(new Color(134,206,243));
+                        cell.setBackground(new Color(134, 206, 243));
                     } else {
                         cell.setBackground(Color.WHITE);
                     }
                     return cell;
-                } 
-                else if (o instanceof ModelAction) {
-                    System.out.println(".action()");
+                } else if (o instanceof ModelAction) {
                     ModelAction data = (ModelAction) o;
                     Action cell = new Action(data);
 
                     if (selected) {
-                        cell.setBackground(new Color(134,206,243));
+                        cell.setBackground(new Color(134, 206, 243));
                     } else {
                         cell.setBackground(Color.WHITE);
                     }
                     return cell;
-                }
-                else {
+                } else {
                     System.out.println("Else");
                     Component com = super.getTableCellRendererComponent(jtable, o, selected, focus, i, i1);
                     setBorder(noFocusBorder);
@@ -66,9 +62,9 @@ public class Table extends JTable {
 //                    JLabel label = new JLabel(o + "");
 //                    label.setForeground(new Color(102, 102, 102));
                     if (selected) {
-                        com.setBackground(new Color(134,206,243));
+                        com.setBackground(new Color(134, 206, 243));
                     } else {
-                    com.setBackground(Color.WHITE);
+                        com.setBackground(Color.WHITE);
                     }
                     return com;
                 }
@@ -88,6 +84,15 @@ public class Table extends JTable {
     public void addRow(Object[] row) {
         DefaultTableModel mod = (DefaultTableModel) getModel();
         mod.addRow(row);
+    }
+
+    public void removeRow(int row) {
+        DefaultTableModel mod = (DefaultTableModel) getModel();
+        mod.removeRow(row);
+        // Remove corresponding action cell data
+        // You need to implement this part based on your specific data structure
+        // For example:
+        // actionCellModel.remove(row);
     }
 
     public void fixTable(JScrollPane scroll) {

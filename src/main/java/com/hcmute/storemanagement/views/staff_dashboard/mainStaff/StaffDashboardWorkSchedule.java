@@ -37,21 +37,27 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     private void deleterowLichLamViec(String userId, Date ngay, int maCa) throws SQLException {
         StaffLichLamViecService staffLichLamViecService = new StaffLichLamViecService();
         staffLichLamViecService.delete1rowLichLamViec(userId, ngay, maCa);
-
+        System.out.println(userId + " " + ngay + " " + maCa);
         // Xóa hàng trong mô hình dữ liệu
         DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
+
         int rowCount = model.getRowCount();
+
         for (int i = 0; i < rowCount; i++) {
             Object objUserID = model.getValueAt(i, 0);
             Object objNgay = model.getValueAt(i, 1);
             Object objCa = model.getValueAt(i, 2);
+
+            System.out.println(objUserID.toString() + " " + objNgay.toString() + " " + objCa.toString());
             // Kiểm tra xem hàng có thông tin tương ứng với việc xóa hay không
-            if (objUserID.equals(userId) && objNgay.equals(ngay) && objCa.equals(maCa)) {
+            if (objNgay.equals(ngay) && objCa.equals(maCa)) {
                 model.removeRow(i);
+                JOptionPane.showMessageDialog(this, "Đã xóa ca làm");
+//                System.out.println( model.getRowCount());
                 break;
             }
         }
-        
+
     }
 
     private void initTablePaymentData() throws SQLException {
@@ -59,6 +65,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void delete(ModelWorkSchedule student, ActionEvent e) {
+                System.out.println("call.delete()");
                 // Lấy vị trí hàng được chọn
                 int row = tbPayment.getSelectedRow();
                 // Lấy giá trị từ hàng và cột tương ứng, lấy được đối tượng object
@@ -89,6 +96,9 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                     }
                 }
                 try {
+                    if (tbPayment.isEditing()){
+                        tbPayment.getCellEditor().stopCellEditing();
+                    }
                     deleterowLichLamViec(idUser, ngay, ca);
                 } catch (SQLException ex) {
                     Logger.getLogger(StaffDashboardWorkSchedule.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,11 +118,12 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         for (LichLamViec lich : lichLamViecs) {
             model.addRow(new ModelWorkSchedule(icon, PanelLoginAndRegister.GlobalVariables.fullName, lich.getNgayLamViec(), lich.getMaCa()).toRowTable(eventAction));
         }
+//        model.setRowCount(model.getRowCount() + 1);
 
     }
-    
-    public void showTable(){
-        
+
+    public void showTable() {
+
     }
 
     @SuppressWarnings("unchecked")
