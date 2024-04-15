@@ -8,10 +8,7 @@ import com.hcmute.storemanagement.DAO.StaffDao.StaffThongTinSanPhamDao;
 import com.hcmute.storemanagement.models.ThongTinSanPham;
 import java.util.List;
 
-/**
- *
- * @author DELL
- */
+
 public class StaffThongTinSanPhamService implements IStaffThongTinSanPhamService {
 
     StaffThongTinSanPhamDao staffThongTinSanPhamDao = new StaffThongTinSanPhamDao();
