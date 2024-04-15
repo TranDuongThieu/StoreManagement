@@ -32,7 +32,6 @@ public class StaffDashboard extends javax.swing.JFrame {
         menu_staff1.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                System.out.println(index);
                 if (index == 1){
                     setForm(staffDashboardProduct);
                 }

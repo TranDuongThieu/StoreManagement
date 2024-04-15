@@ -18,4 +18,7 @@ public interface IStaffLichLamViecService {
 
     int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift);
 
+    void delete1rowLichLamViec(String UserID, Date Ngay, int MaCa);
+
+    List<Integer> demSoCaTheoNgay(Date Ngay);
 }

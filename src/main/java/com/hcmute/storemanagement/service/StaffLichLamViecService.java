@@ -9,10 +9,11 @@ import com.hcmute.storemanagement.models.LichLamViec;
 import java.util.Date;
 import java.util.List;
 
+public class StaffLichLamViecService implements IStaffLichLamViecService {
 
-public class StaffLichLamViecService implements IStaffLichLamViecService{
     StaffLichLamViecDao stLichLamViecDao = new StaffLichLamViecDao();
-    public List<LichLamViec> getWorkScheduleWithID(String UserID){
+
+    public List<LichLamViec> getWorkScheduleWithID(String UserID) {
         return stLichLamViecDao.getWorkScheduleWithID(UserID);
     }
 
@@ -20,5 +21,15 @@ public class StaffLichLamViecService implements IStaffLichLamViecService{
     public int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
         return stLichLamViecDao.insertLichLamViec(UserID, Ngay, listShift);
     }
-    
+
+    @Override
+    public void delete1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
+        stLichLamViecDao.delete1rowLichLamViec(UserID, Ngay, MaCa);
+    }
+
+    @Override
+    public List<Integer> demSoCaTheoNgay(Date Ngay) {
+        return stLichLamViecDao.demSoCaTheoNgay(Ngay);
+    }
+
 }
