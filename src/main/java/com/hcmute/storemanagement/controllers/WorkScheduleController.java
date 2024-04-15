@@ -63,7 +63,6 @@ public class WorkScheduleController {
                 e.printStackTrace();// Handle or log the exception as needed
             }
         }
-
         return schedules;
     }
 }

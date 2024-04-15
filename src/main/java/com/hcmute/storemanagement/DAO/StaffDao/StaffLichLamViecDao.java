@@ -7,7 +7,6 @@ package com.hcmute.storemanagement.DAO.StaffDao;
 import com.hcmute.storemanagement.DAO.AbstractDao.AbstractDao;
 import com.hcmute.storemanagement.models.LichLamViec;
 import com.hcmute.storemanagement.service.DBConnection;
-import com.microsoft.sqlserver.jdbc.StringUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
 
@@ -132,5 +130,80 @@ public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
                 e.printStackTrace();
             }
         }
+    }
+
+    public int demSoCaTheoNgay(String UserID, Date Ngay, int MaCa) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String query = "DELETE FROM LICHLAMVIEC WHERE MaNhanVien = ? AND NgayLamViec = ? AND MaCa = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, UserID);
+            preparedStatement.setDate(2, new java.sql.Date(Ngay.getTime()));
+            preparedStatement.setInt(3, MaCa);
+            // Thực thi và trả về số lượng hàng bị ảnh hưởng 
+            int result = preparedStatement.executeUpdate();
+
+            if (result > 0) {
+                System.out.println("Xóa thành công!");
+            } else {
+                System.out.println("Không tìm thấy bản ghi để xóa!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return 5;
+    }
+
+    public List<Integer> demSoCaTheoNgay(Date Ngay) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Integer> countList = new ArrayList<>();
+        try {
+            connection = DBConnection.getConnection();
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.append("SELECT MaCa, COUNT(*) AS Total FROM LICHLAMVIEC WHERE NgayLamViec = ? AND MaCa IN (1, 2, 3) GROUP BY MaCa");
+
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+            preparedStatement.setDate(1, new java.sql.Date(Ngay.getTime()));
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int maCa = resultSet.getInt("MaCa");
+                int count = resultSet.getInt("Total");
+                countList.add(count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return countList;
     }
 }

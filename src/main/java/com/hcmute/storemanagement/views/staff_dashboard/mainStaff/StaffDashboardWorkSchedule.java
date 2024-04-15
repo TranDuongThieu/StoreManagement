@@ -10,6 +10,7 @@ import com.hcmute.storemanagement.service.StaffLichLamViecService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.EventAction;
+import com.sun.source.tree.BreakTree;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -26,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
     private String idUser = PanelLoginAndRegister.GlobalVariables.userId;
+    StaffLichLamViecService staffWSch = new StaffLichLamViecService();
 
     public StaffDashboardWorkSchedule() throws SQLException {
         initComponents();
@@ -35,8 +37,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     }
 
     private void deleterowLichLamViec(String userId, Date ngay, int maCa) throws SQLException {
-        StaffLichLamViecService staffLichLamViecService = new StaffLichLamViecService();
-        staffLichLamViecService.delete1rowLichLamViec(userId, ngay, maCa);
+        staffWSch.delete1rowLichLamViec(userId, ngay, maCa);
         System.out.println(userId + " " + ngay + " " + maCa);
         // Xóa hàng trong mô hình dữ liệu
         DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
@@ -53,7 +54,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             if (objNgay.equals(ngay) && objCa.equals(maCa)) {
                 model.removeRow(i);
                 JOptionPane.showMessageDialog(this, "Đã xóa ca làm");
-//                System.out.println( model.getRowCount());
+                findAllShiftWithDate();
                 break;
             }
         }
@@ -96,7 +97,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                     }
                 }
                 try {
-                    if (tbPayment.isEditing()){
+                    if (tbPayment.isEditing()) {
                         tbPayment.getCellEditor().stopCellEditing();
                     }
                     deleterowLichLamViec(idUser, ngay, ca);
@@ -112,7 +113,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         };
         DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
         model.setRowCount(0);
-        StaffLichLamViecService staffWSch = new StaffLichLamViecService();
         ArrayList<LichLamViec> lichLamViecs = (ArrayList<LichLamViec>) staffWSch.getWorkScheduleWithID(PanelLoginAndRegister.GlobalVariables.userId);
         ImageIcon icon = new ImageIcon("C:\\imagepj\\image\\user.png");
         for (LichLamViec lich : lichLamViecs) {
@@ -143,6 +143,13 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtDate = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        lbSlotShift1 = new javax.swing.JLabel();
+        lbSlotShift2 = new javax.swing.JLabel();
+        lbSlotShift3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1039, 657));
@@ -161,17 +168,16 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         );
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
+        panelBorder1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Register");
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setOpaque(true);
 
         tbPayment.setBackground(new java.awt.Color(204, 204, 204));
-        tbPayment.setForeground(new java.awt.Color(0, 0, 0));
         tbPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -192,7 +198,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tbPayment);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Work Schedule");
 
@@ -220,14 +226,47 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Date");
+        jLabel3.setText("Date:");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Shift");
+        jLabel4.setText("Shift:");
 
         txtDate.setBackground(new java.awt.Color(255, 255, 255));
         txtDate.setForeground(new java.awt.Color(51, 51, 51));
+        txtDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtDatePropertyChange(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Slot:");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Shift 1:");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Shift 2:");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Shift 3:");
+
+        lbSlotShift1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbSlotShift1.setForeground(new java.awt.Color(0, 0, 0));
+        lbSlotShift1.setText("0");
+
+        lbSlotShift2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbSlotShift2.setForeground(new java.awt.Color(0, 0, 0));
+        lbSlotShift2.setText("0");
+
+        lbSlotShift3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbSlotShift3.setForeground(new java.awt.Color(0, 0, 0));
+        lbSlotShift3.setText("0");
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -237,50 +276,81 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(59, 59, 59)
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(cbShift1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbShift2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbShift3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addContainerGap())
+                            .addComponent(jLabel1)
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel4)
+                        .addGap(34, 34, 34)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbShift3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbShift2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(cbShift1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                                .addComponent(jLabel5)))
+                        .addGap(38, 38, 38)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbSlotShift2))
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbSlotShift1))
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbSlotShift3)))))
+                .addContainerGap(272, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(14, 14, 14)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(6, 6, 6)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(cbShift1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(cbShift2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbShift3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbShift1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2))
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE))
+                                .addComponent(jLabel7)
+                                .addComponent(lbSlotShift2)))
+                        .addGap(12, 12, 12)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbShift3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(lbSlotShift3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(lbSlotShift1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -302,7 +372,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public List<Integer> checkLichTrung(List<Integer> listShif, Date ngay) {
-        StaffLichLamViecService staffWSch = new StaffLichLamViecService();
         ArrayList<LichLamViec> lichLamViecs = (ArrayList<LichLamViec>) staffWSch.getWorkScheduleWithID(PanelLoginAndRegister.GlobalVariables.userId);
         List<Integer> caTrung = new ArrayList<>();
 
@@ -315,7 +384,12 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         return caTrung;
     }
 
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // lấy giá trị ca đã được đăng ký 
+        int soLuongCa1 = Integer.parseInt(lbSlotShift1.getText());
+        int soLuongCa2 = Integer.parseInt(lbSlotShift2.getText());
+        int soLuongCa3 = Integer.parseInt(lbSlotShift3.getText());
 
         int demCaDuocChon = 0;
         Date currentDate = new Date();
@@ -330,7 +404,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         } else if (!cbShift1.isSelected() && !cbShift2.isSelected() && !cbShift3.isSelected()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ca làm!!");
         } else {
-
             // Convert string qua date để lưu xuống SQL
             String formattedDate = sdf.format(dateValue);
             java.util.Date date = null;
@@ -341,21 +414,12 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             }
             // List lưu danh sách mã ca đưuọc chọn trên giao diện
             List<Integer> listShif = new ArrayList<>();
-            if (cbShift1.isSelected()) {
-                listShif.add(1);
-                demCaDuocChon++;
-            }
-            if (cbShift2.isSelected()) {
-                listShif.add(2);
-                demCaDuocChon++;
-            }
-            if (cbShift3.isSelected()) {
-                listShif.add(3);
-                demCaDuocChon++;
-            }
-
+            // kiểm tra ca đó đủ số lựng chưa 
+            int soCaDuocChon = checkSoLuong(soLuongCa1, soLuongCa2, soLuongCa3, listShif, demCaDuocChon);
             // checktrung
             List<Integer> checkTrung = checkLichTrung(listShif, date);
+
+            // int checkSoLuongdki = staffWSch.demSoCaTheoNgay(date, listShif);
             if (checkTrung == null || checkTrung.isEmpty()) {
                 StaffLNgayLamViecService staffLNgayLamViecService = new StaffLNgayLamViecService();
                 // Thêm ngày được chọn vào bảng nếu chưa có
@@ -364,11 +428,8 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                 StaffLichLamViecService lichlamviec = new StaffLichLamViecService();
                 int isInsertLich = lichlamviec.insertLichLamViec(userId, date, listShif);
                 if (isInsertLich > 0) {
-                    JOptionPane.showMessageDialog(this, "<html><div style='text-align: center;'>Trong " + demCaDuocChon + " ca được chọn <br/> Bạn đã thêm thành công " + isInsertLich + " ca làm việc</div></html>");
-                    cbShift1.setSelected(false);
-                    cbShift2.setSelected(false);
-                    cbShift3.setSelected(false);
-                    txtDate.setDate(null);
+                    JOptionPane.showMessageDialog(this, "<html><div style='text-align: center;'>Trong " + soCaDuocChon + " ca được chọn <br/> Bạn đã thêm thành công " + isInsertLich + " ca làm việc</div></html>");
+                    clearData();
                 } else {
                     JOptionPane.showMessageDialog(this, "Thêm lịch không thành công");
                 }
@@ -384,6 +445,11 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void txtDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtDatePropertyChange
+
+        findAllShiftWithDate();
+
+     }//GEN-LAST:event_txtDatePropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAdd;
@@ -394,10 +460,97 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbSlotShift1;
+    private javax.swing.JLabel lbSlotShift2;
+    private javax.swing.JLabel lbSlotShift3;
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder1;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.Table tbPayment;
     private com.toedter.calendar.JDateChooser txtDate;
     // End of variables declaration//GEN-END:variables
+
+    private List<Integer> checkSoLuongdki(Date date) {
+        List<Integer> check = staffWSch.demSoCaTheoNgay(date);
+        return check;
+    }
+
+    private void clearData() {
+        cbShift1.setSelected(false);
+        cbShift2.setSelected(false);
+        cbShift3.setSelected(false);
+        txtDate.setDate(null);
+        lbSlotShift1.setText("0");
+        lbSlotShift2.setText("0");
+        lbSlotShift3.setText("0");
+    }
+
+    private int checkSoLuong(int soLuongCa1, int soLuongCa2, int soLuongCa3, List<Integer> listShif, int demCaDuocChon) {
+        if (cbShift1.isSelected() && soLuongCa1 < 5) {
+            listShif.add(1);
+            demCaDuocChon++;
+        }
+        if (cbShift2.isSelected() && soLuongCa2 < 5) {
+            listShif.add(2);
+            demCaDuocChon++;
+        }
+        if (cbShift3.isSelected() && soLuongCa3 < 5) {
+            listShif.add(3);
+            demCaDuocChon++;
+        }
+        if (cbShift1.isSelected() && soLuongCa1 >= 5) {
+            JOptionPane.showMessageDialog(this, "Ca " + 1 + " đã đủ số lượng");
+        } else if (cbShift2.isSelected() && soLuongCa2 >= 5) {
+            JOptionPane.showMessageDialog(this, "Ca " + 2 + " đã đủ số lượng");
+        } else if (cbShift3.isSelected() && soLuongCa3 >= 5) {
+            JOptionPane.showMessageDialog(this, "Ca " + 3 + " đã đủ số lượng");
+        } else if ((cbShift1.isSelected() && soLuongCa1 >= 5) && (cbShift2.isSelected() && soLuongCa2 >= 5)) {
+            JOptionPane.showMessageDialog(this, "Ca 1 và 2 đã đủ số lượng");
+        } else if (cbShift1.isSelected() && soLuongCa1 >= 5 && cbShift3.isSelected() && soLuongCa3 >= 5) {
+            JOptionPane.showMessageDialog(this, "Ca 1 và 3 đã đủ số lượng");
+        } else if (cbShift2.isSelected() && soLuongCa2 >= 5 && cbShift3.isSelected() && soLuongCa3 >= 5) {
+            JOptionPane.showMessageDialog(this, "Ca 2 và 3 đã đủ số lượng");
+        } else if (cbShift1.isSelected() && soLuongCa1 >= 5 && cbShift2.isSelected() && soLuongCa2 >= 5 && cbShift3.isSelected() && soLuongCa3 >= 5) {
+            JOptionPane.showMessageDialog(this, "Ca 1, 2 và 3 đã đủ số lượng");
+        }
+        return demCaDuocChon;
+    }
+
+    private void findAllShiftWithDate() {
+        // check so luong da dăng ky
+        Date dateValue = txtDate.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = null;
+        if (dateValue != null) {
+            // check null
+            String formattedDate = sdf.format(dateValue);
+            try {
+                date = sdf.parse(formattedDate);
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày phù hợp!!!");
+            }
+            List<Integer> checDki = checkSoLuongdki(date);
+            for (int i = 0; i < checDki.size(); i++) {
+                Integer value = checDki.get(i);
+                if (i == 0 && value > 0) {
+                    lbSlotShift1.setText(String.valueOf(value));
+                }
+                if (i == 1 && value > 0) {
+                    lbSlotShift2.setText(String.valueOf(value));
+                }
+                if (i == 2 && value > 0) {
+                    lbSlotShift3.setText(String.valueOf(value));
+                }
+            }
+        } else {
+            System.err.println("Ngay chưa chọn");
+        }
+    }
+
+ 
+
 }

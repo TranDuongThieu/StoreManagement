@@ -27,4 +27,9 @@ public class StaffLichLamViecService implements IStaffLichLamViecService {
         stLichLamViecDao.delete1rowLichLamViec(UserID, Ngay, MaCa);
     }
 
+    @Override
+    public List<Integer> demSoCaTheoNgay(Date Ngay) {
+        return stLichLamViecDao.demSoCaTheoNgay(Ngay);
+    }
+
 }
