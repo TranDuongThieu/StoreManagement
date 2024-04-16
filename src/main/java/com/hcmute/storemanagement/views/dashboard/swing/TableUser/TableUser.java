@@ -1,21 +1,13 @@
 package com.hcmute.storemanagement.views.dashboard.swing.TableUser;
 
-import com.hcmute.storemanagement.views.dashboard.Table.swing.TableCell;
-import com.hcmute.storemanagement.views.dashboard.Table.swing.TableCell_Image;
-import com.hcmute.storemanagement.views.dashboard.Table.swing.TableCell_Status;
 import com.hcmute.storemanagement.views.dashboard.Table.swing.shadow.ShadowRenderer;
-import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.*;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 
 public class TableUser extends JTable {
 

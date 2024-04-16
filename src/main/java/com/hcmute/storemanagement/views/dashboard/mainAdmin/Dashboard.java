@@ -10,9 +10,7 @@ import com.hcmute.storemanagement.views.dashboard.form.GeneralScheduleForm;
 
 import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
-import com.hcmute.storemanagement.views.dashboard.swing.TableUser.ad;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.DashBoardProductForm;
-import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
