@@ -4,7 +4,6 @@
  */
 package com.hcmute.storemanagement.views.staff_dashboard.form;
 
-import com.hcmute.storemanagement.views.staff_dashboard.component.workSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ToDay;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.Cell;
 import java.awt.Component;
@@ -15,7 +14,6 @@ import javax.swing.SwingUtilities;
 
 public class FormCalendar extends javax.swing.JPanel {
 
-    private workSchedule wSchedule;
     private int month;
     private int year;
 
@@ -563,26 +561,7 @@ public class FormCalendar extends javax.swing.JPanel {
     }//GEN-LAST:event_lbSunActionPerformed
 
     private void getDateClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_getDateClick
-        Cell clickedCell = (Cell) evt.getSource();
-        String day = clickedCell.getText();
-        CalendarCustom calendarCt = (CalendarCustom) SwingUtilities.getAncestorOfClass(CalendarCustom.class, clickedCell);
-        if (calendarCt != null) {
-            int month = calendarCt.getMonth();
-            int year = calendarCt.getYear();
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.MONTH, month - 1); // Calendar.MONTH bắt đầu từ 0
-            calendar.set(Calendar.YEAR, year);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM-yyyy");
-            String formattedDate = dateFormat.format(calendar.getTime());
-            wSchedule = new workSchedule();
-            System.out.println("Selected date: " + formattedDate);
-            wSchedule.setDate("ádadasdas");
-            wSchedule.revalidate();
-            wSchedule.repaint();
 
-        } else {
-            System.out.println("Parent CalendarCustom not found!");
-        }
     }//GEN-LAST:event_getDateClick
 
 

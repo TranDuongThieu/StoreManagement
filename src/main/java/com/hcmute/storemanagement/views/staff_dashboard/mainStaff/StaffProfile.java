@@ -738,22 +738,31 @@ public class StaffProfile extends javax.swing.JPanel {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -18);
         java.util.Date eighteenYearsAgo = calendar.getTime();
-        // check phone, cccd
-        // check dãy số cccd và phone
-        try {
-            long cccd = Long.parseLong(txtCccd.getText());
+        // check null
+        boolean check = checkNull();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Căn cước của bạn chí được nhập giá trị số");
+        if (check == false) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
             return;
+        } else {
+            // check phone, cccd
+            // check dãy số cccd và phone
+            try {
+                long cccd = Long.parseLong(txtCccd.getText());
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Căn cước của bạn chí được nhập giá trị số");
+                return;
+            }
+
+            try {
+                long phone = Long.parseLong(txtPhone.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại của bạn chỉ được nhập giá trị số");
+                return;
+            }
         }
 
-        try {
-            long phone = Long.parseLong(txtPhone.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại của bạn chí được nhập giá trị số");
-            return;
-        }
         // check độ dài và tuổi
         if (txtCccd.getText().length() != 12) {
             JOptionPane.showMessageDialog(this, "Căn cước của bạn phải đủ 12 số");
@@ -763,12 +772,26 @@ public class StaffProfile extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Bạn chưa đủ 18 tuổi");
         } else {
             boolean flagUpdate = staffNhanVienService.updateStaff(String.valueOf(PanelLoginAndRegister.GlobalVariables.userId), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtPhone.getText(), txtCccd.getText(), date);
-            profileStaff();
+            if (flagUpdate == true) {
+                profileStaff();
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
+            }
         }
-
     }//GEN-LAST:event_clickUpdateProfile
 
-
+    private boolean checkNull() {
+        if (txtAddress.getText().equals("")
+                || txtCccd.getText().equals("")
+                || txtDateOfBirth.getDate() == null
+                || txtEmail.getText().equals("")
+                || txtName.getText().equals("")
+                || txtPhone.getText().equals("")) {
+            return false;
+        }
+        return true;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAddress;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnCccd;

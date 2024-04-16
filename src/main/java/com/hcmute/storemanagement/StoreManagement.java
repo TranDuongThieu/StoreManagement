@@ -17,7 +17,11 @@ public class StoreManagement {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Authen().setVisible(true);
+                try {
+                    new Dashboard().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(StoreManagement.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
