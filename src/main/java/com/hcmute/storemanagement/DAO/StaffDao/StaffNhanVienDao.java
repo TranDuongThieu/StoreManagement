@@ -154,36 +154,40 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
         return nhanVien;
     }
 
-   public void updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-    try {
-        connection = DBConnection.getConnection();
-        String sql = "UPDATE NHANVIEN SET TenNhanVien = ?, DiaChi = ?, Email = ?, SoDienThoai = ?, CCCD = ?, NgaySinh = ? WHERE MaNhanVien = ?";
-        preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, ten);
-        preparedStatement.setString(2, diaChi);
-        preparedStatement.setString(3, email);
-        preparedStatement.setString(4, phone);
-        preparedStatement.setString(5, cccd);
-        preparedStatement.setTimestamp(6, new Timestamp(ngaySinh.getTime()));
-        preparedStatement.setString(7, id);
-        preparedStatement.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        // Đóng các tài nguyên kết nối và câu truy vấn
+    @Override
+    public boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
         try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
+            connection = DBConnection.getConnection();
+            String sql = "UPDATE NHANVIEN SET TenNhanVien = ?, DiaChi = ?, Email = ?, SoDienThoai = ?, CCCD = ?, NgaySinh = ? WHERE MaNhanVien = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ten);
+            preparedStatement.setString(2, diaChi);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, phone);
+            preparedStatement.setString(5, cccd);
+            preparedStatement.setTimestamp(6, new Timestamp(ngaySinh.getTime()));
+            preparedStatement.setString(7, id);
+            preparedStatement.executeUpdate();
+            return true; // Trả về true nếu câu lệnh UPDATE được thực thi thành công
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Nếu có lỗi, in thông điệp lỗi và trả về false
+            System.out.println("Lỗi SQL: " + e.getMessage());
+            return false;
+        } finally {
+            // Đóng các tài nguyên kết nối và câu truy vấn
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
 
 }

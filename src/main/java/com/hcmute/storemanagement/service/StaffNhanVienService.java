@@ -33,8 +33,8 @@ public class StaffNhanVienService implements IStaffNhanVienService {
     }
     
     @Override
-    public void updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
-        staffNhanVienDao.updateStaff(id, ten, diaChi, email, phone, cccd, ngaySinh);
+    public boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
+        return staffNhanVienDao.updateStaff(id, ten, diaChi, email, phone, cccd, ngaySinh);
     }
     
 }

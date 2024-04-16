@@ -9,6 +9,7 @@ import com.hcmute.storemanagement.service.StaffNhanVienService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -729,12 +730,43 @@ public class StaffProfile extends javax.swing.JPanel {
             } catch (ParseException ex) {
                 Logger.getLogger(StaffProfile.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else 
+        } else {
             System.err.println("Lỗi convert ngày");
-        staffNhanVienService.updateStaff(String.valueOf(PanelLoginAndRegister.GlobalVariables.userId), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtPhone.getText(), txtCccd.getText(), date);
-        profileStaff();
-    }//GEN-LAST:event_clickUpdateProfile
+        }
+        // tính 18 tủi 
+        // Tính toán ngày 18 tuổi tính đến từ ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -18);
+        java.util.Date eighteenYearsAgo = calendar.getTime();
+        // check phone, cccd
+        // check dãy số cccd và phone
+        try {
+            long cccd = Long.parseLong(txtCccd.getText());
 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Căn cước của bạn chí được nhập giá trị số");
+            return;
+        }
+
+        try {
+            long phone = Long.parseLong(txtPhone.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại của bạn chí được nhập giá trị số");
+            return;
+        }
+        // check độ dài và tuổi
+        if (txtCccd.getText().length() != 12) {
+            JOptionPane.showMessageDialog(this, "Căn cước của bạn phải đủ 12 số");
+        } else if (txtPhone.getText().length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại của bạn phải đủ 10 số");
+        } else if (dateValue != null && dateValue.after(eighteenYearsAgo)) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa đủ 18 tuổi");
+        } else {
+            boolean flagUpdate = staffNhanVienService.updateStaff(String.valueOf(PanelLoginAndRegister.GlobalVariables.userId), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtPhone.getText(), txtCccd.getText(), date);
+            profileStaff();
+        }
+
+    }//GEN-LAST:event_clickUpdateProfile
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

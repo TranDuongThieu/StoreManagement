@@ -42,9 +42,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         System.out.println(userId + " " + ngay + " " + maCa);
         // Xóa hàng trong mô hình dữ liệu
         DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
-
         int rowCount = model.getRowCount();
-
         for (int i = 0; i < rowCount; i++) {
             Object objUserID = model.getValueAt(i, 0);
             Object objNgay = model.getValueAt(i, 1);
