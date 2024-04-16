@@ -54,9 +54,9 @@ public class Menu_staff extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("bill", "Transaction", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
 
-        listMenu1.addItem(new Model_Menu("", "Calendar", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "Profile & Calendar", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("logout", "My Profile", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("calendar", "Work schedule", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("jobreg", "Job registration", Model_Menu.MenuType.MENU));
 
         listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
         listMenu1.addItem(new Model_Menu("logout", "Logout", Model_Menu.MenuType.MENU));

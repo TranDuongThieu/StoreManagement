@@ -11,15 +11,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
-/**
- *
- * @author thieu
- */
-public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNhanVienDao{
+public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNhanVienDao {
 
-    public StaffNhanVienDao(){
+    public StaffNhanVienDao() {
         super(NhanVien.class);
     }
 
@@ -107,5 +105,85 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
         }
         return nhanVien;
     }
+
+    public NhanVien getStaffById(String userID) {
+        NhanVien nhanVien = new NhanVien();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM NHANVIEN WHERE MaNhanVien = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            // Thiết lập giá trị cho tham số userID
+            preparedStatement.setString(1, userID);
+            // Thực thi câu truy vấn SQL
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                nhanVien.setMaNhanVien(resultSet.getString("MaNhanVien"));
+                nhanVien.setTenNhanVien(resultSet.getString("TenNhanVien"));
+                nhanVien.setNgaySinh(resultSet.getDate("NgaySinh"));
+                nhanVien.setGioiTinh(resultSet.getString("GioiTinh"));
+                nhanVien.setCCCD(resultSet.getString("CCCD"));
+                nhanVien.setDiaChi(resultSet.getString("DiaChi"));
+                nhanVien.setSoDienThoai(resultSet.getString("SoDienThoai"));
+                nhanVien.setEmail(resultSet.getString("Email"));
+                nhanVien.setTenDangNhap(resultSet.getString("TenDangNhap"));
+            } else {
+                // Nếu không tìm thấy nhân viên với userID tương ứng
+                // xử lý tại đây, ví dụ: nhanVien = null hoặc throw exception
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng các tài nguyên kết nối và câu truy vấn
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return nhanVien;
+    }
+
+   public void updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    try {
+        connection = DBConnection.getConnection();
+        String sql = "UPDATE NHANVIEN SET TenNhanVien = ?, DiaChi = ?, Email = ?, SoDienThoai = ?, CCCD = ?, NgaySinh = ? WHERE MaNhanVien = ?";
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, ten);
+        preparedStatement.setString(2, diaChi);
+        preparedStatement.setString(3, email);
+        preparedStatement.setString(4, phone);
+        preparedStatement.setString(5, cccd);
+        preparedStatement.setTimestamp(6, new Timestamp(ngaySinh.getTime()));
+        preparedStatement.setString(7, id);
+        preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Đóng các tài nguyên kết nối và câu truy vấn
+        try {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
 }

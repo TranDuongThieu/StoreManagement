@@ -132,6 +132,41 @@ public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
         }
     }
 
+    public void update1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String query = "UPDATE LICHLAMVIEC SET MaCa = ? WHERE MaNhanVien = ? AND NgayLamViec = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, MaCa);
+            preparedStatement.setString(2, UserID);
+            preparedStatement.setDate(3, new java.sql.Date(Ngay.getTime()));
+            // Thực thi và trả về số lượng hàng bị ảnh hưởng 
+            int result = preparedStatement.executeUpdate();
+
+            if (result > 0) {
+                System.out.println("Cập nhật thành công!");
+            } else {
+                System.out.println("Không tìm thấy bản ghi để cập nhật!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public int demSoCaTheoNgay(String UserID, Date Ngay, int MaCa) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

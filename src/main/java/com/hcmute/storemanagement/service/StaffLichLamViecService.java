@@ -10,26 +10,31 @@ import java.util.Date;
 import java.util.List;
 
 public class StaffLichLamViecService implements IStaffLichLamViecService {
-
+    
     StaffLichLamViecDao stLichLamViecDao = new StaffLichLamViecDao();
-
+    
     public List<LichLamViec> getWorkScheduleWithID(String UserID) {
         return stLichLamViecDao.getWorkScheduleWithID(UserID);
     }
-
+    
     @Override
     public int insertLichLamViec(String UserID, Date Ngay, List<Integer> listShift) {
         return stLichLamViecDao.insertLichLamViec(UserID, Ngay, listShift);
     }
-
+    
     @Override
     public void delete1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
         stLichLamViecDao.delete1rowLichLamViec(UserID, Ngay, MaCa);
     }
-
+    
     @Override
     public List<Integer> demSoCaTheoNgay(Date Ngay) {
         return stLichLamViecDao.demSoCaTheoNgay(Ngay);
     }
-
+    
+    @Override
+    public void update1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
+        stLichLamViecDao.update1rowLichLamViec(UserID, Ngay, MaCa);
+    }
+    
 }

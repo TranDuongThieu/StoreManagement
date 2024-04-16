@@ -6,6 +6,7 @@ package com.hcmute.storemanagement.service;
 
 import com.hcmute.storemanagement.models.NhanVien;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -14,4 +15,7 @@ import java.util.ArrayList;
 public interface IStaffNhanVienService {
     ArrayList<NhanVien> getAllStaff();
     NhanVien getUserIdByUserName(String userName);
+    NhanVien getStaffById(String userID);
+        void updateStaff (String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh);
+
 }

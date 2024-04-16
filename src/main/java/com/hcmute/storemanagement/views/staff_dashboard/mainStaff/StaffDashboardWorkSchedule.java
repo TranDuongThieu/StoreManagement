@@ -10,7 +10,6 @@ import com.hcmute.storemanagement.service.StaffLichLamViecService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.EventAction;
-import com.sun.source.tree.BreakTree;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -61,16 +60,20 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
     }
 
+    public void updateLichLamViec(String userId, Date ngay, int ca) {
+        staffWSch.update1rowLichLamViec(userId, ngay, ca);
+                        JOptionPane.showMessageDialog(this, "Update thành công");
+
+    }
+
     private void initTablePaymentData() throws SQLException {
 
         EventAction eventAction = new EventAction() {
             @Override
             public void delete(ModelWorkSchedule student, ActionEvent e) {
-                System.out.println("call.delete()");
                 // Lấy vị trí hàng được chọn
                 int row = tbPayment.getSelectedRow();
                 // Lấy giá trị từ hàng và cột tương ứng, lấy được đối tượng object
-                Object userID = tbPayment.getValueAt(row, 0);
                 Object ngayObj = tbPayment.getValueAt(row, 1);
                 Object caObj = tbPayment.getValueAt(row, 2);
                 // Chuyển đổi Object ngay thành kiểu Date
@@ -93,7 +96,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                         ca = (int) caObj;
                     } else if (caObj instanceof String) {
                         ca = Integer.parseInt((String) caObj);
-
                     }
                 }
                 try {
@@ -108,7 +110,37 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
             @Override
             public void update(ModelWorkSchedule student, ActionEvent e) {
-                System.out.println(".update()");
+                // Lấy vị trí hàng được chọn
+                int row = tbPayment.getSelectedRow();
+                // Lấy giá trị từ hàng và cột tương ứng, lấy được đối tượng object
+                Object ngayObj = tbPayment.getValueAt(row, 1);
+                Object caObj = tbPayment.getValueAt(row, 2);
+                // Chuyển đổi Object ngay thành kiểu Date
+                Date ngay = null;
+                if (ngayObj != null) {
+                    if (ngayObj instanceof Date) {
+                        ngay = (Date) ngayObj;
+                    } else if (ngayObj instanceof String) {
+                        try {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            ngay = dateFormat.parse((String) ngayObj);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(StaffDashboardWorkSchedule.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                int ca = 0;
+                if (caObj != null) {
+                    if (caObj instanceof Integer) {
+                        ca = (int) caObj;
+                    } else if (caObj instanceof String) {
+                        ca = Integer.parseInt((String) caObj);
+                    }
+                }
+                if (tbPayment.isEditing()) {
+                    tbPayment.getCellEditor().stopCellEditing();
+                }
+                updateLichLamViec(idUser, ngay, ca);
             }
         };
         DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
@@ -122,15 +154,10 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
     }
 
-    public void showTable() {
-
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         panelBorder1 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -151,21 +178,8 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         lbSlotShift2 = new javax.swing.JLabel();
         lbSlotShift3 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(227, 226, 226));
         setPreferredSize(new java.awt.Dimension(1039, 657));
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
         panelBorder1.setForeground(new java.awt.Color(0, 0, 0));
@@ -272,7 +286,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,12 +325,21 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
                                 .addComponent(lbSlotShift3)))))
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
+            .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(lbSlotShift1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
@@ -342,15 +364,9 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(lbSlotShift1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -358,16 +374,14 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -464,7 +478,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbSlotShift1;
     private javax.swing.JLabel lbSlotShift2;
@@ -550,7 +563,5 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             System.err.println("Ngay chưa chọn");
         }
     }
-
- 
 
 }
