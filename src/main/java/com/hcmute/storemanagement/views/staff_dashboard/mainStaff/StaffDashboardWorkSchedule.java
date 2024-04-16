@@ -10,6 +10,7 @@ import com.hcmute.storemanagement.service.StaffLichLamViecService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.EventAction;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -27,6 +28,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
     private String idUser = PanelLoginAndRegister.GlobalVariables.userId;
     StaffLichLamViecService staffWSch = new StaffLichLamViecService();
+    Object caLam = null;
 
     public StaffDashboardWorkSchedule() throws SQLException {
         initComponents();
@@ -60,10 +62,17 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
 
     }
 
-    public void updateLichLamViec(String userId, Date ngay, int ca) {
-        staffWSch.update1rowLichLamViec(userId, ngay, ca);
-                        JOptionPane.showMessageDialog(this, "Update thành công");
-
+    public boolean updateLichLamViec(String userId, Date ngay, int ca) {
+         boolean flagUpdate = staffWSch.update1rowLichLamViec(idUser, ngay, ca);
+        if (ca <= 0 || ca > 3) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ca làm phù hợp");
+        } else if(flagUpdate == false){
+            JOptionPane.showMessageDialog(this, "Cập nhật ca làm việc không thành công");
+        } else {
+            JOptionPane.showMessageDialog(this, "Cập nhật ca làm việc thành công");
+            return true;
+        }
+        return false;
     }
 
     private void initTablePaymentData() throws SQLException {
@@ -140,7 +149,13 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
                 if (tbPayment.isEditing()) {
                     tbPayment.getCellEditor().stopCellEditing();
                 }
-                updateLichLamViec(idUser, ngay, ca);
+                boolean flagUpdate = updateLichLamViec(idUser, ngay, ca);
+                if (flagUpdate == false) {
+                    tbPayment.setValueAt(caLam, row, 2);
+                    // Đổi màu hàng tương ứng
+                    tbPayment.addRowSelectionInterval(row, row); // Chọn hàng để thay đổi màu
+                    tbPayment.setSelectionBackground(Color.RED);
+                }
             }
         };
         DefaultTableModel model = (DefaultTableModel) tbPayment.getModel();
@@ -209,6 +224,11 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
             }
         });
         tbPayment.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tbPayment.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clickGetCell(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbPayment);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -460,10 +480,26 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void txtDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtDatePropertyChange
-
+        clearPartData();
         findAllShiftWithDate();
 
      }//GEN-LAST:event_txtDatePropertyChange
+
+    private void clickGetCell(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickGetCell
+        int row = tbPayment.rowAtPoint(evt.getPoint());
+        int column = tbPayment.columnAtPoint(evt.getPoint());
+        Object value = tbPayment.getValueAt(row, column);
+        caLam = value;
+    }//GEN-LAST:event_clickGetCell
+
+    private void clearPartData() {
+        cbShift1.setSelected(false);
+        cbShift2.setSelected(false);
+        cbShift3.setSelected(false);
+        lbSlotShift1.setText("0");
+        lbSlotShift2.setText("0");
+        lbSlotShift3.setText("0");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAdd;

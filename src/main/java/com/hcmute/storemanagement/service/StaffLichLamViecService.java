@@ -33,8 +33,8 @@ public class StaffLichLamViecService implements IStaffLichLamViecService {
     }
     
     @Override
-    public void update1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
-        stLichLamViecDao.update1rowLichLamViec(UserID, Ngay, MaCa);
+    public boolean update1rowLichLamViec(String UserID, Date Ngay, int MaCa) {
+        return stLichLamViecDao.update1rowLichLamViec(UserID, Ngay, MaCa);
     }
     
 }
