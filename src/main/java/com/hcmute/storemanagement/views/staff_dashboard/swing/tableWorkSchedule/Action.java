@@ -28,7 +28,6 @@ public class Action extends javax.swing.JPanel {
     protected void paintComponent(Graphics grphcs) {
         super.paintComponent(grphcs);
         grphcs.setColor(new Color(30, 30, 30, 50));
-      //  grphcs.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);
     }
 
     @SuppressWarnings("unchecked")

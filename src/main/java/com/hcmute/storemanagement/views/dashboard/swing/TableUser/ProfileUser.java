@@ -7,7 +7,7 @@ public class ProfileUser extends javax.swing.JPanel {
         setOpaque(true);
         initComponents();
         pic.setIcon(data.getIcon());
-        lbName.setText(data.getName());
+        lbName.setText(data.getId());
     }
     
     @SuppressWarnings("unchecked")

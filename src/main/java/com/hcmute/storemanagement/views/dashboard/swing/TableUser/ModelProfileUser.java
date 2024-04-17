@@ -3,6 +3,11 @@ import javax.swing.Icon;
 
 public class ModelProfileUser {
 
+    public ModelProfileUser(Icon icon, String Id) {
+        this.icon = icon;
+        this.Id = Id;
+    }
+
     public Icon getIcon() {
         return icon;
     }
@@ -11,22 +16,19 @@ public class ModelProfileUser {
         this.icon = icon;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return Id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
-    public ModelProfileUser(Icon icon, String name) {
-        this.icon = icon;
-        this.name = name;
-    }
+    
 
     public ModelProfileUser() {
     }
 
     private Icon icon;
-    private String name;
+    private String Id;
 }

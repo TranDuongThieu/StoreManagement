@@ -122,7 +122,7 @@ public class TableUser extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 7) {
+        if (col == 8) {
             return new TableCellActionUser();
         } else {
             return super.getCellEditor(row, col);

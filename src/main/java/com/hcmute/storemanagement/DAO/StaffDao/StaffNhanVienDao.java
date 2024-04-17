@@ -190,4 +190,36 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
         }
     }
 
+    public boolean deleteStaffByUserId(String userId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "DELETE FROM NhanVien WHERE MaNhanVien = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, userId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+            return false; 
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
 }
