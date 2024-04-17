@@ -80,7 +80,7 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
         return staffList;
     }
 
-    public NhanVien getUserIdByUserName(String userName) {
+    public NhanVien getUserByUserName(String userName) {
         NhanVien nhanVien = new NhanVien();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -104,6 +104,30 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
             // Handle exceptions
         }
         return nhanVien;
+    }
+
+    public String getUserIdByUserName(String userName) {
+        String userId = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT MaNhanVien FROM NHANVIEN WHERE TenDangNhap = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            // Thiết lập giá trị cho tham số userName
+            preparedStatement.setString(1, userName);
+            // Thực thi câu truy vấn SQL
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                userId = resultSet.getString("MaNhanVien");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng tất cả các tài nguyên (ResultSet, PreparedStatement, Connection)
+        }
+        return userId;
     }
 
     public NhanVien getStaffById(String userID) {
@@ -207,7 +231,7 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
             }
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
-            return false; 
+            return false;
         } finally {
             try {
                 if (preparedStatement != null) {

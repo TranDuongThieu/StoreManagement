@@ -278,7 +278,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput" name="txtEmail">
+                    <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtEmail">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -381,7 +381,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput" name="txtName">
+                    <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtName">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -485,7 +485,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput" name="txtAddress">
+                    <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtAddress">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -589,7 +589,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput" name="txtCccd">
+                    <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtCccd">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -693,7 +693,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput" name="txtPhone">
+                    <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtPhone">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>

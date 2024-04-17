@@ -131,7 +131,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         TaiKhoan account = staffTaiKhoanService.getAccountByUsername(username);
         // ID & NAME STAFF
         StaffNhanVienService staffCtr = new StaffNhanVienService();
-        NhanVien idNhanVien = staffCtr.getUserIdByUserName(username);
+        NhanVien idNhanVien = staffCtr.getUserByUserName(username);
         String id = idNhanVien.getMaNhanVien();
         String name = idNhanVien.getTenNhanVien();
         if (account != null) {

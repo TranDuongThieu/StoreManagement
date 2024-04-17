@@ -1,4 +1,4 @@
-package com.hcmute.storemanagement.views.staff_dashboard.swing;
+package com.hcmute.storemanagement.views.dashboard.swing;
 
 import com.hcmute.storemanagement.views.dashboard.swing.*;
 import java.awt.Color;
@@ -7,13 +7,24 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class TextInput extends JTextField {
 
     public TextInput() {
-        setBorder(new EmptyBorder(5, 5, 5, 5));
+        // Tạo viền đen độ dày 15 pixel
+        LineBorder border = new LineBorder(Color.BLACK, 1, true);
+        // Tạo viền bo góc
+        LineBorder cornerBorder = new LineBorder(Color.BLACK, 0, true); // 0 để không có viền đen, chỉ bo góc
+
+        // Kết hợp cả hai viền thành một
+        CompoundBorder compoundBorder = BorderFactory.createCompoundBorder(border, cornerBorder);
+        setBorder(compoundBorder);
+
         setSelectionColor(new Color(220, 204, 182));
     }
     private final String hint = "";

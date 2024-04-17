@@ -53,23 +53,23 @@ public class StaffProfile extends javax.swing.JPanel {
         panelBorder5 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel13 = new javax.swing.JLabel();
         panelBorder14 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
-        txtEmail = new com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput();
+        txtEmail = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         panelBorder4 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel12 = new javax.swing.JLabel();
         panelBorder13 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
-        txtName = new com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput();
+        txtName = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         panelBorder7 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel15 = new javax.swing.JLabel();
         panelBorder16 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
-        txtAddress = new com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput();
+        txtAddress = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         panelBorder8 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel16 = new javax.swing.JLabel();
         panelBorder17 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
-        txtCccd = new com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput();
+        txtCccd = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         panelBorder6 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel14 = new javax.swing.JLabel();
         panelBorder15 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
-        txtPhone = new com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput();
+        txtPhone = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         panelBorder10 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel17 = new javax.swing.JLabel();
         panelBorder18 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
@@ -835,11 +835,11 @@ public class StaffProfile extends javax.swing.JPanel {
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder7;
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder8;
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder9;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput txtAddress;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput txtCccd;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtAddress;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtCccd;
     private com.toedter.calendar.JDateChooser txtDateOfBirth;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput txtEmail;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput txtName;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.TextInput txtPhone;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtEmail;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtName;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtPhone;
     // End of variables declaration//GEN-END:variables
 }

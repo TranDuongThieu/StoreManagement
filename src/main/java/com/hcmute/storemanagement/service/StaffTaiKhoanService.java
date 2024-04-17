@@ -20,4 +20,14 @@ public class StaffTaiKhoanService implements IStaffTaiKhoanService {
         return staffTaiKhoanDao.getAccountByUsername(userName);
     }
 
+    @Override
+    public boolean createAccount(String password, String role) {
+        return staffTaiKhoanDao.createAccount(password, role);
+    }
+
+    @Override
+    public String getLatestAccountUsername() {
+        return staffTaiKhoanDao.getLatestAccountUsername();
+    }
+
 }

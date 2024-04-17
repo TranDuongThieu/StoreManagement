@@ -11,6 +11,10 @@ import com.hcmute.storemanagement.models.TaiKhoan;
  * @author DELL
  */
 public interface IStaffTaiKhoanService {
-        TaiKhoan getAccountByUsername(String userName);
 
+    TaiKhoan getAccountByUsername(String userName);
+
+    boolean createAccount(String password, String role);
+
+    String getLatestAccountUsername();
 }

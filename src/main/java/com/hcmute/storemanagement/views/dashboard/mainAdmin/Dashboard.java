@@ -10,6 +10,7 @@ import com.hcmute.storemanagement.views.dashboard.form.GeneralScheduleForm;
 
 import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
+import com.hcmute.storemanagement.views.dashboard.popup.popupAddStaff;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.DashBoardProductForm;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -67,7 +68,6 @@ public class Dashboard extends javax.swing.JFrame {
                 }
             }
         });
-        setForm(new Statistical());
     }
 
     private void setForm(JComponent com) {

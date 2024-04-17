@@ -23,8 +23,8 @@ public class StaffNhanVienService implements IStaffNhanVienService {
     }
 
     @Override
-    public NhanVien getUserIdByUserName(String userName) {
-        return staffNhanVienDao.getUserIdByUserName(userName);
+    public NhanVien getUserByUserName(String userName) {
+        return staffNhanVienDao.getUserByUserName(userName);
     }
 
     @Override
@@ -42,4 +42,8 @@ public class StaffNhanVienService implements IStaffNhanVienService {
         return staffNhanVienDao.deleteStaffByUserId(userId);
     }
 
+    @Override
+    public String getUserIdByUserName(String userName) {
+        return staffNhanVienDao.getUserIdByUserName(userName);
+    }
 }

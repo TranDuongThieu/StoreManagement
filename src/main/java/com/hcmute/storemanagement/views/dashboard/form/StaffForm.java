@@ -5,6 +5,8 @@ import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.service.StaffNhanVienService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.dashboard.model.modelUser;
+import com.hcmute.storemanagement.views.dashboard.popup.popupAddAccount;
+import com.hcmute.storemanagement.views.dashboard.popup.popupAddStaff;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.EventActionUser;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.ModelProfileUser;
 import java.awt.Color;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -218,7 +221,6 @@ public class StaffForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Số điện thoại của bạn chỉ được nhập giá trị số");
             return false;
         }
-
         // check gender 
         // check ngay sinh
         // Tính toán ngày 18 tuổi tính đến từ ngày hiện tại
@@ -263,6 +265,11 @@ public class StaffForm extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tbStaff);
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\add.png")); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clickOpenPopupStaff(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -311,6 +318,21 @@ public class StaffForm extends javax.swing.JPanel {
         variCccdObj = cccdObj;
     }//GEN-LAST:event_clickGetData
 
+    private void clickOpenPopupStaff(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickOpenPopupStaff
+        openPopup();
+    }//GEN-LAST:event_clickOpenPopupStaff
+
+    private static void openPopup() {
+        // Tạo cửa sổ popup và hiển thị
+        JFrame popupFrame = new JFrame();
+        popupFrame.setTitle(null); // Đặt tiêu đề là null
+        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
+        popupAddAccount popupForm = new popupAddAccount();
+        popupFrame.add(popupForm);
+        popupFrame.pack();
+        popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
+        popupFrame.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

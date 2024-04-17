@@ -17,15 +17,15 @@ import java.sql.SQLException;
  *
  * @author thieu
  */
-public class StaffTaiKhoanDao extends AbstractDao<TaiKhoan> implements IStaffTaiKhoanDao{
+public class StaffTaiKhoanDao extends AbstractDao<TaiKhoan> implements IStaffTaiKhoanDao {
 
     public StaffTaiKhoanDao() {
         super(TaiKhoan.class);
     }
-    
+
     @Override
     public String getTableName() {
-        return "TAIKHOAN"; 
+        return "TAIKHOAN";
     }
 
     public TaiKhoan getAccountByUsername(String userName) {
@@ -77,5 +77,94 @@ public class StaffTaiKhoanDao extends AbstractDao<TaiKhoan> implements IStaffTai
         }
 
         return taiKhoan;
+    }
+
+    // Phương thức thêm tài khoản mới
+    public boolean createAccount(String password, String role) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean success = false;
+
+        try {
+            // Thiết lập kết nối với cơ sở dữ liệu
+            connection = DBConnection.getConnection();
+
+            // Chuẩn bị truy vấn SQL
+            String sql = "INSERT INTO TaiKhoan (MatKhau, QuyenNguoiDung) VALUES (?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, role);
+
+            // Thực thi truy vấn
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Kiểm tra xem có tài khoản nào được thêm thành công hay không
+            if (rowsAffected > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            // Xử lý ngoại lệ
+            System.err.println("Lỗi: " + e.getMessage());
+        } finally {
+            // Đóng tất cả tài nguyên
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Lỗi: " + e.getMessage());
+            }
+        }
+
+        return success;
+    }
+
+    // Phương thức lấy tên tài khoản mới nhất
+    public String getLatestAccountUsername() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String latestUsername = null;
+
+        try {
+            // Thiết lập kết nối với cơ sở dữ liệu
+            connection = DBConnection.getConnection();
+
+            // Chuẩn bị truy vấn SQL để lấy tên tài khoản mới nhất
+            String sql = "SELECT TOP 1 TenDangNhap FROM TaiKhoan ORDER BY TenDangNhap DESC";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Thực thi truy vấn
+            resultSet = preparedStatement.executeQuery();
+
+            // Kiểm tra xem kết quả có dòng nào hay không
+            if (resultSet.next()) {
+                // Lấy tên tài khoản mới nhất từ kết quả
+                latestUsername = resultSet.getString("TenDangNhap");
+            }
+        } catch (SQLException e) {
+            // Xử lý ngoại lệ
+            System.err.println("Lỗi: " + e.getMessage());
+        } finally {
+            // Đóng tất cả tài nguyên
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Lỗi: " + e.getMessage());
+            }
+        }
+
+        return latestUsername;
     }
 }
