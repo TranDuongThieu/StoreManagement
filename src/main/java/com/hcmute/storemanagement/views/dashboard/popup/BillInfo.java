@@ -6,26 +6,18 @@ package com.hcmute.storemanagement.views.dashboard.popup;
 
 import com.hcmute.storemanagement.DAO.StaffDao.IStaffCustomerDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffCustomerDao;
-import com.hcmute.storemanagement.DAO.StaffDao.StaffTaiKhoanDao;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
-import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffProfile;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author DELL
- */
+
 public class BillInfo extends javax.swing.JPanel {
 
     private static KhachHang selectedKhachHang;
