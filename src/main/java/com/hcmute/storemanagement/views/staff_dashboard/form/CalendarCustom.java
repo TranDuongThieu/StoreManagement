@@ -36,7 +36,7 @@ public class CalendarCustom extends javax.swing.JPanel {
     public CalendarCustom() {
         initComponents();
         thisMonth();
-        slide.show(new FormCalendar(4, 2024), PanelSlide.AnimateType.TO_RIGHT);
+        slide.show(new CalendarForm(4, 2024), PanelSlide.AnimateType.TO_RIGHT);
         showMonthYear();
         new Thread(new Runnable() {
             @Override
@@ -231,7 +231,7 @@ public class CalendarCustom extends javax.swing.JPanel {
         } else {
             month++;
         }
-        slide.show(new FormCalendar(month, year), PanelSlide.AnimateType.TO_LEFT);
+        slide.show(new CalendarForm(month, year), PanelSlide.AnimateType.TO_LEFT);
         showMonthYear();
     }//GEN-LAST:event_cmdNextActionPerformed
 
@@ -242,7 +242,7 @@ public class CalendarCustom extends javax.swing.JPanel {
         } else {
             month--;
         }
-        slide.show(new FormCalendar(month, year), PanelSlide.AnimateType.TO_RIGHT);
+        slide.show(new CalendarForm(month, year), PanelSlide.AnimateType.TO_RIGHT);
         showMonthYear();
     }//GEN-LAST:event_cmdBackActionPerformed
 

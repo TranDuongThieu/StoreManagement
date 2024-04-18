@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.SwingUtilities;
 
-public class FormCalendar extends javax.swing.JPanel {
+public class CalendarForm extends javax.swing.JPanel {
 
     private int month;
     private int year;
@@ -33,7 +33,7 @@ public class FormCalendar extends javax.swing.JPanel {
         this.year = year;
     }
 
-    public FormCalendar(int month, int year) {
+    public CalendarForm(int month, int year) {
         this.month = month;
         this.year = year;
         initComponents();

@@ -22,4 +22,24 @@ public class StaffSanPhamService implements IStaffSanPhamService {
         return staffSanPhamDao.getAllSanPham();
     }
 
+    @Override
+    public List<SanPham> getAllPhone() {
+        return staffSanPhamDao.getAllPhone();
+    }
+
+    @Override
+    public List<SanPham> getAllLapTop() {
+        return staffSanPhamDao.getAllLapTop();
+    }
+
+    @Override
+    public List<SanPham> getAllTablet() {
+        return staffSanPhamDao.getAllTablet();
+    }
+
+    @Override
+    public List<SanPham> getAllAccessory() {
+        return staffSanPhamDao.getAllAccessory();
+    }
+
 }

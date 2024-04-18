@@ -1,4 +1,4 @@
-package com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule;
+package com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable;
 
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 import java.awt.event.ActionEvent;

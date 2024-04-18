@@ -1,24 +1,31 @@
 package com.hcmute.storemanagement.views.staff_dashboard.form;
 
+import com.hcmute.storemanagement.DAO.StaffDao.StaffChiTietDonHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
 import com.hcmute.storemanagement.models.ThongTinSanPham;
+import com.hcmute.storemanagement.service.StaffDonHangService;
+import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.component.Item;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.ScrollBar;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-public class FormHome extends javax.swing.JPanel {
+public class HomeForm extends javax.swing.JPanel {
 
     public static String valueID = "";
+    StaffDonHangService staffDonHangService = new StaffDonHangService();
+    StaffChiTietDonHangDao staffChiTietDonHangDao = new StaffChiTietDonHangDao();
 
     public void setEvent(EventItem event) {
         this.event = event;
@@ -26,7 +33,7 @@ public class FormHome extends javax.swing.JPanel {
 
     private EventItem event;
 
-    public FormHome() {
+    public HomeForm() {
         initComponents();
         scroll.setVerticalScrollBar(new ScrollBar());
     }
@@ -61,14 +68,14 @@ public class FormHome extends javax.swing.JPanel {
 
         // biến lấy IDSP
         valueID = data.getItemID();
-
         String s = "";
+        globalBillId.productId = valueID;
         lbItemName.setText(data.getItemName());
         txtDescription.setText(data.getDescription());
         lbGuarantee.setText(data.getGuarantee());
         DecimalFormat df = new DecimalFormat("$#,##0.00");
         lbPrice.setText(df.format(data.getPrice()));
-        lbSold.setText(String.valueOf( data.getSold()));
+        lbSold.setText(String.valueOf(data.getSold()));
         lbWarehouse.setText(String.valueOf(data.getWarehouse()));
         int count = 4;
         lb4.setText("");
@@ -179,10 +186,15 @@ public class FormHome extends javax.swing.JPanel {
         lb3.setForeground(new java.awt.Color(76, 76, 76));
         lb3.setText("Sold: ");
 
-        button12.setBackground(new java.awt.Color(210, 245, 253));
+        button12.setBackground(new java.awt.Color(84, 151, 252));
         button12.setForeground(new java.awt.Color(0, 0, 0));
         button12.setText("Add Bill");
         button12.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        button12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button12ActionPerformed(evt);
+            }
+        });
 
         jPanel2.setOpaque(false);
         jPanel2.setPreferredSize(new java.awt.Dimension(100, 94));
@@ -411,8 +423,64 @@ public class FormHome extends javax.swing.JPanel {
             int quantity = Integer.parseInt(labelText);
         } catch (NumberFormatException e) {
             txtQuantity.setText("0");
-        }   
+        }
     }//GEN-LAST:event_txtQuantityActionPerformed
+
+    public class globalBillId {
+
+        public static String BillId = null; // Biến toàn cục lưu trữ ID của người dùng
+        public static String productId = null;
+        public static int totalGlb = 0;
+    }
+
+
+    private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
+        if (txtQuantity.getText().equals("0")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng!");
+        } else {
+            // tạo Bill với ngày hiện tại, tổng tiền ban đầu là tiền của sp được add, mà khách hàng có thể null, và idStaff
+            // ngày
+            Date currentDate = new Date();
+            // Chuyển đổi ngày hiện tại thành định dạng SQL
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String sqlDate = sdf.format(currentDate);
+            // tiền 
+            int price = 0;
+            DecimalFormat df = new DecimalFormat("$#,##0.00");
+            String formattedPrice = lbPrice.getText(); // Lấy chuỗi đã được định dạng
+            try {
+                Number number = df.parse(formattedPrice); // Chuyển đổi chuỗi định dạng về một đối tượng Number
+                price = number.intValue(); // Lấy phần nguyên của số
+                System.out.println("Value without decimals: " + price);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+            int quantity = Integer.parseInt(txtQuantity.getText());
+            int total = price * quantity; // tổng tiền
+            globalBillId.totalGlb = globalBillId.totalGlb + total;
+            // id staff
+            String idStaff = PanelLoginAndRegister.GlobalVariables.userId;
+            // lấy mã bill để tạo billdetail
+            if (globalBillId.BillId == null) {
+                // tạo 1 cái bill với
+                staffDonHangService.addBill(total, idStaff);
+                // gán mã bill
+                globalBillId.BillId = staffDonHangService.getLastInsertedBillId();
+                // Tạo 1 bill detail từ bill và mã đơn (valueID, billID, quantity)
+                staffChiTietDonHangDao.createChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), quantity);
+
+            } else {
+                // add sản phẩm vào bill detail 
+                // check xem sản phẩm có được add trước đó chưa nếu có thì trả về số lượng
+                int quantityCheck = staffChiTietDonHangDao.checkChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId));
+                if (quantityCheck != 0) {
+                    // nếu đã có thì update số lượng lên
+                    int sumQuantity = quantityCheck + Integer.parseInt(txtQuantity.getText());
+                    staffChiTietDonHangDao.updateSoLuong(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), sumQuantity);
+                } 
+            }
+        }
+    }//GEN-LAST:event_button12ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button12;

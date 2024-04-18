@@ -1,9 +1,9 @@
 package com.hcmute.storemanagement.views.staff_dashboard.model;
 
 
-import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.EventAction;
-import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.ModelAction;
-import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.ModelProfile;
+import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.EventAction;
+import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.ModelAction;
+import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.ModelProfile;
 import java.text.DecimalFormat;
 import java.util.Date;
 import javax.swing.Icon;

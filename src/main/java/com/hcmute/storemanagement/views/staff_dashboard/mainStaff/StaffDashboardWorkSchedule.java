@@ -9,7 +9,7 @@ import com.hcmute.storemanagement.service.StaffLNgayLamViecService;
 import com.hcmute.storemanagement.service.StaffLichLamViecService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
-import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.EventAction;
+import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.EventAction;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
@@ -174,7 +174,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         panelBorder1 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbPayment = new com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.Table();
+        tbPayment = new com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.Table();
         jLabel2 = new javax.swing.JLabel();
         btnAdd = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
         cbShift1 = new com.hcmute.storemanagement.views.staff_dashboard.swing.CheckBoxCustom();
@@ -515,7 +515,7 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
     private javax.swing.JLabel lbSlotShift2;
     private javax.swing.JLabel lbSlotShift3;
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder1;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.Table tbPayment;
+    private com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.Table tbPayment;
     private com.toedter.calendar.JDateChooser txtDate;
     // End of variables declaration//GEN-END:variables
 

@@ -37,7 +37,6 @@ public class Dashboard extends javax.swing.JFrame {
         menu1.initMoving(Dashboard.this);
      
         staffForm = new StaffForm();
-        staffDashboardProduct = new DashBoardProductForm();
         generalScheduleForm = new GeneralScheduleForm();
         menu1.initMoving(Dashboard.this);
         menu1.addEventMenuSelected(new EventMenuSelected() {
@@ -49,7 +48,7 @@ public class Dashboard extends javax.swing.JFrame {
                 }
                 if (index == 8) {
                     try {
-                        setForm(new DashBoardProductForm());
+                        setForm(new DashBoardProductForm(8));
                     } catch (SQLException ex) {
                         Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
                     }

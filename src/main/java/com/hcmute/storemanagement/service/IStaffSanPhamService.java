@@ -12,5 +12,14 @@ import java.util.List;
  * @author DELL
  */
 public interface IStaffSanPhamService {
+
     List<SanPham> getAllSanPham();
+
+    List<SanPham> getAllPhone();
+
+    List<SanPham> getAllLapTop();
+
+    List<SanPham> getAllTablet();
+
+    List<SanPham> getAllAccessory();
 }

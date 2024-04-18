@@ -1,4 +1,4 @@
-package com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule;
+package com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable;
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;

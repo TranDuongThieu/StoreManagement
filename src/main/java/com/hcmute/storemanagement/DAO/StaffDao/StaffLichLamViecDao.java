@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StaffLichLamViecDao extends AbstractDao<LichLamViec> {
+public class StaffLichLamViecDao extends AbstractDao<LichLamViec> implements IStaffLichLamViecDao{
 
     public StaffLichLamViecDao() {
         super(LichLamViec.class);

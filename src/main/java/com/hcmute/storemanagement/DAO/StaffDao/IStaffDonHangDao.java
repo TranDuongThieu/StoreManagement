@@ -4,21 +4,18 @@
  */
 package com.hcmute.storemanagement.DAO.StaffDao;
 
-import com.hcmute.storemanagement.models.SanPham;
-import java.util.List;
+import com.hcmute.storemanagement.models.DonHang;
+import java.sql.SQLException;
 
 /**
  *
  * @author DELL
  */
-public interface IStaffSanPhamDao {
+public interface IStaffDonHangDao {
 
-    List<SanPham> getAllSanPham();
+    String addBill(double total, String idStaff);
 
-    List<SanPham> getAllPhone();
+    String getLastInsertedBillId();
 
-    List<SanPham> getAllLapTop();
-     List<SanPham> getAllTablet();
-
-    List<SanPham> getAllAccessory();
+    DonHang findBillById(String billId);
 }

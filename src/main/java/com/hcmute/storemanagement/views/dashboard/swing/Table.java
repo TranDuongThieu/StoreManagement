@@ -1,6 +1,6 @@
 package com.hcmute.storemanagement.views.dashboard.swing;
 
-import com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.*;
+import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;

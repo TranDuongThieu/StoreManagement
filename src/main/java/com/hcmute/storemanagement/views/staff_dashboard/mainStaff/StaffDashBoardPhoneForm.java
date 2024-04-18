@@ -5,7 +5,7 @@
 package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
-import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
+import com.hcmute.storemanagement.views.staff_dashboard.form.HomeForm;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +23,7 @@ import org.jdesktop.animation.timing.interpolation.PropertySetter;
  */
 public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
 
-    private FormHome formHome;
+    private HomeForm formHome;
     private Animator animator;
     private Point animatePoint;
     private ModelItem itemSelected;
@@ -47,7 +47,7 @@ public class StaffDashBoardPhoneForm extends javax.swing.JPanel {
     }
 
     private void init() {
-        formHome = new FormHome();
+        formHome = new HomeForm();
         mainPanel1.setLayout(new BorderLayout());
         mainPanel1.add(formHome);
         testData();

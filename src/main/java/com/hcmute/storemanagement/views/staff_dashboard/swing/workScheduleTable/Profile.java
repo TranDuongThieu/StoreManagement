@@ -1,4 +1,4 @@
-package com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule;
+package com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable;
 
 public class Profile extends javax.swing.JPanel {
     
@@ -14,7 +14,7 @@ public class Profile extends javax.swing.JPanel {
     private void initComponents() {
 
         lbName = new javax.swing.JLabel();
-        pic = new com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.ImageAvatar();
+        pic = new com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.ImageAvatar();
 
         lbName.setForeground(new java.awt.Color(102, 102, 102));
         lbName.setText("Name");
@@ -37,6 +37,6 @@ public class Profile extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbName;
-    private com.hcmute.storemanagement.views.staff_dashboard.swing.tableWorkSchedule.ImageAvatar pic;
+    private com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.ImageAvatar pic;
     // End of variables declaration//GEN-END:variables
 }

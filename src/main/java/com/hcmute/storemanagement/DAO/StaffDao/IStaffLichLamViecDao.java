@@ -22,5 +22,5 @@ public interface IStaffLichLamViecDao {
 
     List<Integer> demSoCaTheoNgay(Date Ngay);
 
-    void update1rowLichLamViec(String UserID, Date Ngay, int MaCa);
+    boolean update1rowLichLamViec(String UserID, Date Ngay, int MaCa);
 }

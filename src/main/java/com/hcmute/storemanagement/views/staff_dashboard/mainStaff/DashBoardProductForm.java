@@ -9,7 +9,7 @@ import com.hcmute.storemanagement.models.ThongTinSanPham;
 import com.hcmute.storemanagement.service.StaffSanPhamService;
 import com.hcmute.storemanagement.service.StaffThongTinSanPhamService;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
-import com.hcmute.storemanagement.views.staff_dashboard.form.FormHome;
+import com.hcmute.storemanagement.views.staff_dashboard.form.HomeForm;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,12 +25,22 @@ import org.jdesktop.animation.timing.interpolation.PropertySetter;
 
 public class DashBoardProductForm extends javax.swing.JPanel {
 
-    private FormHome home;
+    private HomeForm home;
     private Animator animator;
     private Point animatePoint;
     private ModelItem itemSelected;
+    private int index;
 
-    public DashBoardProductForm() throws SQLException {
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public DashBoardProductForm(int index) throws SQLException {
+        this.index = index;
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         init();
@@ -48,22 +58,59 @@ public class DashBoardProductForm extends javax.swing.JPanel {
         animator.setDeceleration(.5f);
     }
 
+    private void init() throws SQLException {
+        home = new HomeForm();
+        mainPanel1.setLayout(new BorderLayout());
+        mainPanel1.add(home);
+        if (index == 1) {
+            List<SanPham> sanPham = allProduct();
+            testData(sanPham);
+        } else if(index ==2){
+            List<SanPham> sanPham = allPhone();
+            testData(sanPham);
+        } else if(index ==3){
+            List<SanPham> sanPham = allLapTop();
+            testData(sanPham);
+        }  else if(index ==4){
+            List<SanPham> sanPham = allTablet();
+            testData(sanPham);
+        } else if(index ==5){
+            List<SanPham> sanPham = allAccessory();
+            testData(sanPham);
+        } 
+
+    }
+
     public List<SanPham> allProduct() throws SQLException {
         StaffSanPhamService getAllProduct = new StaffSanPhamService();
         List<SanPham> sanPham = getAllProduct.getAllSanPham();
         return sanPham;
     }
-
-    private void init() throws SQLException {
-        home = new FormHome();
-        mainPanel1.setLayout(new BorderLayout());
-        mainPanel1.add(home);
-        List<SanPham> sanPham = allProduct();
-        testData(sanPham);
+    
+    public List<SanPham> allPhone() throws SQLException {
+        StaffSanPhamService getAllPhone = new StaffSanPhamService();
+        List<SanPham> sanPham = getAllPhone.getAllPhone();
+        return sanPham;
+    }
+    
+    public List<SanPham> allLapTop() throws SQLException {
+        StaffSanPhamService getAllLap = new StaffSanPhamService();
+        List<SanPham> sanPham = getAllLap.getAllLapTop();
+        return sanPham;
+    }
+    
+    public List<SanPham> allTablet() throws SQLException {
+        StaffSanPhamService getAllTablet = new StaffSanPhamService();
+        List<SanPham> sanPham = getAllTablet.getAllTablet();
+        return sanPham;
+    }
+    
+    public List<SanPham> allAccessory() throws SQLException {
+        StaffSanPhamService getAllAccessory = new StaffSanPhamService();
+        List<SanPham> sanPham = getAllAccessory.getAllAccessory();
+        return sanPham;
     }
 
-  
-    
     private void testData(List<SanPham> sanPham) {
         home.setEvent(new EventItem() {
             @Override
@@ -74,7 +121,7 @@ public class DashBoardProductForm extends javax.swing.JPanel {
                     StaffThongTinSanPhamService gettAllThongSo = null;
                     gettAllThongSo = new StaffThongTinSanPhamService();
                     List<ThongTinSanPham> ttSanPham = gettAllThongSo.getAllThongSo(maSanPham);
-                    
+
                     // Tiếp tục với các hành động khác nếu cần
                     if (itemSelected != null) {
                         mainPanel1.setImageOld(itemSelected.getImage());
@@ -95,10 +142,9 @@ public class DashBoardProductForm extends javax.swing.JPanel {
                 }
             }
         });
-        for (SanPham sp : sanPham) {
-            home.addItem(new ModelItem(sp.getMaSanPham(), sp.getTenSanPham(), sp.getMoTa(), sp.getThoiHanBaoHanh(), sp.getGia(), new ImageIcon(sp.getHinhAnh()), sp.getSoLuongDaBan(), sp.getSoLuongTrongKho()));
-        }
-
+            for (SanPham sp : sanPham) {
+                home.addItem(new ModelItem(sp.getMaSanPham(), sp.getTenSanPham(), sp.getMoTa(), sp.getThoiHanBaoHanh(), sp.getGia(), new ImageIcon(sp.getHinhAnh()), sp.getSoLuongDaBan(), sp.getSoLuongTrongKho()));
+            }
     }
 
     private Point getLocationOf(Component com) {
