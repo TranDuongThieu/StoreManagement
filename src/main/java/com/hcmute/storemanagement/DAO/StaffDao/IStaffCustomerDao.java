@@ -4,6 +4,8 @@
  */
 package com.hcmute.storemanagement.DAO.StaffDao;
 
+import com.hcmute.storemanagement.models.DonHang;
+import com.hcmute.storemanagement.models.KhachHang;
 import com.hcmute.storemanagement.models.SanPham;
 import java.util.List;
 
@@ -11,7 +13,10 @@ import java.util.List;
  *
  * @author DELL
  */
-public interface IStaffSanPhamDao {
-     List<SanPham> getAllSanPham();
-     SanPham getSanPhamById(String id);
+public interface IStaffCustomerDao {
+
+    List<DonHang> getBillFromCusId(String cusId);
+
+    List<KhachHang> getAll();
+
 }

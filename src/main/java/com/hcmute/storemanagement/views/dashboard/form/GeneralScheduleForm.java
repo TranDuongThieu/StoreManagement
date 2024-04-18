@@ -41,8 +41,9 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
     }
 
     public GeneralScheduleForm() {
+        System.out.println("reload");
         initComponents();
-        table1.setRowHeight(100);
+        table1.setRowHeight(120);
         table1.setDefaultRenderer(Object.class, new MultiLineTableCellRenderer());
         txtDate.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
@@ -170,6 +171,7 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         lbDateFrom = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lbDateTo = new javax.swing.JLabel();
+        button1 = new com.hcmute.storemanagement.views.authen.swing.Button();
 
         setPreferredSize(new java.awt.Dimension(1103, 633));
 
@@ -181,7 +183,15 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
             new String [] {
                 "", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(table1);
 
         txtDate.setBackground(new java.awt.Color(255, 255, 255));
@@ -197,6 +207,10 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         jLabel1.setText("From : ");
 
         jLabel4.setText("To :");
+
+        button1.setBackground(new java.awt.Color(102, 255, 51));
+        button1.setForeground(new java.awt.Color(255, 255, 255));
+        button1.setText("Export");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -218,10 +232,14 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
                         .addGap(28, 28, 28)
                         .addComponent(lbDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(465, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,13 +257,16 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
                 .addGap(31, 31, 31)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.hcmute.storemanagement.views.authen.swing.Button button1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -21,19 +21,19 @@ import javax.swing.JOptionPane;
 public class popupAddAccount extends javax.swing.JPanel {
 
     StaffTaiKhoanDao staffTaiKhoanDao = new StaffTaiKhoanDao();
+    static JFrame parentFrame;
 
-    public popupAddAccount() {
+    public popupAddAccount(JFrame parentFrame) {
         initComponents();
         String username = getUsername();
         txtUsername.setText(username);
         txtUsername.setEditable(false);
+        this.parentFrame = parentFrame;
     }
-
-    
 
     public String getUsername() {
         String username = staffTaiKhoanDao.getLatestAccountUsername();
-        
+
         if (username.matches("TKNV\\d+")) {
             int number = Integer.parseInt(username.substring(4)); // Bỏ đi "TKNV" và lấy số phía sau
             number++;
@@ -250,9 +250,16 @@ public class popupAddAccount extends javax.swing.JPanel {
         String role = (String) cbbRole.getSelectedItem();
         String pass = txtPass.getText();
         String cfPass = txtCfPass.getText();
-        if (pass.equals(cfPass)) {
-            openPopup(role, pass);
+        if (pass.trim().length() > 6) {
+            if (pass.equals(cfPass)) {
+                openPopup(role, pass);
+            } else {
+                JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận không chính xác");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Độ dài mật khẩu lớn hơn 6 kí tự");
         }
+
     }//GEN-LAST:event_btnAddStaffActionPerformed
 
     private static void openPopup(String role, String pass) {
@@ -264,6 +271,8 @@ public class popupAddAccount extends javax.swing.JPanel {
         popupFrame.pack();
         popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
         popupFrame.setVisible(true);
+        parentFrame.setVisible(false);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

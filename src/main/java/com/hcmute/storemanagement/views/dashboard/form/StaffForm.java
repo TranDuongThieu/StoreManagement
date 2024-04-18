@@ -34,7 +34,7 @@ public class StaffForm extends javax.swing.JPanel {
     private Object variDayOfBirthObj = null;
     private Object variAddressObj = null;
     private Object variCccdObj = null;
-
+    static JFrame parentFrame;
     public StaffForm() throws SQLException {
         initComponents();
         initData();
@@ -294,8 +294,7 @@ public class StaffForm extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -324,14 +323,14 @@ public class StaffForm extends javax.swing.JPanel {
 
     private static void openPopup() {
         // Tạo cửa sổ popup và hiển thị
-        JFrame popupFrame = new JFrame();
-        popupFrame.setTitle(null); // Đặt tiêu đề là null
-        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
-        popupAddAccount popupForm = new popupAddAccount();
-        popupFrame.add(popupForm);
-        popupFrame.pack();
-        popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
-        popupFrame.setVisible(true);
+        parentFrame = new JFrame();
+        parentFrame.setTitle(null); // Đặt tiêu đề là null
+        parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
+        popupAddAccount popupForm = new popupAddAccount(parentFrame);
+        parentFrame.add(popupForm);
+        parentFrame.pack();
+        parentFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
+        parentFrame.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
