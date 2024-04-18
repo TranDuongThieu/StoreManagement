@@ -29,9 +29,9 @@ public class TableCustomer extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
                 TableHeaderUser h = new TableHeaderUser(o + "");
-                if (i1 == 0 || i1 == 4) {
-                    h.setHorizontalAlignment(JLabel.CENTER);
-                }
+//                if (i1 == 0 || i1 == 4) {
+//                    h.setHorizontalAlignment(JLabel.CENTER);
+//                }
                 return h;
             }
         });
@@ -82,11 +82,11 @@ public class TableCustomer extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 4) {
-            return new TableCellActionUser();
-        } else {
+//        if (col == 4) {
+//            return new TableCellActionUser();
+//        } else {
             return super.getCellEditor(row, col);
-        }
+//        }
     }
 
     private void createShadow() {

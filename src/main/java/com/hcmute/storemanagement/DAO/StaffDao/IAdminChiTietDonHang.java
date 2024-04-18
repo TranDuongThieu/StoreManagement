@@ -4,22 +4,13 @@
  */
 package com.hcmute.storemanagement.DAO.StaffDao;
 
-import com.hcmute.storemanagement.models.SanPham;
+import com.hcmute.storemanagement.models.ChiTietDonHang;
 import java.util.List;
 
 /**
  *
  * @author DELL
  */
-public interface IStaffSanPhamDao {
-
-    List<SanPham> getAllSanPham();
-
-    List<SanPham> getAllPhone();
-
-    List<SanPham> getAllLapTop();
-     List<SanPham> getAllTablet();
-
-    List<SanPham> getAllAccessory();
-     SanPham getSanPhamById(String id);
+public interface IAdminChiTietDonHang {
+    List<ChiTietDonHang> getChiTietDonHangById(String maDonHang);
 }

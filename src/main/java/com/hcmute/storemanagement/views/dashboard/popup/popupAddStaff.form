@@ -127,11 +127,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtName">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -187,11 +182,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtPhone">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -247,11 +237,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtEmail">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -434,11 +419,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtAddress">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
@@ -494,11 +474,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtCccd">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
