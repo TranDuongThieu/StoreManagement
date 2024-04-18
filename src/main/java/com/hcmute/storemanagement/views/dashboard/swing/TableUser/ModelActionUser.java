@@ -1,16 +1,16 @@
 package com.hcmute.storemanagement.views.dashboard.swing.TableUser;
 
-import com.hcmute.storemanagement.views.dashboard.model.modelUser;
+import com.hcmute.storemanagement.views.dashboard.model.modelStaff;
 
 
 public class ModelActionUser {
 
-    public modelUser getWorkSchedule() {
-        return student;
+    public modelStaff getWorkSchedule() {
+        return user;
     }
 
-    public void setWorkSchedule(modelUser student) {
-        this.student = student;
+    public void setWorkSchedule(modelStaff user) {
+        this.user = user;
     }
 
     public EventActionUser getEvent() {
@@ -21,14 +21,14 @@ public class ModelActionUser {
         this.event = event;
     }
 
-    public ModelActionUser(modelUser student, EventActionUser event) {
-        this.student = student;
+    public ModelActionUser(modelStaff user, EventActionUser event) {
+        this.user = user;
         this.event = event;
     }
 
     public ModelActionUser() {
     }
 
-    private modelUser student;
+    private modelStaff user;
     private EventActionUser event;
 }

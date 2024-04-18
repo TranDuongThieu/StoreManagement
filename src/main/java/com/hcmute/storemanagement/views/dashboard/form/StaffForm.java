@@ -4,7 +4,7 @@ import com.hcmute.storemanagement.DAO.StaffDao.StaffNhanVienDao;
 import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.service.StaffNhanVienService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
-import com.hcmute.storemanagement.views.dashboard.model.modelUser;
+import com.hcmute.storemanagement.views.dashboard.model.modelStaff;
 import com.hcmute.storemanagement.views.dashboard.popup.popupAddAccount;
 import com.hcmute.storemanagement.views.dashboard.popup.popupAddStaff;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.EventActionUser;
@@ -43,7 +43,7 @@ public class StaffForm extends javax.swing.JPanel {
     private void initData() throws SQLException {
         EventActionUser eventAction = new EventActionUser() {
             @Override
-            public void delete(modelUser student, ActionEvent e) {
+            public void delete(modelStaff student, ActionEvent e) {
                 System.err.println(",delete");
                 // Lấy vị trí hàng được chọn
                 int row = tbStaff.getSelectedRow();
@@ -103,7 +103,7 @@ public class StaffForm extends javax.swing.JPanel {
             }
 
             @Override
-            public void update(modelUser student, ActionEvent e) {
+            public void update(modelStaff student, ActionEvent e) {
                 System.err.println(",update");
                 // Lấy vị trí hàng được chọn
                 int row = tbStaff.getSelectedRow();
@@ -168,7 +168,7 @@ public class StaffForm extends javax.swing.JPanel {
         ArrayList<NhanVien> staffList = staffController.getAllStaff();
         for (NhanVien staff : staffList) {
             ImageIcon icon = new ImageIcon("C:\\imagepj\\image\\user.png");
-            model.addRow(new modelUser(icon, staff.getMaNhanVien(), staff.getTenNhanVien(), staff.getSoDienThoai(), staff.getEmail(), staff.getGioiTinh(), staff.getNgaySinh(), staff.getDiaChi(), staff.getCCCD()).toRowTable(eventAction));
+            model.addRow(new modelStaff(icon, staff.getMaNhanVien(), staff.getTenNhanVien(), staff.getSoDienThoai(), staff.getEmail(), staff.getGioiTinh(), staff.getNgaySinh(), staff.getDiaChi(), staff.getCCCD()).toRowTable(eventAction));
         }
     }
 

@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import javax.swing.Icon;
 
-public class modelUser {
+public class modelStaff {
 
     private Icon icon;
     private String IdUser;
@@ -23,10 +23,10 @@ public class modelUser {
     private String diaChi;
     private String CCCD;
 
-    public modelUser() {
+    public modelStaff() {
     }
 
-    public modelUser(Icon icon, String IdUser, String tenUser, String soDienThoai, String email, String gioiTinh, Date ngaySinh, String diaChi, String CCCD) {
+    public modelStaff(Icon icon, String IdUser, String tenUser, String soDienThoai, String email, String gioiTinh, Date ngaySinh, String diaChi, String CCCD) {
         this.icon = icon;
         this.IdUser = IdUser;
         this.tenUser = tenUser;

@@ -13,9 +13,6 @@ import java.awt.Color;
  */
 public class Statistical extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Statistical
-     */
     public Statistical() {
         initComponents();
         setOpaque(false);
