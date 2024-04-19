@@ -5,6 +5,8 @@
 package com.hcmute.storemanagement.service;
 
 import com.hcmute.storemanagement.DAO.StaffDao.StaffChiTietDonHangDao;
+import com.hcmute.storemanagement.models.ChiTietDonHang;
+import java.util.List;
 
 /**
  *
@@ -28,5 +30,7 @@ public class StaffChiTietDonHangService implements IStaffChiTietDonHangService {
     public boolean updateSoLuong(String maDonHang, String maSanPham, int soLuongMoi) {
         return staffccch.updateSoLuong(maDonHang, maSanPham, soLuongMoi);
     }
+
+    
 
 }

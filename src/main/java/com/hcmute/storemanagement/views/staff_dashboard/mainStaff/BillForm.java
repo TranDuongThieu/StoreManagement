@@ -4,47 +4,121 @@
  */
 package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffSanPhamDao;
+import com.hcmute.storemanagement.models.ChiTietDonHang;
 import com.hcmute.storemanagement.models.DonHang;
+import com.hcmute.storemanagement.models.KhachHang;
+import com.hcmute.storemanagement.models.SanPham;
+import com.hcmute.storemanagement.service.AdminChiTietDonHangService;
+import com.hcmute.storemanagement.service.IAdminChiTietDonHangService;
+import com.hcmute.storemanagement.service.IStaffChiTietDonHangService;
+import com.hcmute.storemanagement.service.IStaffDonHangService;
+import com.hcmute.storemanagement.service.IStaffKhachHangService;
+import com.hcmute.storemanagement.service.IStaffSanPhamService;
+import com.hcmute.storemanagement.service.StaffChiTietDonHangService;
 import com.hcmute.storemanagement.service.StaffDonHangService;
+import com.hcmute.storemanagement.service.StaffKhachHangService;
+import com.hcmute.storemanagement.service.StaffSanPhamService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.form.HomeForm;
+import com.hcmute.storemanagement.views.staff_dashboard.model.ModelBill;
+import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
+import com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.EventActionBilldetail;
+import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.EventAction;
+import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author DELL
- */
 public class BillForm extends javax.swing.JPanel {
-
-    StaffDonHangService staffDonHangService = new StaffDonHangService();
-
-    public BillForm() {
+    
+    IStaffDonHangService staffDonHangService = new StaffDonHangService();
+    IStaffKhachHangService staffKhachHangService = new StaffKhachHangService();
+    IAdminChiTietDonHangService adBillDetail = new AdminChiTietDonHangService();
+    IStaffSanPhamService stProduct = new StaffSanPhamService();
+    
+    public BillForm() throws SQLException {
         initComponents();
+        txtScoresCustomer.setEditable(false);
         ShowBill();
+        initBilldetailTable();
     }
+    
+    private void initBilldetailTable() throws SQLException {
+        
+        EventActionBilldetail eventAction = new EventActionBilldetail() {
+            @Override
+            public void delete(ModelBill student, ActionEvent e) {
+                // kiểm tra còn action ko
+                if (tbBilldetail.isEditing()) {
+                    tbBilldetail.getCellEditor().stopCellEditing();
+                }
+                System.err.println("delete");
+                // Lấy vị trí hàng được chọn
+                int row = tbBilldetail.getSelectedRow();
+                // Lấy giá trị từ hàng và cột tương ứng, lấy được đối tượng object
+                Object orderID = tbBilldetail.getValueAt(row, 1);
+                Object ProductID = tbBilldetail.getValueAt(row, 2);
+                Object Cost = tbBilldetail.getValueAt(row, 5);
+                String orderid = orderID != null ? orderID.toString() : "";
+                String productid = ProductID != null ? ProductID.toString() : "";
+                int cost = Cost != null ? Integer.parseInt(Cost.toString()) : 0;
+                
+                adBillDetail.deleteChiTietDonHang(orderid, productid);
+                JOptionPane.showMessageDialog(BillForm.this, "Xóa thành công");
+                HomeForm.globalBillId.totalGlb = HomeForm.globalBillId.totalGlb - cost;
+                lbTotal.setText(String.valueOf(HomeForm.globalBillId.totalGlb));
+                lbTotalPayment.setText(String.valueOf(HomeForm.globalBillId.totalGlb));
+                
+                try {
+                    initBilldetailTable();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                // cập nhật total và total payment
 
-    private void initData() {
-
+            }
+            
+            @Override
+            public void update(ModelBill student, ActionEvent e) {
+                
+            }
+            
+        };
+        DefaultTableModel model = (DefaultTableModel) tbBilldetail.getModel();
+        model.setRowCount(0);
+        List<ChiTietDonHang> chitietdonhang = (List<ChiTietDonHang>) adBillDetail.getChiTietDonHangById(HomeForm.globalBillId.BillId);
+        for (ChiTietDonHang ct : chitietdonhang) {
+            SanPham sanPham = stProduct.getSanPhamById(ct.getMaSanPham());
+            byte[] imageData = sanPham.getHinhAnh(); // Lấy dữ liệu hình ảnh từ đối tượng sanPham
+            ImageIcon imageIcon = new ImageIcon(imageData);
+            model.addRow(new ModelBill(imageIcon, sanPham.getTenSanPham(), ct.getMaDonHang(), sanPham.getMaSanPham(), String.valueOf(ct.getSoLuong()), sanPham.getGia()).toRowTable(eventAction));
+        }
     }
-
+    
     private void ShowBill() {
         DonHang dh = staffDonHangService.findBillById(String.valueOf(HomeForm.globalBillId.BillId));
         if (dh != null) {
             lbDate.setText(String.valueOf(dh.getNgayDatHang()));
-            lbTotal.setText(String.valueOf(HomeForm.globalBillId.totalGlb) + " $");
+            lbTotal.setText(String.valueOf(HomeForm.globalBillId.totalGlb) + "$");
             lbIdStaff.setText(String.valueOf(PanelLoginAndRegister.GlobalVariables.userId));
             lbIdOrder.setText(String.valueOf(HomeForm.globalBillId.BillId));
             lbDiscount.setText("0%");
-            lbTotalPayment.setText("0 $");
+            lbTotalPayment.setText(String.valueOf(HomeForm.globalBillId.totalGlb) + "$");
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         panelBorder1 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jScrollPane1 = new javax.swing.JScrollPane();
-        billDetailTable1 = new com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable();
+        tbBilldetail = new com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -70,24 +144,33 @@ public class BillForm extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         btnAddCustomer = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
         btnAddDiscount = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
-        textInput1 = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
-        textInput3 = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
+        txtNameCustomer = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
+        txtPhoneCustomer = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         jLabel21 = new javax.swing.JLabel();
-        textInput4 = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
-        textInput5 = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
+        txtScoresCustomer = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
+        txtDiscountCustomer = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         jLabel22 = new javax.swing.JLabel();
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        billDetailTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbBilldetail.setBackground(new java.awt.Color(204, 204, 204));
+        tbBilldetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Product Name", "Order ID", "Product ID", "Quantity", "Cost", "Action"
             }
-        ));
-        jScrollPane1.setViewportView(billDetailTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbBilldetail);
 
         jPanel1.setBackground(new java.awt.Color(233, 233, 233));
 
@@ -127,6 +210,11 @@ public class BillForm extends javax.swing.JPanel {
         btnExFile.setForeground(new java.awt.Color(255, 255, 255));
         btnExFile.setText(" Export file");
         btnExFile.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnExFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExFileActionPerformed(evt);
+            }
+        });
 
         lbIdOrder.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lbIdOrder.setForeground(new java.awt.Color(51, 51, 51));
@@ -233,6 +321,11 @@ public class BillForm extends javax.swing.JPanel {
 
         iconSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iconSearch.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\search.png")); // NOI18N
+        iconSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clickSearch(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -260,24 +353,36 @@ public class BillForm extends javax.swing.JPanel {
         jLabel20.setText("Phone");
 
         btnAddCustomer.setBackground(new java.awt.Color(84, 151, 252));
+        btnAddCustomer.setForeground(new java.awt.Color(255, 255, 255));
         btnAddCustomer.setText("Add Customer");
         btnAddCustomer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCustomerActionPerformed(evt);
+            }
+        });
 
         btnAddDiscount.setBackground(new java.awt.Color(84, 151, 252));
+        btnAddDiscount.setForeground(new java.awt.Color(255, 255, 255));
         btnAddDiscount.setText("Add Discount");
         btnAddDiscount.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAddDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDiscountActionPerformed(evt);
+            }
+        });
 
-        textInput1.setBackground(new java.awt.Color(233, 233, 233));
+        txtNameCustomer.setBackground(new java.awt.Color(233, 233, 233));
 
-        textInput3.setBackground(new java.awt.Color(233, 233, 233));
+        txtPhoneCustomer.setBackground(new java.awt.Color(233, 233, 233));
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(51, 51, 51));
         jLabel21.setText("Scores");
 
-        textInput4.setBackground(new java.awt.Color(233, 233, 233));
+        txtScoresCustomer.setBackground(new java.awt.Color(233, 233, 233));
 
-        textInput5.setBackground(new java.awt.Color(233, 233, 233));
+        txtDiscountCustomer.setBackground(new java.awt.Color(233, 233, 233));
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(51, 51, 51));
@@ -317,10 +422,10 @@ public class BillForm extends javax.swing.JPanel {
                                 .addGap(25, 25, 25))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(textInput3, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(textInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(textInput4, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(textInput5, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtPhoneCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNameCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtScoresCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDiscountCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(33, 33, 33)))))
                 .addContainerGap())
         );
@@ -333,19 +438,19 @@ public class BillForm extends javax.swing.JPanel {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textInput1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNameCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel19))
                         .addGap(16, 16, 16)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textInput3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPhoneCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20))
                         .addGap(18, 18, 18)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textInput4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtScoresCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel21))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textInput5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDiscountCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22))
                         .addGap(18, 18, 18)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -373,11 +478,82 @@ public class BillForm extends javax.swing.JPanel {
 
     private void enterSearch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterSearch
         String txtSearch = this.txtSearch.getText();
+
+        // tìm khách hàng bằng mã id hoặc sdt 
+        IStaffKhachHangService staffCus = new StaffKhachHangService();
+        KhachHang khByID = staffCus.getKhachHangByID(txtSearch);
+        KhachHang khByPhone = staffCus.getKhachHangByPhoneNumber(txtSearch);
+        if (khByID != null) {
+            showCusWithId(khByID);
+        } else if (khByPhone != null) {
+            showCusWithId(khByPhone);
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm được khách hàng phù hợp!");
+        }
     }//GEN-LAST:event_enterSearch
 
+    private void btnAddDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiscountActionPerformed
+        lbDiscount.setText(txtDiscountCustomer.getText());
+        
+        String amountString = lbTotal.getText();
+        String cleanAmountString = amountString.substring(0, amountString.length() - 1);
+        int total = Integer.parseInt(cleanAmountString);
+        
+        String discString = txtDiscountCustomer.getText();
+        String cleanLastString = amountString.substring(0, discString.length() - 1);
+        int discount = Integer.parseInt(cleanLastString);
+        
+        lbTotalPayment.setText(String.valueOf(total + total * discount / 100));
+    }//GEN-LAST:event_btnAddDiscountActionPerformed
+
+    private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
+        // insert customer 
+        if (txtNameCustomer.getText().equals("") || txtPhoneCustomer.getText().equals("") || txtScoresCustomer.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tên, số điện thoại và điểm!");
+        } else {
+            staffKhachHangService.addKhachHang(txtNameCustomer.getText(), txtPhoneCustomer.getText(), Integer.parseInt(txtScoresCustomer.getText()));
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công \n Bạn có thể tra cứu thông tin khách hàng này");
+            
+        }
+    }//GEN-LAST:event_btnAddCustomerActionPerformed
+
+    private void clickSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickSearch
+        String txtSearch = this.txtSearch.getText();
+
+        // tìm khách hàng bằng mã id hoặc sdt 
+        IStaffKhachHangService staffCus = new StaffKhachHangService();
+        KhachHang khByID = staffCus.getKhachHangByID(txtSearch);
+        KhachHang khByPhone = staffCus.getKhachHangByPhoneNumber(txtSearch);
+        if (khByID != null) {
+            showCusWithId(khByID);
+        } else if (khByPhone != null) {
+            showCusWithId(khByPhone);
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm được khách hàng phù hợp!");
+        }    }//GEN-LAST:event_clickSearch
+
+    private void btnExFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExFileActionPerformed
+        
+
+    }//GEN-LAST:event_btnExFileActionPerformed
+    
+    private void showCusWithId(KhachHang khachHang) {
+        txtNameCustomer.setText(khachHang.getTenKhachHang());
+        //txtNameCustomer.setEditable(false);
+        txtPhoneCustomer.setText(khachHang.getSoDienThoai());
+        //txtPhoneCustomer.setEditable(false);
+        txtScoresCustomer.setText(String.valueOf(khachHang.getDiemThanhVien()));
+        lbIdCustomer.setText(khachHang.getMaKhachHang());
+        //txtScoresCustomer.setEditable(false);
+        if (khachHang.getDiemThanhVien() > 500) {
+            txtDiscountCustomer.setText("5%");
+        } else if (khachHang.getDiemThanhVien() > 1000) {
+            txtDiscountCustomer.setText("10%");
+            txtDiscountCustomer.setEditable(false);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable billDetailTable1;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAddCustomer;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAddDiscount;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnExFile;
@@ -406,10 +582,11 @@ public class BillForm extends javax.swing.JPanel {
     private javax.swing.JLabel lbTotal;
     private javax.swing.JLabel lbTotalPayment;
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder1;
-    private com.hcmute.storemanagement.views.dashboard.swing.TextInput textInput1;
-    private com.hcmute.storemanagement.views.dashboard.swing.TextInput textInput3;
-    private com.hcmute.storemanagement.views.dashboard.swing.TextInput textInput4;
-    private com.hcmute.storemanagement.views.dashboard.swing.TextInput textInput5;
+    private com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable tbBilldetail;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtDiscountCustomer;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtNameCustomer;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtPhoneCustomer;
+    private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtScoresCustomer;
     private com.hcmute.storemanagement.views.dashboard.swing.SearchText txtSearch;
     // End of variables declaration//GEN-END:variables
 }

@@ -468,7 +468,7 @@ public class HomeForm extends javax.swing.JPanel {
                 globalBillId.BillId = staffDonHangService.getLastInsertedBillId();
                 // Tạo 1 bill detail từ bill và mã đơn (valueID, billID, quantity)
                 staffChiTietDonHangDao.createChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), quantity);
-
+                JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
             } else {
                 // add sản phẩm vào bill detail 
                 // check xem sản phẩm có được add trước đó chưa nếu có thì trả về số lượng
@@ -477,7 +477,11 @@ public class HomeForm extends javax.swing.JPanel {
                     // nếu đã có thì update số lượng lên
                     int sumQuantity = quantityCheck + Integer.parseInt(txtQuantity.getText());
                     staffChiTietDonHangDao.updateSoLuong(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), sumQuantity);
-                } 
+                    JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
+                } else {
+                    staffChiTietDonHangDao.createChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), Integer.valueOf(txtQuantity.getText()));
+                    JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
+                }
             }
         }
     }//GEN-LAST:event_button12ActionPerformed

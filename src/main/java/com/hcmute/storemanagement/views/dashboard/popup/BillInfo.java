@@ -4,8 +4,8 @@
  */
 package com.hcmute.storemanagement.views.dashboard.popup;
 
-import com.hcmute.storemanagement.DAO.StaffDao.IStaffCustomerDao;
-import com.hcmute.storemanagement.DAO.StaffDao.StaffCustomerDao;
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffDonHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffKhachHangDao;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
 import java.text.NumberFormat;
@@ -16,13 +16,16 @@ import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffKhachHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
 
 
 public class BillInfo extends javax.swing.JPanel {
 
     private static KhachHang selectedKhachHang;
     List<DonHang> listDonHang;
-    IStaffCustomerDao cusDao = new StaffCustomerDao();
+    IStaffKhachHangDao cusDao = new StaffKhachHangDao();
+    IStaffDonHangDao billDao = new StaffDonHangDao();
 
     public BillInfo(KhachHang selectedKhachHang) {
         this.selectedKhachHang = selectedKhachHang;
@@ -34,7 +37,7 @@ public class BillInfo extends javax.swing.JPanel {
         cusName.setText(selectedKhachHang.getTenKhachHang());
         cusPhone.setText(selectedKhachHang.getSoDienThoai());
 
-        listDonHang = cusDao.getBillFromCusId(selectedKhachHang.getMaKhachHang());
+        listDonHang = billDao.getBillFromCusId(selectedKhachHang.getMaKhachHang());
 
         for (DonHang dh : listDonHang) {
             System.out.println(dh.getMaDonHang());

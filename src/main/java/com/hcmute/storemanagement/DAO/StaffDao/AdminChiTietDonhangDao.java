@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author thieu
  */
-public class AdminChiTietDonhangDao implements IAdminChiTietDonHang {
+public class AdminChiTietDonHangDao implements IAdminChiTietDonHang {
 
     public List<ChiTietDonHang> getChiTietDonHangById(String maDonHang) {
         List<ChiTietDonHang> chiTietDonHangList = new ArrayList<ChiTietDonHang>();
@@ -64,4 +64,49 @@ public class AdminChiTietDonhangDao implements IAdminChiTietDonHang {
         return chiTietDonHangList;
 
     }
+
+    public boolean deleteChiTietDonHang(String maDonHang, String maSanPham) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        boolean success = false;
+
+        try {
+            // Kết nối cơ sở dữ liệu
+            connection = DBConnection.getConnection();
+            String deleteQuery = "DELETE FROM CHITIETDONHANG WHERE MaDonHang = ? AND MaSanPham = ?";
+            pstmt = connection.prepareStatement(deleteQuery);
+
+            // Thiết lập các tham số cho câu lệnh xóa
+            pstmt.setString(1, maDonHang);
+            pstmt.setString(2, maSanPham);
+
+            // Thực thi câu lệnh xóa
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Kiểm tra xem có dòng nào bị ảnh hưởng hay không
+            if (rowsAffected > 0) {
+                success = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            // Đóng tài nguyên
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return success;
+    }
+
 }

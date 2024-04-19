@@ -12,5 +12,8 @@ import java.util.List;
  * @author DELL
  */
 public interface IAdminChiTietDonHang {
+
     List<ChiTietDonHang> getChiTietDonHangById(String maDonHang);
+
+    boolean deleteChiTietDonHang(String maDonHang, String maSanPham);
 }

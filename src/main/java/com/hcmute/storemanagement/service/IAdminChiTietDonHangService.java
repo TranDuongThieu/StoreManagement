@@ -4,17 +4,16 @@
  */
 package com.hcmute.storemanagement.service;
 
-import com.hcmute.storemanagement.models.DonHang;
+import com.hcmute.storemanagement.models.ChiTietDonHang;
+import java.util.List;
 
 /**
  *
  * @author DELL
  */
-public interface IStaffDonHang {
+public interface IAdminChiTietDonHangService {
 
-    String addBill(double total, String idStaff);
+    List<ChiTietDonHang> getChiTietDonHangById(String maDonHang);
 
-    String getLastInsertedBillId();
-
-    DonHang findBillById(String billId);
+    boolean deleteChiTietDonHang(String maDonHang, String maSanPham);
 }

@@ -21,13 +21,11 @@ public class StaffDashboard extends javax.swing.JFrame {
     private Point animatePoint;
     private ModelItem itemSelected;
     private DashBoardProductForm staffDashboardProduct;
-    private StaffDashBoardPhoneForm staffDashboardPhone;
 
     public StaffDashboard() throws SQLException {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        setForm(new BillForm());
-        staffDashboardPhone = new StaffDashBoardPhoneForm();
+        setForm(new DashBoardProductForm(1));
         menu_staff1.initMoving(StaffDashboard.this);
         menu_staff1.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -75,7 +73,11 @@ public class StaffDashboard extends javax.swing.JFrame {
                 }
                 // Bill
                 if (index == 8){
+                    try {
                         setForm(new BillForm());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 
                 if (index == 12){

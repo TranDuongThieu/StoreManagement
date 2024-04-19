@@ -4,8 +4,8 @@
  */
 package com.hcmute.storemanagement.views.dashboard.form;
 
-import com.hcmute.storemanagement.DAO.StaffDao.IStaffCustomerDao;
-import com.hcmute.storemanagement.DAO.StaffDao.StaffCustomerDao;
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffDonHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffKhachHangDao;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
 import com.hcmute.storemanagement.views.dashboard.model.ModelCustomer;
@@ -22,6 +22,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffKhachHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
 
 /**
  *
@@ -38,7 +40,8 @@ public class CustomerForm extends javax.swing.JPanel {
     private void init() {
         DefaultTableModel model = (DefaultTableModel) tableCustomer1.getModel();
         model.setRowCount(0);
-        IStaffCustomerDao cusDao = new StaffCustomerDao();
+        IStaffKhachHangDao cusDao = new StaffKhachHangDao();
+        IStaffDonHangDao billDao = new StaffDonHangDao();
         listKH = cusDao.getAll();
         for (KhachHang kh : listKH) {
             ModelCustomer modelCus = new ModelCustomer();
@@ -46,7 +49,7 @@ public class CustomerForm extends javax.swing.JPanel {
             modelCus.setName(kh.getTenKhachHang());
             modelCus.setPhone(kh.getSoDienThoai());
             modelCus.setPoint(kh.getDiemThanhVien());
-            List<DonHang> listDonHang = cusDao.getBillFromCusId(kh.getMaKhachHang());
+            List<DonHang> listDonHang = billDao.getBillFromCusId(kh.getMaKhachHang());
             modelCus.setNumberOfBill(listDonHang.size());
             int totalCost = 0;
             for (DonHang dh : listDonHang) {

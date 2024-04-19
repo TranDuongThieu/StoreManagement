@@ -22,4 +22,6 @@ public interface IStaffSanPhamService {
     List<SanPham> getAllTablet();
 
     List<SanPham> getAllAccessory();
+
+    SanPham getSanPhamById(String id);
 }

@@ -44,20 +44,18 @@ public class BillDetailTable extends JTable {
         setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean focus, int i, int i1) {
-                if (o instanceof ModelProfileUser) {
-                    ModelProfileUser data = (ModelProfileUser) o;
-                    ProfileUser cell = new ProfileUser(data);
+                if (o instanceof ModelProfileBilldetail) {
+                    ModelProfileBilldetail data = (ModelProfileBilldetail) o;
+                    ProfileBilldetail cell = new ProfileBilldetail(data);
                     if (selected) {
-                        //cell.setBackground(new Color(239, 244, 255));
                         cell.setBackground(new Color(134, 206, 243));
                     } else {
                         cell.setBackground(Color.WHITE);
                     }
                     return cell;
-                } else if (o instanceof ModelActionUser) {
-                    ModelActionUser data = (ModelActionUser) o;
-                    ActionUser cell = new ActionUser(data);
-
+                } else if (o instanceof ModelActionBillDetail) {
+                    ModelActionBillDetail data = (ModelActionBillDetail) o;
+                    ActionBilldetail cell = new ActionBilldetail(data);
                     if (selected) {
                         cell.setBackground(new Color(134, 206, 243));
                     } else {
@@ -81,8 +79,8 @@ public class BillDetailTable extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 6) {
-            return new TableCellActionUser();
+        if (col == 5) {
+            return new TableCellAcBilldetail();
         } else {
             return super.getCellEditor(row, col);
         }

@@ -42,4 +42,9 @@ public class StaffSanPhamService implements IStaffSanPhamService {
         return staffSanPhamDao.getAllAccessory();
     }
 
+    @Override
+    public SanPham getSanPhamById(String id) {
+        return staffSanPhamDao.getSanPhamById(id);
+    }
+
 }

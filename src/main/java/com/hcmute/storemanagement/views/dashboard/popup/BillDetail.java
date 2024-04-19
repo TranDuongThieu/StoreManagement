@@ -4,7 +4,7 @@
  */
 package com.hcmute.storemanagement.views.dashboard.popup;
 
-import com.hcmute.storemanagement.DAO.StaffDao.AdminChiTietDonhangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.AdminChiTietDonHangDao;
 import com.hcmute.storemanagement.DAO.StaffDao.IAdminChiTietDonHang;
 import com.hcmute.storemanagement.DAO.StaffDao.IStaffSanPhamDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffSanPhamDao;
@@ -42,7 +42,7 @@ public class BillDetail extends javax.swing.JPanel {
 
     private void init() {
         IStaffNhanVienService staffService = new StaffNhanVienService();
-        IAdminChiTietDonHang chitietDAO = new AdminChiTietDonhangDao();
+        IAdminChiTietDonHang chitietDAO = new AdminChiTietDonHangDao();
         IStaffSanPhamDao spDao = new StaffSanPhamDao();
 //        staffService.g
         NhanVien nhanvien = staffService.getStaffById(donhang.getMaNhanVien());

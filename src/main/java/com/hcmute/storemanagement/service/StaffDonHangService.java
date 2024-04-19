@@ -6,12 +6,13 @@ package com.hcmute.storemanagement.service;
 
 import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
 import com.hcmute.storemanagement.models.DonHang;
+import java.util.List;
 
 /**
  *
  * @author DELL
  */
-public class StaffDonHangService implements IStaffDonHang {
+public class StaffDonHangService implements IStaffDonHangService {
 
     StaffDonHangDao staffDonHangDao = new StaffDonHangDao();
 
@@ -28,5 +29,10 @@ public class StaffDonHangService implements IStaffDonHang {
     @Override
     public DonHang findBillById(String billId) {
         return staffDonHangDao.findBillById(billId);
+    }
+
+    @Override
+    public List<DonHang> getBillFromCusId(String cusId) {
+        return getBillFromCusId(cusId);
     }
 }

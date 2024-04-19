@@ -13,10 +13,14 @@ import java.util.List;
  *
  * @author DELL
  */
-public interface IStaffCustomerDao {
-
-    List<DonHang> getBillFromCusId(String cusId);
+public interface IStaffKhachHangDao {
 
     List<KhachHang> getAll();
+
+    KhachHang getKhachHangByID(String maKhachHang);
+
+    KhachHang getKhachHangByPhoneNumber(String soDienThoai);
+
+    boolean addKhachHang(String tenKhachHang, String soDienThoai, int diemThanhVien);
 
 }

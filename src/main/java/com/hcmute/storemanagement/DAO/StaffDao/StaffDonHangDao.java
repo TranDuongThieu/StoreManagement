@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -155,5 +157,53 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
             }
         }
         return donHang;
+    }
+
+    public List<DonHang> getBillFromCusId(String cusId) {
+        List<DonHang> donHangList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM DONHANG WHERE MaKhachHang = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cusId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                DonHang donHang = new DonHang();
+                // Populate DonHang object from ResultSet
+                donHang.setMaDonHang(resultSet.getString("MaDonHang"));
+                donHang.setNgayDatHang(resultSet.getDate("NgayDatHang"));
+                donHang.setTongGiaTri(resultSet.getInt("TongGiaTri"));
+                donHang.setMaKhachHang(resultSet.getString("MaKhachHang"));
+                donHang.setMaNhanVien(resultSet.getString("MaNhanVien"));
+
+                donHangList.add(donHang);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception
+        } finally {
+            // Close resources (Connection, PreparedStatement, ResultSet)
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exception
+            }
+        }
+
+        return donHangList;
     }
 }
