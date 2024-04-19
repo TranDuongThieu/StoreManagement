@@ -26,4 +26,6 @@ public interface IStaffSanPhamService {
     SanPham getSanPhamById(String id);
 
     int getSoLuongTrongKhoByMaSanPham(String maSanPham);
+    
+    void updateSoLuongTrongKho(String maSanPham, int soLuongMoi);
 }

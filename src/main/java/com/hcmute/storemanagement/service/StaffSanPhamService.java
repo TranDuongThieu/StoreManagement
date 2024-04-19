@@ -52,4 +52,9 @@ public class StaffSanPhamService implements IStaffSanPhamService {
         return staffSanPhamDao.getSoLuongTrongKhoByMaSanPham(maSanPham);
     }
 
+    @Override
+    public void updateSoLuongTrongKho(String maSanPham, int soLuongMoi) {
+        staffSanPhamDao.updateSoLuongTrongKho(maSanPham, soLuongMoi);
+    }
+
 }

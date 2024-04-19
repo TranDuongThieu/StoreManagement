@@ -4,7 +4,6 @@
  */
 package com.hcmute.storemanagement.views.staff_dashboard.mainStaff;
 
-import com.hcmute.storemanagement.DAO.StaffDao.IStaffSanPhamDao;
 import com.hcmute.storemanagement.models.ChiTietDonHang;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
@@ -22,10 +21,11 @@ import com.hcmute.storemanagement.service.StaffSanPhamService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.form.HomeForm;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelBill;
-import com.hcmute.storemanagement.views.staff_dashboard.model.ModelWorkSchedule;
 import com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.EventActionBilldetail;
-import com.hcmute.storemanagement.views.staff_dashboard.swing.workScheduleTable.EventAction;
+import com.itextpdf.text.BaseColor;
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +33,14 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.time.LocalDate;
 
 public class BillForm extends javax.swing.JPanel {
 
@@ -609,13 +617,96 @@ public class BillForm extends javax.swing.JPanel {
 
     private void btnExFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExFileActionPerformed
         // in hóa đơn 
+        generateAndSaveBill();
+        // cập nhật số lượng sản phẩm còn trong kho
+        List<ChiTietDonHang> chitietdonhang = (List<ChiTietDonHang>) adBillDetail.getChiTietDonHangById(HomeForm.globalBillId.BillId);
+        for (ChiTietDonHang ct : chitietdonhang) {
+            SanPham sanPham = stProduct.getSanPhamById(ct.getMaSanPham());
+            int warehouse = sanPham.getSoLuongTrongKho() - Integer.valueOf(ct.getSoLuong());
+            stProduct.updateSoLuongTrongKho(sanPham.getMaSanPham(), warehouse);
+        }
 
         // gán biến global về 0
         HomeForm.globalBillId.BillId = null;
         HomeForm.globalBillId.productId = null;
         HomeForm.globalBillId.totalGlb = 0;
-
+        try {
+            initBilldetailTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        nullBill();
     }//GEN-LAST:event_btnExFileActionPerformed
+
+    private void nullBill() {
+        lbDate.setText("");
+        lbDiscount.setText("");
+        lbIdCustomer.setText("");
+        lbIdOrder.setText("");
+        lbIdStaff.setText("");
+        lbTotal.setText("");
+        lbTotalPayment.setText("");
+    }
+//    private void generateAndSaveBill() {
+//        String filename = "bill1.pdf";
+//        String content = "Hóa đơn\n\nTên sản phẩm: ABC\nGiá: $100\nSố lượng: 2\nTổng cộng: $200";
+//        // Tạo tài liệu PDF và thêm nội dung
+//        Document document = new Document();
+//        try {
+//            PdfWriter.getInstance(document, new FileOutputStream(filename));
+//            document.open();
+//            document.add(new Paragraph(content));
+//            document.close();
+//            System.out.println("Hóa đơn được tạo thành công và lưu vào máy tính!");
+//        } catch (DocumentException | FileNotFoundException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+
+    private void generateAndSaveBill() {
+        // Lấy ngày hiện tại
+        LocalDate currentDate = LocalDate.now();
+        String date = String.valueOf(currentDate);
+        String FILE_NAME = "Bill" + date + ".pdf";
+        // Tạo tài liệu PDF với kích thước A7 và lề 50 đơn vị cho mỗi cạnh
+        Document document = new Document(PageSize.A6, 30, 30, 30, 30);
+
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(FILE_NAME));
+            document.open();
+
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.BLACK);
+            Font contentFont = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
+
+            Paragraph title = new Paragraph("Bill", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            document.add(new Paragraph("\n")); // Add empty line
+
+            // Add content
+            String[] contentLines = {
+                "ID order:               " + String.valueOf(lbIdOrder.getText()),
+                "ID customer:            " + String.valueOf(lbIdCustomer.getText()),
+                "ID Staff:                " + String.valueOf(lbIdStaff.getText()),
+                "Date:                     " + String.valueOf(lbDate.getText()),
+                "Total:                     " + String.valueOf(lbTotal.getText()),
+                "Discount:               " + String.valueOf(lbDiscount.getText()),
+                "Total payment:       " + String.valueOf(lbTotalPayment.getText())
+            };
+
+            for (String line : contentLines) {
+                Paragraph content = new Paragraph(line, contentFont);
+                document.add(content);
+            }
+
+            document.close();
+            System.out.println("Hóa đơn được tạo thành công và lưu vào máy tính!");
+            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công");
+        } catch (DocumentException | FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     private void clickReload(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickReload
         txtDiscountCustomer.setText("");
