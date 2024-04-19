@@ -47,4 +47,9 @@ public class StaffSanPhamService implements IStaffSanPhamService {
         return staffSanPhamDao.getSanPhamById(id);
     }
 
+    @Override
+    public int getSoLuongTrongKhoByMaSanPham(String maSanPham) {
+        return staffSanPhamDao.getSoLuongTrongKhoByMaSanPham(maSanPham);
+    }
+
 }

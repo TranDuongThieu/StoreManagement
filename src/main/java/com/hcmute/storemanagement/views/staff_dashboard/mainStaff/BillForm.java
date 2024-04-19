@@ -35,21 +35,24 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class BillForm extends javax.swing.JPanel {
-    
+
+    int quanttOld = 0;
+
     IStaffDonHangService staffDonHangService = new StaffDonHangService();
     IStaffKhachHangService staffKhachHangService = new StaffKhachHangService();
     IAdminChiTietDonHangService adBillDetail = new AdminChiTietDonHangService();
     IStaffSanPhamService stProduct = new StaffSanPhamService();
-    
+    IStaffChiTietDonHangService staffBilldetail = new StaffChiTietDonHangService();
+
     public BillForm() throws SQLException {
         initComponents();
         txtScoresCustomer.setEditable(false);
         ShowBill();
         initBilldetailTable();
     }
-    
+
     private void initBilldetailTable() throws SQLException {
-        
+
         EventActionBilldetail eventAction = new EventActionBilldetail() {
             @Override
             public void delete(ModelBill student, ActionEvent e) {
@@ -67,13 +70,13 @@ public class BillForm extends javax.swing.JPanel {
                 String orderid = orderID != null ? orderID.toString() : "";
                 String productid = ProductID != null ? ProductID.toString() : "";
                 int cost = Cost != null ? Integer.parseInt(Cost.toString()) : 0;
-                
+
                 adBillDetail.deleteChiTietDonHang(orderid, productid);
                 JOptionPane.showMessageDialog(BillForm.this, "Xóa thành công");
                 HomeForm.globalBillId.totalGlb = HomeForm.globalBillId.totalGlb - cost;
                 lbTotal.setText(String.valueOf(HomeForm.globalBillId.totalGlb));
                 lbTotalPayment.setText(String.valueOf(HomeForm.globalBillId.totalGlb));
-                
+
                 try {
                     initBilldetailTable();
                 } catch (SQLException ex) {
@@ -82,12 +85,55 @@ public class BillForm extends javax.swing.JPanel {
                 // cập nhật total và total payment
 
             }
-            
+
             @Override
             public void update(ModelBill student, ActionEvent e) {
-                
+                int row = tbBilldetail.getSelectedRow();
+                Object orderID = tbBilldetail.getValueAt(row, 1);
+                Object ProductID = tbBilldetail.getValueAt(row, 2);
+                Object Quantity = tbBilldetail.getValueAt(row, 3);
+                Object Cost = tbBilldetail.getValueAt(row, 5);
+                String orderid = orderID != null ? orderID.toString() : "";
+                String productid = ProductID != null ? ProductID.toString() : "";
+                int quantity = Quantity != null ? Integer.parseInt(Quantity.toString()) : 0;
+                int cost = Cost != null ? Integer.parseInt(Cost.toString()) : 0;
+                // kt số lượng trong kho 
+                int qtWhouse = stProduct.getSoLuongTrongKhoByMaSanPham(productid);
+                if (quantity > qtWhouse) {
+                    JOptionPane.showMessageDialog(BillForm.this, "Số lượng trong kho không đủ");
+                    try {
+                        initBilldetailTable();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else {
+                    //HomeForm.globalBillId.totalGlb = 1;
+                    // Cập nhật totlal payment và total 
+                    // tính lại số mới nhập
+                    int newQuantity = quantity - quanttOld;
+
+                    HomeForm.globalBillId.totalGlb = HomeForm.globalBillId.totalGlb + cost * newQuantity;
+                    lbTotal.setText(String.valueOf(HomeForm.globalBillId.totalGlb));
+                    lbTotalPayment.setText(String.valueOf(HomeForm.globalBillId.totalGlb));
+                    lbDiscount.setText("");
+                    // up date số lượng
+                    staffBilldetail.updateSoLuong(orderid, productid, quantity);
+                    JOptionPane.showMessageDialog(BillForm.this, "Cập nhật số lượng thành công");
+                    try {
+                        initBilldetailTable();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    try {
+                        initBilldetailTable();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-            
+
         };
         DefaultTableModel model = (DefaultTableModel) tbBilldetail.getModel();
         model.setRowCount(0);
@@ -96,10 +142,10 @@ public class BillForm extends javax.swing.JPanel {
             SanPham sanPham = stProduct.getSanPhamById(ct.getMaSanPham());
             byte[] imageData = sanPham.getHinhAnh(); // Lấy dữ liệu hình ảnh từ đối tượng sanPham
             ImageIcon imageIcon = new ImageIcon(imageData);
-            model.addRow(new ModelBill(imageIcon, sanPham.getTenSanPham(), ct.getMaDonHang(), sanPham.getMaSanPham(), String.valueOf(ct.getSoLuong()), sanPham.getGia()).toRowTable(eventAction));
+            model.addRow(new ModelBill(imageIcon, sanPham.getTenSanPham(), ct.getMaDonHang(), sanPham.getMaSanPham(), String.valueOf(ct.getSoLuong()), sanPham.getSoLuongTrongKho(), sanPham.getGia(), sanPham.getGia() * ct.getSoLuong()).toRowTable(eventAction));
         }
     }
-    
+
     private void ShowBill() {
         DonHang dh = staffDonHangService.findBillById(String.valueOf(HomeForm.globalBillId.BillId));
         if (dh != null) {
@@ -111,7 +157,7 @@ public class BillForm extends javax.swing.JPanel {
             lbTotalPayment.setText(String.valueOf(HomeForm.globalBillId.totalGlb) + "$");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -150,6 +196,7 @@ public class BillForm extends javax.swing.JPanel {
         txtScoresCustomer = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         txtDiscountCustomer = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         jLabel22 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -159,18 +206,28 @@ public class BillForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Product Name", "Order ID", "Product ID", "Quantity", "Cost", "Action"
+                "Product Name", "Order ID", "Product ID", "Quantity", "Warehouse", "Cost", "Total", "Action"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false, true
+                false, false, false, true, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tbBilldetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clickCellTable(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbBilldetail);
+        if (tbBilldetail.getColumnModel().getColumnCount() > 0) {
+            tbBilldetail.getColumnModel().getColumn(0).setMinWidth(150);
+            tbBilldetail.getColumnModel().getColumn(0).setPreferredWidth(210);
+            tbBilldetail.getColumnModel().getColumn(0).setMaxWidth(210);
+        }
 
         jPanel1.setBackground(new java.awt.Color(233, 233, 233));
 
@@ -388,6 +445,13 @@ public class BillForm extends javax.swing.JPanel {
         jLabel22.setForeground(new java.awt.Color(51, 51, 51));
         jLabel22.setText("Discount");
 
+        jLabel10.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\reload.png")); // NOI18N
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clickReload(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
@@ -410,10 +474,15 @@ public class BillForm extends javax.swing.JPanel {
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelBorder1Layout.createSequentialGroup()
                                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel20)
-                                            .addComponent(jLabel21)
-                                            .addComponent(jLabel22))
-                                        .addGap(137, 137, 137)
+                                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel20)
+                                                    .addComponent(jLabel21)
+                                                    .addComponent(jLabel22))
+                                                .addGap(137, 137, 137))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
+                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)))
                                         .addComponent(btnAddDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -453,14 +522,16 @@ public class BillForm extends javax.swing.JPanel {
                             .addComponent(txtDiscountCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22))
                         .addGap(18, 18, 18)
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                            .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAddDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel8)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -493,17 +564,18 @@ public class BillForm extends javax.swing.JPanel {
     }//GEN-LAST:event_enterSearch
 
     private void btnAddDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiscountActionPerformed
-        lbDiscount.setText(txtDiscountCustomer.getText());
-        
-        String amountString = lbTotal.getText();
-        String cleanAmountString = amountString.substring(0, amountString.length() - 1);
-        int total = Integer.parseInt(cleanAmountString);
-        
-        String discString = txtDiscountCustomer.getText();
-        String cleanLastString = amountString.substring(0, discString.length() - 1);
-        int discount = Integer.parseInt(cleanLastString);
-        
-        lbTotalPayment.setText(String.valueOf(total + total * discount / 100));
+        if (txtDiscountCustomer.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa đủ điểm để được giảm giá!");
+        } else {
+            lbDiscount.setText(txtDiscountCustomer.getText());
+            String amountString = lbTotal.getText();
+            String cleanAmountString = amountString.substring(0, amountString.length() - 1);
+            int total = Integer.parseInt(cleanAmountString);
+            String discString = txtDiscountCustomer.getText();
+            String cleanLastString = amountString.substring(0, discString.length() - 1);
+            int discount = Integer.parseInt(cleanLastString);
+            lbTotalPayment.setText(String.valueOf(total - total * discount / 100));
+        }
     }//GEN-LAST:event_btnAddDiscountActionPerformed
 
     private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
@@ -511,9 +583,12 @@ public class BillForm extends javax.swing.JPanel {
         if (txtNameCustomer.getText().equals("") || txtPhoneCustomer.getText().equals("") || txtScoresCustomer.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tên, số điện thoại và điểm!");
         } else {
-            staffKhachHangService.addKhachHang(txtNameCustomer.getText(), txtPhoneCustomer.getText(), Integer.parseInt(txtScoresCustomer.getText()));
-            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công \n Bạn có thể tra cứu thông tin khách hàng này");
-            
+            boolean checkAdd = staffKhachHangService.addKhachHang(txtNameCustomer.getText(), txtPhoneCustomer.getText(), Integer.parseInt(txtScoresCustomer.getText()));
+            if (checkAdd == true) {
+                JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công \n Bạn có thể tra cứu thông tin khách hàng này");
+            } else {
+                JOptionPane.showMessageDialog(this, "Khách hàng này đã tồn tại!");
+            }
         }
     }//GEN-LAST:event_btnAddCustomerActionPerformed
 
@@ -533,10 +608,39 @@ public class BillForm extends javax.swing.JPanel {
         }    }//GEN-LAST:event_clickSearch
 
     private void btnExFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExFileActionPerformed
-        
+        // in hóa đơn 
+
+        // gán biến global về 0
+        HomeForm.globalBillId.BillId = null;
+        HomeForm.globalBillId.productId = null;
+        HomeForm.globalBillId.totalGlb = 0;
 
     }//GEN-LAST:event_btnExFileActionPerformed
-    
+
+    private void clickReload(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickReload
+        txtDiscountCustomer.setText("");
+        txtNameCustomer.setText("");
+        txtPhoneCustomer.setText("");
+        txtScoresCustomer.setText("");
+        String amountString = lbTotal.getText();
+        String cleanAmountString = amountString.substring(0, amountString.length() - 1);
+        int total = Integer.parseInt(cleanAmountString);
+        lbTotalPayment.setText(String.valueOf(total));
+        lbDiscount.setText("");
+        lbIdStaff.setText("");
+    }//GEN-LAST:event_clickReload
+
+    private void clickCellTable(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickCellTable
+        // TODO add your handling code here:
+        int row = tbBilldetail.rowAtPoint(evt.getPoint());
+        int column = tbBilldetail.columnAtPoint(evt.getPoint());
+
+        Object value = tbBilldetail.getValueAt(row, column);
+        quanttOld = value != null ? Integer.parseInt(value.toString()) : 0;
+
+        System.err.println("quantity: " + quanttOld);
+    }//GEN-LAST:event_clickCellTable
+
     private void showCusWithId(KhachHang khachHang) {
         txtNameCustomer.setText(khachHang.getTenKhachHang());
         //txtNameCustomer.setEditable(false);
@@ -559,6 +663,7 @@ public class BillForm extends javax.swing.JPanel {
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnExFile;
     private javax.swing.JLabel iconSearch;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;

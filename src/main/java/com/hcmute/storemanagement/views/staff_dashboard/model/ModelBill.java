@@ -27,21 +27,47 @@ public class ModelBill {
     private String idProduct;
 
     private String quantity;
+    
+    private int Warehouse;
 
     private int cost;
+    
+    private int sumCost;
     
 
     public ModelBill() {
     }
 
-    public ModelBill(Icon image, String nameProduct, String idOrder, String idProduct, String quantity, int cost) {
+    public ModelBill(Icon image, String nameProduct, String idOrder, String idProduct, String quantity, int Warehouse, int cost, int sumCost) {
         this.image = image;
         this.nameProduct = nameProduct;
         this.idOrder = idOrder;
         this.idProduct = idProduct;
         this.quantity = quantity;
+        this.Warehouse = Warehouse;
         this.cost = cost;
+        this.sumCost = sumCost;
     }
+
+    public int getWarehouse() {
+        return Warehouse;
+    }
+
+    public void setWarehouse(int Warehouse) {
+        this.Warehouse = Warehouse;
+    }
+
+    
+
+    public int getSumCost() {
+        return sumCost;
+    }
+
+    public void setSumCost(int sumCost) {
+        this.sumCost = sumCost;
+    }
+
+  
 
     public Icon getImage() {
         return image;
@@ -93,7 +119,7 @@ public class ModelBill {
 
     public Object[] toRowTable(EventActionBilldetail event) {
         DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileBilldetail(image, nameProduct), idOrder, idProduct, quantity, cost, new ModelActionBillDetail(this, event)};
+        return new Object[]{new ModelProfileBilldetail(image, nameProduct), idOrder, idProduct, quantity, Warehouse, cost,sumCost, new ModelActionBillDetail(this, event)};
     }
 
 }

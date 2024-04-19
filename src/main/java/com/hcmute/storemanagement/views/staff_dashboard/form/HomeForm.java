@@ -9,6 +9,7 @@ import com.hcmute.storemanagement.views.staff_dashboard.component.Item;
 import com.hcmute.storemanagement.views.staff_dashboard.event.EventItem;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelItem;
 import com.hcmute.storemanagement.views.staff_dashboard.swing.ScrollBar;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -437,7 +438,11 @@ public class HomeForm extends javax.swing.JPanel {
     private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
         if (txtQuantity.getText().equals("0")) {
             JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng!");
-        } else {
+        } else if(Integer.parseInt(txtQuantity.getText()) > Integer.valueOf(lbWarehouse.getText())){
+            JOptionPane.showMessageDialog(this, "Số lượng trong kho không đủ!");
+            lbWarehouse.setForeground(Color.red);
+        }
+        else {
             // tạo Bill với ngày hiện tại, tổng tiền ban đầu là tiền của sp được add, mà khách hàng có thể null, và idStaff
             // ngày
             Date currentDate = new Date();

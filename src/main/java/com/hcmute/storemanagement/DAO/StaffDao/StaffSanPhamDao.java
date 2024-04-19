@@ -121,8 +121,7 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
 
         return sanPhams;
     }
-    
-    
+
     public List<SanPham> getAllLapTop() {
         List<SanPham> sanPhams = new ArrayList<>();
         Connection connection = null;
@@ -182,7 +181,7 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
         }
         return sanPhams;
     }
-    
+
     public List<SanPham> getAllTablet() {
         List<SanPham> sanPhams = new ArrayList<>();
         Connection connection = null;
@@ -242,7 +241,7 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
         }
         return sanPhams;
     }
-    
+
     public List<SanPham> getAllAccessory() {
         List<SanPham> sanPhams = new ArrayList<>();
         Connection connection = null;
@@ -333,7 +332,7 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
                 sanPham.setSoLuongTrongKho(resultSet.getInt("SoLuongTrongKho"));
                 sanPham.setGia(resultSet.getInt("Gia"));
                 sanPham.setMaDanhMuc(resultSet.getString("MaDanhMuc"));
-                
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -343,6 +342,32 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
         }
         System.out.println(sanPham.getTenSanPham());
         return sanPham;
+    }
+
+    public int getSoLuongTrongKhoByMaSanPham(String maSanPham) {
+        int soLuongTrongKho = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT SoLuongTrongKho FROM SANPHAM WHERE MaSanPham=?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, maSanPham);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                soLuongTrongKho = resultSet.getInt("SoLuongTrongKho");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            // Handle exceptions
+        }
+
+        return soLuongTrongKho;
     }
 
 }

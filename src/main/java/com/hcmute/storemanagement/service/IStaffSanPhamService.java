@@ -24,4 +24,6 @@ public interface IStaffSanPhamService {
     List<SanPham> getAllAccessory();
 
     SanPham getSanPhamById(String id);
+
+    int getSoLuongTrongKhoByMaSanPham(String maSanPham);
 }

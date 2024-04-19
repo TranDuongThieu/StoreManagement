@@ -18,8 +18,12 @@ public interface IStaffSanPhamDao {
     List<SanPham> getAllPhone();
 
     List<SanPham> getAllLapTop();
-     List<SanPham> getAllTablet();
+
+    List<SanPham> getAllTablet();
 
     List<SanPham> getAllAccessory();
-     SanPham getSanPhamById(String id);
+
+    SanPham getSanPhamById(String id);
+
+    int getSoLuongTrongKhoByMaSanPham(String maSanPham);
 }

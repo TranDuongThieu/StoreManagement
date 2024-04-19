@@ -163,8 +163,6 @@ public class StaffDashboardWorkSchedule extends javax.swing.JPanel {
         for (LichLamViec lich : lichLamViecs) {
             model.addRow(new ModelWorkSchedule(icon, PanelLoginAndRegister.GlobalVariables.fullName, lich.getNgayLamViec(), lich.getMaCa()).toRowTable(eventAction));
         }
-//        model.setRowCount(model.getRowCount() + 1);
-
     }
 
     @SuppressWarnings("unchecked")

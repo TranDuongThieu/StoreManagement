@@ -79,7 +79,7 @@ public class BillDetailTable extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 5) {
+        if (col == 7) {
             return new TableCellAcBilldetail();
         } else {
             return super.getCellEditor(row, col);
