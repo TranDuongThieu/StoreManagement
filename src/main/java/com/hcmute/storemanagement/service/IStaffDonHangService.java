@@ -18,5 +18,8 @@ public interface IStaffDonHangService {
     String getLastInsertedBillId();
 
     DonHang findBillById(String billId);
+
     List<DonHang> getBillFromCusId(String cusId);
+
+    List<DonHang> getBillFromStaff(String cusId);
 }

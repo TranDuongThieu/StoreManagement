@@ -34,7 +34,7 @@ public class StaffForm extends javax.swing.JPanel {
     private Object variDayOfBirthObj = null;
     private Object variAddressObj = null;
     private Object variCccdObj = null;
-    static JFrame parentFrame;
+
     public StaffForm() throws SQLException {
         initComponents();
         initData();
@@ -323,6 +323,8 @@ public class StaffForm extends javax.swing.JPanel {
 
     private static void openPopup() {
         // Tạo cửa sổ popup và hiển thị
+        JFrame parentFrame;
+
         parentFrame = new JFrame();
         parentFrame.setTitle(null); // Đặt tiêu đề là null
         parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng

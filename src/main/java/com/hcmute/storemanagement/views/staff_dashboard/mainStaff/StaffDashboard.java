@@ -80,6 +80,12 @@ public class StaffDashboard extends javax.swing.JFrame {
                     }
                 }
                 
+                // Bill
+                if (index == 9){
+                        setForm(new TransactionForm());                    
+                }
+                
+                
                 if (index == 12){
                         setForm(new StaffProfile());
                    

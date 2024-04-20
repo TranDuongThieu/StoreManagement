@@ -26,6 +26,8 @@ public interface IStaffSanPhamDao {
     SanPham getSanPhamById(String id);
 
     int getSoLuongTrongKhoByMaSanPham(String maSanPham);
-    
+
     void updateSoLuongTrongKho(String maSanPham, int soLuongMoi);
+
+    void updateSoLuongDaBan(String maSanPham, int soLuongMoi);
 }

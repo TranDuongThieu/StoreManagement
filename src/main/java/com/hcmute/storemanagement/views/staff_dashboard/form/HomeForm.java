@@ -436,13 +436,16 @@ public class HomeForm extends javax.swing.JPanel {
 
 
     private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
-        if (txtQuantity.getText().equals("0")) {
+        if (Integer.parseInt(txtQuantity.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ!");
+            txtQuantity.setText("0");
+        }
+        else if (txtQuantity.getText().equals("0")) {
             JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng!");
-        } else if(Integer.parseInt(txtQuantity.getText()) > Integer.valueOf(lbWarehouse.getText())){
+        } else if (Integer.parseInt(txtQuantity.getText()) > Integer.valueOf(lbWarehouse.getText())) {
             JOptionPane.showMessageDialog(this, "Số lượng trong kho không đủ!");
             lbWarehouse.setForeground(Color.red);
-        }
-        else {
+        } else {
             // tạo Bill với ngày hiện tại, tổng tiền ban đầu là tiền của sp được add, mà khách hàng có thể null, và idStaff
             // ngày
             Date currentDate = new Date();

@@ -41,6 +41,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class BillForm extends javax.swing.JPanel {
 
@@ -74,7 +75,7 @@ public class BillForm extends javax.swing.JPanel {
                 // Lấy giá trị từ hàng và cột tương ứng, lấy được đối tượng object
                 Object orderID = tbBilldetail.getValueAt(row, 1);
                 Object ProductID = tbBilldetail.getValueAt(row, 2);
-                Object Cost = tbBilldetail.getValueAt(row, 5);
+                Object Cost = tbBilldetail.getValueAt(row, 6);
                 String orderid = orderID != null ? orderID.toString() : "";
                 String productid = ProductID != null ? ProductID.toString() : "";
                 int cost = Cost != null ? Integer.parseInt(Cost.toString()) : 0;
@@ -96,6 +97,10 @@ public class BillForm extends javax.swing.JPanel {
 
             @Override
             public void update(ModelBill student, ActionEvent e) {
+                // kiểm tra còn action ko
+                if (tbBilldetail.isEditing()) {
+                    tbBilldetail.getCellEditor().stopCellEditing();
+                }
                 int row = tbBilldetail.getSelectedRow();
                 Object orderID = tbBilldetail.getValueAt(row, 1);
                 Object ProductID = tbBilldetail.getValueAt(row, 2);
@@ -107,7 +112,14 @@ public class BillForm extends javax.swing.JPanel {
                 int cost = Cost != null ? Integer.parseInt(Cost.toString()) : 0;
                 // kt số lượng trong kho 
                 int qtWhouse = stProduct.getSoLuongTrongKhoByMaSanPham(productid);
-                if (quantity > qtWhouse) {
+                if (quantity <= 0) {
+                    JOptionPane.showMessageDialog(BillForm.this, "Vui lòng nhập số lượng lớn hơn 0");
+                    try {
+                        initBilldetailTable();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else if (quantity > qtWhouse) {
                     JOptionPane.showMessageDialog(BillForm.this, "Số lượng trong kho không đủ");
                     try {
                         initBilldetailTable();
@@ -576,13 +588,17 @@ public class BillForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Chưa đủ điểm để được giảm giá!");
         } else {
             lbDiscount.setText(txtDiscountCustomer.getText());
+
             String amountString = lbTotal.getText();
             String cleanAmountString = amountString.substring(0, amountString.length() - 1);
             int total = Integer.parseInt(cleanAmountString);
+            System.err.println("Total: " + total);
             String discString = txtDiscountCustomer.getText();
             String cleanLastString = amountString.substring(0, discString.length() - 1);
             int discount = Integer.parseInt(cleanLastString);
-            lbTotalPayment.setText(String.valueOf(total - total * discount / 100));
+            System.err.println("Discount: " + discount);
+
+            lbTotalPayment.setText(String.valueOf(total - ((total * discount) / 100)+"$"));
         }
     }//GEN-LAST:event_btnAddDiscountActionPerformed
 
@@ -624,7 +640,13 @@ public class BillForm extends javax.swing.JPanel {
             SanPham sanPham = stProduct.getSanPhamById(ct.getMaSanPham());
             int warehouse = sanPham.getSoLuongTrongKho() - Integer.valueOf(ct.getSoLuong());
             stProduct.updateSoLuongTrongKho(sanPham.getMaSanPham(), warehouse);
+            // update sold
+            int sold = sanPham.getSoLuongDaBan() + Integer.valueOf(ct.getSoLuong());
+            stProduct.updateSoLuongDaBan(sanPham.getMaSanPham(), sold);
+      
         }
+        // Cập nhật số lượng sản phẩm đã bán
+        
 
         // gán biến global về 0
         HomeForm.globalBillId.BillId = null;
@@ -665,11 +687,11 @@ public class BillForm extends javax.swing.JPanel {
 
     private void generateAndSaveBill() {
         // Lấy ngày hiện tại
-        LocalDate currentDate = LocalDate.now();
+        Date currentDate = new Date();
         String date = String.valueOf(currentDate);
-        String FILE_NAME = "Bill" + date + ".pdf";
+        String FILE_NAME = "Bill" + String.valueOf(lbIdOrder.getText())+ ".pdf";
         // Tạo tài liệu PDF với kích thước A7 và lề 50 đơn vị cho mỗi cạnh
-        Document document = new Document(PageSize.A6, 30, 30, 30, 30);
+        Document document = new Document(PageSize.A8, 30, 30, 30, 30);
 
         try {
             PdfWriter.getInstance(document, new FileOutputStream(FILE_NAME));
@@ -719,6 +741,7 @@ public class BillForm extends javax.swing.JPanel {
         lbTotalPayment.setText(String.valueOf(total));
         lbDiscount.setText("");
         lbIdStaff.setText("");
+        lbDiscount.setText("0%");
     }//GEN-LAST:event_clickReload
 
     private void clickCellTable(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickCellTable

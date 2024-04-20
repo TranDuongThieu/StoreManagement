@@ -29,8 +29,24 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BillDetail extends javax.swing.JPanel {
 
-    DonHang donhang;
-    KhachHang khachhang;
+    private DonHang donhang;
+    private KhachHang khachhang;
+
+    public DonHang getDonhang() {
+        return donhang;
+    }
+
+    public void setDonhang(DonHang donhang) {
+        this.donhang = donhang;
+    }
+
+    public KhachHang getKhachhang() {
+        return khachhang;
+    }
+
+    public void setKhachhang(KhachHang khachhang) {
+        this.khachhang = khachhang;
+    }
 
     public BillDetail(DonHang donhang, KhachHang khachhang) {
         initComponents();
@@ -46,12 +62,22 @@ public class BillDetail extends javax.swing.JPanel {
         IStaffSanPhamDao spDao = new StaffSanPhamDao();
 //        staffService.g
         NhanVien nhanvien = staffService.getStaffById(donhang.getMaNhanVien());
-        cusName.setText(khachhang.getTenKhachHang());
-        cusPhone.setText(khachhang.getSoDienThoai());
-        staffName.setText(nhanvien.getTenNhanVien());
-        staffPhone.setText(nhanvien.getSoDienThoai());
-        totalCostText.setText(formatTotalCost(donhang.getTongGiaTri()));
-        datePayment.setText(formatDate(donhang.getNgayDatHang()));
+
+        if (khachhang == null) {
+            cusName.setText("");
+            cusPhone.setText("");
+            staffName.setText(nhanvien.getTenNhanVien());
+            staffPhone.setText(nhanvien.getSoDienThoai());
+            totalCostText.setText(formatTotalCost(donhang.getTongGiaTri()));
+            datePayment.setText(formatDate(donhang.getNgayDatHang()));
+        } else {
+            cusName.setText(khachhang.getTenKhachHang());
+            cusPhone.setText(khachhang.getSoDienThoai());
+            staffName.setText(nhanvien.getTenNhanVien());
+            staffPhone.setText(nhanvien.getSoDienThoai());
+            totalCostText.setText(formatTotalCost(donhang.getTongGiaTri()));
+            datePayment.setText(formatDate(donhang.getNgayDatHang()));
+        }
         List<ChiTietDonHang> chitietList = chitietDAO.getChiTietDonHangById(donhang.getMaDonHang());
         DefaultTableModel model = (DefaultTableModel) tableCustomer1.getModel();
         model.setRowCount(0);
@@ -94,7 +120,6 @@ public class BillDetail extends javax.swing.JPanel {
         staffPhone = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         totalCostText = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         cusName = new javax.swing.JLabel();
@@ -104,6 +129,7 @@ public class BillDetail extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         datePayment = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCustomer1 = new com.hcmute.storemanagement.views.dashboard.swing.TableCustomer.TableCustomer();
@@ -112,17 +138,23 @@ public class BillDetail extends javax.swing.JPanel {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setForeground(new java.awt.Color(51, 51, 51));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setForeground(new java.awt.Color(51, 51, 51));
 
+        jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setText("Staff Name :");
 
+        staffName.setForeground(new java.awt.Color(51, 51, 51));
         staffName.setText("jLabel1");
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setText("Staff Phone Number:");
 
+        staffPhone.setForeground(new java.awt.Color(51, 51, 51));
         staffPhone.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -173,41 +205,40 @@ public class BillDetail extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
+        totalCostText.setForeground(new java.awt.Color(51, 51, 51));
         totalCostText.setText("jLabel1");
-
-        jLabel17.setText("Total Cost :");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jLabel17)
-                .addGap(114, 114, 114)
+                .addGap(111, 111, 111)
                 .addComponent(totalCostText, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
+                .addGap(76, 76, 76))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(totalCostText))
-                .addGap(0, 0, 0))
+                .addGap(6, 6, 6)
+                .addComponent(totalCostText)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
         jLabel16.setText("Customer Name :");
 
+        cusName.setForeground(new java.awt.Color(51, 51, 51));
         cusName.setText("jLabel1");
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
         jLabel18.setText("Customer Phone Number:");
 
+        cusPhone.setForeground(new java.awt.Color(51, 51, 51));
         cusPhone.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -247,7 +278,7 @@ public class BillDetail extends javax.swing.JPanel {
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(cusName))
@@ -258,8 +289,10 @@ public class BillDetail extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
+        datePayment.setForeground(new java.awt.Color(51, 51, 51));
         datePayment.setText("jLabel1");
 
+        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
         jLabel19.setText("Payment Date :");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -283,6 +316,9 @@ public class BillDetail extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
+        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel17.setText("Total Cost :");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -295,7 +331,10 @@ public class BillDetail extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -308,8 +347,10 @@ public class BillDetail extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -351,16 +392,17 @@ public class BillDetail extends javax.swing.JPanel {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addContainerGap(39, Short.MAX_VALUE)))))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(39, 39, 39))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 765, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(18, 18, 18)
@@ -368,7 +410,7 @@ public class BillDetail extends javax.swing.JPanel {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -136,7 +136,7 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
                 String maNhanVien = resultSet.getString("MaNhanVien");
 
                 // Khởi tạo đối tượng DonHang với thông tin tìm được
-                donHang = new DonHang(maDonHang, ngayDatHang, tongGiaTri, maKhachHang, maNhanVien);
+                donHang = new DonHang(maDonHang,maKhachHang,maNhanVien, ngayDatHang, tongGiaTri);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -168,6 +168,55 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
         try {
             connection = DBConnection.getConnection();
             String sql = "SELECT * FROM DONHANG WHERE MaKhachHang = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cusId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                DonHang donHang = new DonHang();
+                // Populate DonHang object from ResultSet
+                donHang.setMaDonHang(resultSet.getString("MaDonHang"));
+                donHang.setNgayDatHang(resultSet.getDate("NgayDatHang"));
+                donHang.setTongGiaTri(resultSet.getInt("TongGiaTri"));
+                donHang.setMaKhachHang(resultSet.getString("MaKhachHang"));
+                donHang.setMaNhanVien(resultSet.getString("MaNhanVien"));
+
+                donHangList.add(donHang);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception
+        } finally {
+            // Close resources (Connection, PreparedStatement, ResultSet)
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exception
+            }
+        }
+
+        return donHangList;
+    }
+    
+    
+     public List<DonHang> getBillFromStaff(String cusId) {
+        List<DonHang> donHangList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM DONHANG WHERE MaNhanVien = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, cusId);
             resultSet = preparedStatement.executeQuery();

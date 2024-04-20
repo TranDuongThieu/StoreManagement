@@ -11,22 +11,25 @@ import java.util.Date;
  * @author DELL
  */
 public class DonHang {
-     private String maDonHang;
-    private Date ngayDatHang;
-    private int tongGiaTri;
+
+    private String maDonHang;
     private String maKhachHang;
     private String maNhanVien;
+    private Date ngayDatHang;
+    private int tongGiaTri;
 
     public DonHang() {
     }
 
-    public DonHang(String maDonHang, Date ngayDatHang, int tongGiaTri, String maKhachHang, String maNhanVien) {
+    public DonHang(String maDonHang, String maKhachHang, String maNhanVien, Date ngayDatHang, int tongGiaTri) {
         this.maDonHang = maDonHang;
-        this.ngayDatHang = ngayDatHang;
-        this.tongGiaTri = tongGiaTri;
         this.maKhachHang = maKhachHang;
         this.maNhanVien = maNhanVien;
+        this.ngayDatHang = ngayDatHang;
+        this.tongGiaTri = tongGiaTri;
     }
+
+    
 
     public String getMaDonHang() {
         return maDonHang;
@@ -68,4 +71,6 @@ public class DonHang {
         this.maNhanVien = maNhanVien;
     }
     
+    
+
 }

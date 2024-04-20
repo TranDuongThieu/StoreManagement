@@ -14,47 +14,52 @@ import java.util.List;
  * @author DELL
  */
 public class StaffSanPhamService implements IStaffSanPhamService {
-
+    
     StaffSanPhamDao staffSanPhamDao = new StaffSanPhamDao();
-
+    
     @Override
     public List<SanPham> getAllSanPham() {
         return staffSanPhamDao.getAllSanPham();
     }
-
+    
     @Override
     public List<SanPham> getAllPhone() {
         return staffSanPhamDao.getAllPhone();
     }
-
+    
     @Override
     public List<SanPham> getAllLapTop() {
         return staffSanPhamDao.getAllLapTop();
     }
-
+    
     @Override
     public List<SanPham> getAllTablet() {
         return staffSanPhamDao.getAllTablet();
     }
-
+    
     @Override
     public List<SanPham> getAllAccessory() {
         return staffSanPhamDao.getAllAccessory();
     }
-
+    
     @Override
     public SanPham getSanPhamById(String id) {
         return staffSanPhamDao.getSanPhamById(id);
     }
-
+    
     @Override
     public int getSoLuongTrongKhoByMaSanPham(String maSanPham) {
         return staffSanPhamDao.getSoLuongTrongKhoByMaSanPham(maSanPham);
     }
-
+    
     @Override
     public void updateSoLuongTrongKho(String maSanPham, int soLuongMoi) {
         staffSanPhamDao.updateSoLuongTrongKho(maSanPham, soLuongMoi);
     }
-
+    
+    @Override
+    public void updateSoLuongDaBan(String maSanPham, int soLuongMoi) {
+        staffSanPhamDao.updateSoLuongDaBan(maSanPham, soLuongMoi);
+    }
+    
 }

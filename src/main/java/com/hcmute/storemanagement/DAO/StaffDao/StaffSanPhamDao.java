@@ -398,5 +398,33 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
             // Xử lý ngoại lệ nếu cần
         }
     }
+    
+    public void updateSoLuongDaBan(String maSanPham, int soLuongMoi) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "UPDATE SANPHAM SET SoLuongDaBan = ? WHERE MaSanPham = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Thiết lập tham số cho câu lệnh SQL
+            preparedStatement.setInt(1, soLuongMoi);
+            preparedStatement.setString(2, maSanPham);
+
+            // Thực thi câu lệnh SQL
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Số lượng trong kho của sản phẩm có mã " + maSanPham + " đã được cập nhật thành " + soLuongMoi);
+            } else {
+                System.out.println("Không tìm thấy sản phẩm có mã " + maSanPham);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng kết nối và tài nguyên
+            // Xử lý ngoại lệ nếu cần
+        }}
 
 }

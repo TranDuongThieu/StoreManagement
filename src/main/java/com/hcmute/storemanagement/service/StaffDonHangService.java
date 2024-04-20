@@ -35,4 +35,9 @@ public class StaffDonHangService implements IStaffDonHangService {
     public List<DonHang> getBillFromCusId(String cusId) {
         return getBillFromCusId(cusId);
     }
+
+    @Override
+    public List<DonHang> getBillFromStaff(String cusId) {
+        return staffDonHangDao.getBillFromStaff(cusId);
+    }
 }

@@ -21,4 +21,6 @@ public interface IStaffDonHangDao {
     DonHang findBillById(String billId);
 
     List<DonHang> getBillFromCusId(String cusId);
+
+    List<DonHang> getBillFromStaff(String cusId);
 }
