@@ -8,6 +8,7 @@ import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.form.CustomerForm;
 import com.hcmute.storemanagement.views.dashboard.form.GeneralScheduleForm;
+import com.hcmute.storemanagement.views.dashboard.form.ProductForm;
 
 import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.dashboard.form.Statistical;
@@ -50,11 +51,8 @@ public class Dashboard extends javax.swing.JFrame {
                     setForm(new Statistical());
                 }
                 if (index == 8) {
-                    try {
-                        setForm(new DashBoardProductForm(8));
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                        setForm(new ProductForm());
+                    
                 } else if (index == 1) {
                     setForm(customerForm);
                 } 
@@ -70,6 +68,7 @@ public class Dashboard extends javax.swing.JFrame {
                 }
             }
         });
+        setForm(new Statistical());
     }
 
     private void setForm(JComponent com) {

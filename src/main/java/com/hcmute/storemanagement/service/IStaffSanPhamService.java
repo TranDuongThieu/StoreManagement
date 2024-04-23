@@ -30,4 +30,10 @@ public interface IStaffSanPhamService {
     void updateSoLuongTrongKho(String maSanPham, int soLuongMoi);
 
     void updateSoLuongDaBan(String maSanPham, int soLuongMoi);
+
+    boolean deleteSanPhamById(String maSanPham);
+
+    void updateSanPham(SanPham sanPham);
+
+    boolean insertProduct(SanPham sanPham);
 }

@@ -398,7 +398,7 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
             // Xử lý ngoại lệ nếu cần
         }
     }
-    
+
     public void updateSoLuongDaBan(String maSanPham, int soLuongMoi) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -425,6 +425,135 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
         } finally {
             // Đóng kết nối và tài nguyên
             // Xử lý ngoại lệ nếu cần
-        }}
+        }
+    }
+
+    public boolean deleteSanPhamById(String maSanPham) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean success = false;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "DELETE FROM SANPHAM WHERE MaSanPham = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, maSanPham);
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted > 0) {
+                success = true;
+                System.out.println("Sản phẩm đã được xóa thành công!");
+            } else {
+                System.out.println("Không tìm thấy sản phẩm với ID: " + maSanPham);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng các tài nguyên
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return success;
+    }
+
+    public void updateSanPham(SanPham sanPham) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            // Lấy kết nối đến cơ sở dữ liệu
+            connection = DBConnection.getConnection();
+
+            // Tạo truy vấn SQL UPDATE
+            String sql = "UPDATE SANPHAM SET TenSanPham=?, MoTa=?, ThoiHanBaoHanh=?, HinhAnh=?, SoLuongDaBan=?, SoLuongTrongKho=?, Gia=? WHERE MaSanPham=?";
+
+            // Tạo đối tượng PreparedStatement với truy vấn SQL đã tạo
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Thiết lập các tham số cho truy vấn
+            preparedStatement.setString(1, sanPham.getTenSanPham());
+            preparedStatement.setString(2, sanPham.getMoTa());
+            preparedStatement.setString(3, sanPham.getThoiHanBaoHanh());
+            preparedStatement.setBytes(4, sanPham.getHinhAnh());
+            preparedStatement.setInt(5, sanPham.getSoLuongDaBan());
+            preparedStatement.setInt(6, sanPham.getSoLuongTrongKho());
+            preparedStatement.setInt(7, sanPham.getGia());
+            preparedStatement.setString(8, sanPham.getMaSanPham());
+
+            // Thực thi truy vấn UPDATE
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Sản phẩm đã được cập nhật thành công!");
+            } else {
+                System.out.println("Không có sản phẩm nào được cập nhật.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng các tài nguyên
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public boolean insertProduct(SanPham sanPham) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "INSERT INTO SANPHAM (MaDanhMuc, TenSanPham, MoTa, ThoiHanBaoHanh, HinhAnh, SoLuongDaBan, SoLuongTrongKho, Gia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, sanPham.getMaDanhMuc());
+            preparedStatement.setString(2, sanPham.getTenSanPham());
+            preparedStatement.setString(3, sanPham.getMoTa());
+            preparedStatement.setString(4, sanPham.getThoiHanBaoHanh());
+            preparedStatement.setBytes(5, sanPham.getHinhAnh());
+            preparedStatement.setInt(6, sanPham.getSoLuongDaBan());
+            preparedStatement.setInt(7, sanPham.getSoLuongTrongKho());
+            preparedStatement.setInt(8, sanPham.getGia());
+
+            // Thực thi truy vấn
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            System.out.println("Product inserted successfully.");
+
+            // Trả về true nếu có ít nhất một dòng được chèn thành công
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Trả về false nếu có lỗi xảy ra
+            return false;
+        } finally {
+            // Đóng các tài nguyên
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
