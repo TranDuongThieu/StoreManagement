@@ -9,17 +9,24 @@ import com.hcmute.storemanagement.models.GeneralSchedule;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class GeneralScheduleForm extends javax.swing.JPanel {
 
@@ -131,14 +138,14 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
             for (GeneralSchedule sc : listSchedule) {
                 if (sdf.format(sc.getNgayLamViec()).equals(weekDates.get(i))) {
                     if (sc.getMaCa() == 1) {
-                        ca1.set(i + 1, ca1.get(i + 1) + sc.getHoten() + "\n");
+                        ca1.set(i + 1, ca1.get(i + 1) + sc.getHoten() + " , " + "\n");
                     }
                     if (sc.getMaCa() == 2) {
-                        ca2.set(i + 1, ca2.get(i + 1) + sc.getHoten() + "\n");
+                        ca2.set(i + 1, ca2.get(i + 1) + sc.getHoten() + " , " + "\n");
 
                     }
                     if (sc.getMaCa() == 3) {
-                        ca3.set(i + 1, ca3.get(i + 1) + sc.getHoten() + "\n");
+                        ca3.set(i + 1, ca3.get(i + 1) + sc.getHoten() + " , " + "\n");
 
                     }
                 }
@@ -211,6 +218,11 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         button1.setBackground(new java.awt.Color(102, 255, 51));
         button1.setForeground(new java.awt.Color(255, 255, 255));
         button1.setText("Export");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -263,6 +275,56 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
                 .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        try {
+            // Create a new Excel workbook
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Schedule");
+
+            // Add a row at the top to display the days of the week
+            Row headerRow = sheet.createRow(0);
+            String[] daysOfWeek = {"", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+            for (int i = 0; i < daysOfWeek.length; i++) {
+                headerRow.createCell(i).setCellValue(daysOfWeek[i]);
+            }
+
+            // Iterate over the table and add data to the Excel sheet
+            for (int row = 0; row < table1.getRowCount(); row++) {
+                Row excelRow = sheet.createRow(row + 1); // Shift row index by 1 to accommodate header row
+                for (int column = 0; column < table1.getColumnCount(); column++) {
+                    Object value = table1.getValueAt(row, column);
+                    if (value != null) {
+                        excelRow.createCell(column).setCellValue(value.toString());
+                    }
+                }
+            }
+
+            String directoryPath = "schedule/";
+            String fileName = "schedule_" + lbDateFrom.getText() + "-" + lbDateTo.getText() + ".xlsx";
+            // Create directory if it doesn't exist
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            // Construct the full file path
+            String filePath = directoryPath + fileName;
+
+            // Write the workbook to the generated file name
+            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                workbook.write(outputStream);
+            }
+
+            // Close the workbook
+            workbook.close();
+
+            JOptionPane.showMessageDialog(this, "Excel file exported successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to export Excel file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_button1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

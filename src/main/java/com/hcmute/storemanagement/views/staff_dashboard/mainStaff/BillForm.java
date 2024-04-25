@@ -202,6 +202,7 @@ public class BillForm extends javax.swing.JPanel {
         lbTotal = new javax.swing.JLabel();
         lbDiscount = new javax.swing.JLabel();
         lbTotalPayment = new javax.swing.JLabel();
+        deleteBill = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
         jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtSearch = new com.hcmute.storemanagement.views.dashboard.swing.SearchText();
@@ -314,11 +315,25 @@ public class BillForm extends javax.swing.JPanel {
         lbTotalPayment.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lbTotalPayment.setForeground(new java.awt.Color(51, 51, 51));
 
+        deleteBill.setBackground(new java.awt.Color(255, 51, 51));
+        deleteBill.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBill.setText("Delete Bill");
+        deleteBill.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        deleteBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBillActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -336,13 +351,17 @@ public class BillForm extends javax.swing.JPanel {
                     .addComponent(lbDate)
                     .addComponent(lbTotal)
                     .addComponent(lbDiscount)
-                    .addComponent(lbTotalPayment)
-                    .addComponent(btnExFile, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbTotalPayment))
+                .addGap(151, 151, 151))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExFile, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(216, Short.MAX_VALUE)
+                    .addComponent(deleteBill, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(141, 141, 141)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,9 +396,14 @@ public class BillForm extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(lbTotalPayment))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(btnExFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(280, Short.MAX_VALUE)
+                    .addComponent(deleteBill, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
@@ -465,7 +489,6 @@ public class BillForm extends javax.swing.JPanel {
         jLabel22.setForeground(new java.awt.Color(51, 51, 51));
         jLabel22.setText("Discount");
 
-        jLabel10.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\reload.png")); // NOI18N
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clickReload(evt);
@@ -543,7 +566,7 @@ public class BillForm extends javax.swing.JPanel {
                             .addComponent(jLabel22))
                         .addGap(18, 18, 18)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnAddDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -551,7 +574,7 @@ public class BillForm extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(jLabel8)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -598,7 +621,7 @@ public class BillForm extends javax.swing.JPanel {
             int discount = Integer.parseInt(cleanLastString);
             System.err.println("Discount: " + discount);
 
-            lbTotalPayment.setText(String.valueOf(total - ((total * discount) / 100)+"$"));
+            lbTotalPayment.setText(String.valueOf(total - ((total * discount) / 100) + "$"));
         }
     }//GEN-LAST:event_btnAddDiscountActionPerformed
 
@@ -632,7 +655,14 @@ public class BillForm extends javax.swing.JPanel {
         }    }//GEN-LAST:event_clickSearch
 
     private void btnExFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExFileActionPerformed
+
+        if (HomeForm.globalBillId.totalGlb == 0) {
+            JOptionPane.showMessageDialog(this, "Empty Bill !", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
         // in hóa đơn 
+
         generateAndSaveBill();
         // cập nhật số lượng sản phẩm còn trong kho
         List<ChiTietDonHang> chitietdonhang = (List<ChiTietDonHang>) adBillDetail.getChiTietDonHangById(HomeForm.globalBillId.BillId);
@@ -643,10 +673,9 @@ public class BillForm extends javax.swing.JPanel {
             // update sold
             int sold = sanPham.getSoLuongDaBan() + Integer.valueOf(ct.getSoLuong());
             stProduct.updateSoLuongDaBan(sanPham.getMaSanPham(), sold);
-      
+
         }
         // Cập nhật số lượng sản phẩm đã bán
-        
 
         // gán biến global về 0
         HomeForm.globalBillId.BillId = null;
@@ -687,9 +716,10 @@ public class BillForm extends javax.swing.JPanel {
 
     private void generateAndSaveBill() {
         // Lấy ngày hiện tại
+
         Date currentDate = new Date();
         String date = String.valueOf(currentDate);
-        String FILE_NAME = "Bill" + String.valueOf(lbIdOrder.getText())+ ".pdf";
+        String FILE_NAME = "Bill" + String.valueOf(lbIdOrder.getText()) + ".pdf";
         // Tạo tài liệu PDF với kích thước A7 và lề 50 đơn vị cho mỗi cạnh
         Document document = new Document(PageSize.A8, 30, 30, 30, 30);
 
@@ -755,6 +785,19 @@ public class BillForm extends javax.swing.JPanel {
         System.err.println("quantity: " + quanttOld);
     }//GEN-LAST:event_clickCellTable
 
+    private void deleteBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBillActionPerformed
+        // TODO add your handling code here:
+        HomeForm.globalBillId.BillId = null;
+        HomeForm.globalBillId.productId = null;
+        HomeForm.globalBillId.totalGlb = 0;
+        try {
+            initBilldetailTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        nullBill();
+    }//GEN-LAST:event_deleteBillActionPerformed
+
     private void showCusWithId(KhachHang khachHang) {
         txtNameCustomer.setText(khachHang.getTenKhachHang());
         //txtNameCustomer.setEditable(false);
@@ -775,6 +818,7 @@ public class BillForm extends javax.swing.JPanel {
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAddCustomer;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnAddDiscount;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 btnExFile;
+    private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 deleteBill;
     private javax.swing.JLabel iconSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

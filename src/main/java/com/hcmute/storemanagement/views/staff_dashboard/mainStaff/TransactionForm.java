@@ -60,6 +60,7 @@ public class TransactionForm extends javax.swing.JPanel {
         tbAllBill = new com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable();
         jLabel1 = new javax.swing.JLabel();
         iconBillDetail = new javax.swing.JLabel();
+        detailBtn = new com.hcmute.storemanagement.views.authen.swing.Button();
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -91,10 +92,19 @@ public class TransactionForm extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(30, 119, 253));
         jLabel1.setText("List Bill");
 
-        iconBillDetail.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\eye.png")); // NOI18N
         iconBillDetail.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clickIconShowBilldetail(evt);
+            }
+        });
+
+        detailBtn.setBackground(new java.awt.Color(102, 255, 51));
+        detailBtn.setForeground(new java.awt.Color(255, 255, 255));
+        detailBtn.setText("Detail Bill");
+        detailBtn.setActionCommand("WatchBill");
+        detailBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detailBtnActionPerformed(evt);
             }
         });
 
@@ -107,9 +117,12 @@ public class TransactionForm extends javax.swing.JPanel {
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(14, 14, 14)
-                        .addComponent(iconBillDetail)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(detailBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(14, 14, 14)
+                                .addComponent(iconBillDetail)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -120,9 +133,13 @@ public class TransactionForm extends javax.swing.JPanel {
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addComponent(iconBillDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                        .addGap(2, 2, 2))
-                    .addComponent(jLabel1))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+                        .addGap(49, 49, 49))
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(detailBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -160,6 +177,17 @@ public class TransactionForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_clickIconShowBilldetail
 
+    private void detailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailBtnActionPerformed
+        // TODO add your handling code here: int rowIndex = tableCustomer1.getSelectedRow();
+        int rowIndex = tbAllBill.getSelectedRow();
+
+        if (rowIndex != -1) {
+            openPopup(donhangs.get(rowIndex));
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row.");
+        }
+    }//GEN-LAST:event_detailBtnActionPerformed
+
     private static void openPopup(DonHang selectedDonHang) {
         JFrame popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null
@@ -173,6 +201,7 @@ public class TransactionForm extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.hcmute.storemanagement.views.authen.swing.Button detailBtn;
     private javax.swing.JLabel iconBillDetail;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
