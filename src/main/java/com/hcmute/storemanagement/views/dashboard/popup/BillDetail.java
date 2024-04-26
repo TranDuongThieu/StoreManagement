@@ -13,14 +13,26 @@ import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
 import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.models.SanPham;
+import com.hcmute.storemanagement.service.AdminChiTietDonHangService;
+import com.hcmute.storemanagement.service.IAdminChiTietDonHangService;
+import com.hcmute.storemanagement.service.IStaffChiTietDonHangService;
+import com.hcmute.storemanagement.service.IStaffDonHangService;
+import com.hcmute.storemanagement.service.IStaffKhachHangService;
 import com.hcmute.storemanagement.service.IStaffNhanVienService;
+import com.hcmute.storemanagement.service.IStaffSanPhamService;
+import com.hcmute.storemanagement.service.StaffChiTietDonHangService;
+import com.hcmute.storemanagement.service.StaffDonHangService;
+import com.hcmute.storemanagement.service.StaffKhachHangService;
 import com.hcmute.storemanagement.service.StaffNhanVienService;
+import com.hcmute.storemanagement.service.StaffSanPhamService;
+import com.hcmute.storemanagement.views.staff_dashboard.model.ModelBill;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +43,9 @@ public class BillDetail extends javax.swing.JPanel {
 
     private DonHang donhang;
     private KhachHang khachhang;
+
+    IAdminChiTietDonHangService adBillDetail = new AdminChiTietDonHangService();
+    IStaffSanPhamService stProduct = new StaffSanPhamService();
 
     public DonHang getDonhang() {
         return donhang;
@@ -78,21 +93,24 @@ public class BillDetail extends javax.swing.JPanel {
             totalCostText.setText(formatTotalCost(donhang.getTongGiaTri()));
             datePayment.setText(formatDate(donhang.getNgayDatHang()));
         }
+
         List<ChiTietDonHang> chitietList = chitietDAO.getChiTietDonHangById(donhang.getMaDonHang());
-        DefaultTableModel model = (DefaultTableModel) tableCustomer1.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbBillDetail.getModel();
         model.setRowCount(0);
         List<SanPham> sanPhamList = new ArrayList<SanPham>();
+
         for (ChiTietDonHang chitiet : chitietList) {
             SanPham sp = spDao.getSanPhamById(chitiet.getMaSanPham());
-            Object[] row = new Object[4];
+            Object[] row = new Object[7];
             row[0] = sp.getMaSanPham(); // Product ID
             row[1] = sp.getTenSanPham(); // Product Name
-            row[2] = sp.getGia(); // Price
+            row[2] = chitiet.getMaDonHang(); // Price
             row[3] = chitiet.getSoLuong(); // Quantity
-
+            row[4] = sp.getSoLuongTrongKho();
+            row[5] = sp.getGia();
+            row[6] = sp.getGia() * chitiet.getSoLuong();
             model.addRow(row);
         }
-
     }
 
     private String formatTotalCost(int totalCost) {
@@ -131,8 +149,8 @@ public class BillDetail extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableCustomer1 = new com.hcmute.storemanagement.views.dashboard.swing.TableCustomer.TableCustomer();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbBillDetail = new com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -365,52 +383,45 @@ public class BillDetail extends javax.swing.JPanel {
         jLabel8.setForeground(new java.awt.Color(30, 119, 253));
         jLabel8.setText("Bill Detail");
 
-        tableCustomer1.setModel(new javax.swing.table.DefaultTableModel(
+        tbBillDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Product ID", "Product Name", "Price", "Quantity"
+                "Product ID", "Order ID", "Product ID", "Quantity", "Warehouse", "Cost", "Total"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tableCustomer1);
+        ));
+        jScrollPane2.setViewportView(tbBillDetail);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 990, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(39, 39, 39))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1)
-                    .addContainerGap()))
+                    .addGap(39, 39, 39)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 582, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(226, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(18, 18, 18)
                     .addComponent(jLabel8)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)))
+                    .addContainerGap(362, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -433,10 +444,10 @@ public class BillDetail extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel staffName;
     private javax.swing.JLabel staffPhone;
-    private com.hcmute.storemanagement.views.dashboard.swing.TableCustomer.TableCustomer tableCustomer1;
+    private com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.BillDetailTable tbBillDetail;
     private javax.swing.JLabel totalCostText;
     // End of variables declaration//GEN-END:variables
 }

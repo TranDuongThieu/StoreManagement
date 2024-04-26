@@ -261,7 +261,7 @@ public class popupAddProduct extends javax.swing.JPanel {
 
         btnUpdate.setBackground(new java.awt.Color(84, 151, 252));
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setText("Update");
+        btnUpdate.setText("Add Product");
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

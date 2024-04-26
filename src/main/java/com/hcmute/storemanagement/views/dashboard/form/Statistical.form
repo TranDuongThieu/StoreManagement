@@ -147,7 +147,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="8c" green="c" red="f9" type="rgb"/>
                 </Property>
-                <Property name="value" type="int" value="60"/>
+                <Property name="value" type="int" value="10000"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">

@@ -9,17 +9,23 @@ import com.hcmute.storemanagement.models.GeneralSchedule;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class GeneralScheduleForm extends javax.swing.JPanel {
 
@@ -43,8 +49,8 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
     public GeneralScheduleForm() {
         System.out.println("reload");
         initComponents();
-        table1.setRowHeight(120);
-        table1.setDefaultRenderer(Object.class, new MultiLineTableCellRenderer());
+        tbWorkSchedule.setRowHeight(120);
+        tbWorkSchedule.setDefaultRenderer(Object.class, new MultiLineTableCellRenderer());
         txtDate.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -145,7 +151,7 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
             }
         }
 
-        DefaultTableModel model = (DefaultTableModel) table1.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbWorkSchedule.getModel();
         model.setRowCount(0);
         String[][] rowData = new String[3][];
         rowData[0] = ca1.toArray(new String[0]);
@@ -163,7 +169,7 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        table1 = new com.hcmute.storemanagement.views.dashboard.swing.Table();
+        tbWorkSchedule = new com.hcmute.storemanagement.views.dashboard.swing.Table();
         txtDate = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -173,10 +179,11 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         lbDateTo = new javax.swing.JLabel();
         button1 = new com.hcmute.storemanagement.views.authen.swing.Button();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1103, 633));
 
-        table1.setBackground(new java.awt.Color(204, 204, 204));
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        tbWorkSchedule.setBackground(new java.awt.Color(204, 204, 204));
+        tbWorkSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -192,25 +199,35 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(table1);
+        jScrollPane1.setViewportView(tbWorkSchedule);
 
         txtDate.setBackground(new java.awt.Color(255, 255, 255));
         txtDate.setForeground(new java.awt.Color(51, 51, 51));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 26)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(30, 119, 253));
         jLabel2.setText("Work Schedule");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(30, 119, 253));
         jLabel3.setText("Date");
 
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("From : ");
 
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("To :");
 
-        button1.setBackground(new java.awt.Color(102, 255, 51));
+        button1.setBackground(new java.awt.Color(30, 119, 253));
         button1.setForeground(new java.awt.Color(255, 255, 255));
         button1.setText("Export");
+        button1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -237,20 +254,19 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
                 .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(962, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(lbDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -264,6 +280,89 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+//           try {
+//            // Create a new workbook
+//            Workbook workbook = new XSSFWorkbook();
+//            // Create a new sheet
+//            Sheet sheet = workbook.createSheet("Data");
+//
+//            // Get data from the table
+//            DefaultTableModel model = (DefaultTableModel) tbWorkSchedule.getModel();
+//            int rowCount = model.getRowCount();
+//            int colCount = model.getColumnCount();
+//
+//            // Write data to the Excel sheet
+//            for (int row = 0; row < rowCount; row++) {
+//                Row excelRow = sheet.createRow(row);
+//                for (int col = 0; col < colCount; col++) {
+//                    excelRow.createCell(col).setCellValue(model.getValueAt(row, col).toString());
+//                }
+//            }
+//
+//            // Save the workbook to a file
+//            FileOutputStream outputStream = new FileOutputStream("table_data.xlsx");
+//            workbook.write(outputStream);
+//            workbook.close();
+//            outputStream.close();
+//
+//            JOptionPane.showMessageDialog(this, "Exported to Excel successfully!");
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Error exporting to Excel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Data");
+
+            // Tạo tiêu đề cho các cột
+            String[] tableHeader = {"", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < tableHeader.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(tableHeader[i]);
+            }
+
+            // Lấy dữ liệu từ bảng và ghi vào Excel sheet
+            DefaultTableModel model = (DefaultTableModel) tbWorkSchedule.getModel();
+            int rowCount = model.getRowCount();
+            int colCount = model.getColumnCount();
+
+            // Duyệt qua từng dòng trong bảng
+            for (int row = 0; row < rowCount; row++) {
+                Row excelRow = sheet.createRow(row + 1); // Bắt đầu từ hàng thứ 2 để tránh ghi đè tiêu đề
+                // Duyệt qua từng cột trong dòng
+                for (int col = 0; col < colCount; col++) {
+                    Object value = model.getValueAt(row, col);
+                    Cell cell = excelRow.createCell(col);
+                    // Ghi giá trị vào ô
+                    if (value != null) {
+                        if (value instanceof String) {
+                            cell.setCellValue((String) value);
+                        } else if (value instanceof Integer) {
+                            cell.setCellValue((Integer) value);
+                        } else if (value instanceof Double) {
+                            cell.setCellValue((Double) value);
+                        } // Thêm các kiểu dữ liệu khác nếu cần
+                    }
+                }
+            }
+            // Lưu workbook vào một tệp Excel
+            Date currentDate = Date.from(Instant.MIN);
+            saveWorkbook(workbook, "workSchedule.xlsx");
+
+            JOptionPane.showMessageDialog(null, "Exported to Excel successfully!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error exporting to Excel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void saveWorkbook(Workbook workbook, String fileName) throws IOException {
+        try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
+            workbook.write(outputStream);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.authen.swing.Button button1;
@@ -274,7 +373,7 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbDateFrom;
     private javax.swing.JLabel lbDateTo;
-    private com.hcmute.storemanagement.views.dashboard.swing.Table table1;
+    private com.hcmute.storemanagement.views.dashboard.swing.Table tbWorkSchedule;
     private com.toedter.calendar.JDateChooser txtDate;
     // End of variables declaration//GEN-END:variables
 }

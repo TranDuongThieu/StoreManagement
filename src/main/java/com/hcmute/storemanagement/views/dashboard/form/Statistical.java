@@ -75,7 +75,7 @@ public class Statistical extends javax.swing.JPanel {
         progress1.setBackground(new java.awt.Color(242, 188, 217));
         progress1.setBorder(null);
         progress1.setForeground(new java.awt.Color(249, 12, 140));
-        progress1.setValue(60);
+        progress1.setValue(10000);
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
