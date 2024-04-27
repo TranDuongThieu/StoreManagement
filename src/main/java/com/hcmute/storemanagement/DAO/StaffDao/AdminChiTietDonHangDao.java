@@ -15,10 +15,10 @@ import java.util.List;
 
 /**
  *
- * @author thieu
+ * @author DELL
  */
-public class AdminChiTietDonHangDao implements IAdminChiTietDonHang {
-
+public class AdminChiTietDonHangDao implements IAdminChiTietDonHang{
+    
     public List<ChiTietDonHang> getChiTietDonHangById(String maDonHang) {
         List<ChiTietDonHang> chiTietDonHangList = new ArrayList<ChiTietDonHang>();
         Connection connection = null;
@@ -108,5 +108,4 @@ public class AdminChiTietDonHangDao implements IAdminChiTietDonHang {
         }
         return success;
     }
-
 }
