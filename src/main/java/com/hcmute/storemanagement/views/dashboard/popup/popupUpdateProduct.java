@@ -94,6 +94,12 @@ public class popupUpdateProduct extends javax.swing.JPanel {
         panelBorder2.setBackground(new java.awt.Color(255, 255, 255));
         panelBorder2.setForeground(new java.awt.Color(51, 51, 51));
 
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Name");
@@ -406,6 +412,10 @@ public class popupUpdateProduct extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnChangeImageActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

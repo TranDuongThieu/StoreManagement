@@ -156,7 +156,6 @@ public class ProductForm extends javax.swing.JPanel {
         popupFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                // Gọi phương thức để cập nhật bảng sản phẩm trên trang sản phẩm sau khi cửa sổ popup đã đóng lại
                 initData();
             }
         });

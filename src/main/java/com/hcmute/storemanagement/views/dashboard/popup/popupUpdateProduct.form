@@ -172,6 +172,9 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtName">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>

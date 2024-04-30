@@ -106,5 +106,9 @@ public class SanPham {
         this.gia = gia;
     }
 
+    public int getId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     
 }
