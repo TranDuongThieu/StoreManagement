@@ -9,6 +9,7 @@ import com.hcmute.storemanagement.models.GeneralSchedule;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -16,12 +17,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -137,14 +138,14 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
             for (GeneralSchedule sc : listSchedule) {
                 if (sdf.format(sc.getNgayLamViec()).equals(weekDates.get(i))) {
                     if (sc.getMaCa() == 1) {
-                        ca1.set(i + 1, ca1.get(i + 1) + sc.getHoten() + "\n");
+                        ca1.set(i + 1, ca1.get(i + 1) + sc.getHoten() + " , " + "\n");
                     }
                     if (sc.getMaCa() == 2) {
-                        ca2.set(i + 1, ca2.get(i + 1) + sc.getHoten() + "\n");
+                        ca2.set(i + 1, ca2.get(i + 1) + sc.getHoten() + " , " + "\n");
 
                     }
                     if (sc.getMaCa() == 3) {
-                        ca3.set(i + 1, ca3.get(i + 1) + sc.getHoten() + "\n");
+                        ca3.set(i + 1, ca3.get(i + 1) + sc.getHoten() + " , " + "\n");
 
                     }
                 }
@@ -222,7 +223,6 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
         button1.setBackground(new java.awt.Color(30, 119, 253));
         button1.setForeground(new java.awt.Color(255, 255, 255));
         button1.setText("Export");
-        button1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button1ActionPerformed(evt);
@@ -281,88 +281,55 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-//           try {
-//            // Create a new workbook
-//            Workbook workbook = new XSSFWorkbook();
-//            // Create a new sheet
-//            Sheet sheet = workbook.createSheet("Data");
-//
-//            // Get data from the table
-//            DefaultTableModel model = (DefaultTableModel) tbWorkSchedule.getModel();
-//            int rowCount = model.getRowCount();
-//            int colCount = model.getColumnCount();
-//
-//            // Write data to the Excel sheet
-//            for (int row = 0; row < rowCount; row++) {
-//                Row excelRow = sheet.createRow(row);
-//                for (int col = 0; col < colCount; col++) {
-//                    excelRow.createCell(col).setCellValue(model.getValueAt(row, col).toString());
-//                }
-//            }
-//
-//            // Save the workbook to a file
-//            FileOutputStream outputStream = new FileOutputStream("table_data.xlsx");
-//            workbook.write(outputStream);
-//            workbook.close();
-//            outputStream.close();
-//
-//            JOptionPane.showMessageDialog(this, "Exported to Excel successfully!");
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "Error exporting to Excel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//        }
         try {
+            // Create a new Excel workbook
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("Data");
+            Sheet sheet = workbook.createSheet("Schedule");
 
-            // Tạo tiêu đề cho các cột
-            String[] tableHeader = {"", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+            // Add a row at the top to display the days of the week
             Row headerRow = sheet.createRow(0);
-            for (int i = 0; i < tableHeader.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(tableHeader[i]);
+            String[] daysOfWeek = {"", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+            for (int i = 0; i < daysOfWeek.length; i++) {
+                headerRow.createCell(i).setCellValue(daysOfWeek[i]);
             }
 
-            // Lấy dữ liệu từ bảng và ghi vào Excel sheet
-            DefaultTableModel model = (DefaultTableModel) tbWorkSchedule.getModel();
-            int rowCount = model.getRowCount();
-            int colCount = model.getColumnCount();
-
-            // Duyệt qua từng dòng trong bảng
-            for (int row = 0; row < rowCount; row++) {
-                Row excelRow = sheet.createRow(row + 1); // Bắt đầu từ hàng thứ 2 để tránh ghi đè tiêu đề
-                // Duyệt qua từng cột trong dòng
-                for (int col = 0; col < colCount; col++) {
-                    Object value = model.getValueAt(row, col);
-                    Cell cell = excelRow.createCell(col);
-                    // Ghi giá trị vào ô
+            // Iterate over the table and add data to the Excel sheet
+            for (int row = 0; row < table1.getRowCount(); row++) {
+                Row excelRow = sheet.createRow(row + 1); // Shift row index by 1 to accommodate header row
+                for (int column = 0; column < table1.getColumnCount(); column++) {
+                    Object value = table1.getValueAt(row, column);
                     if (value != null) {
-                        if (value instanceof String) {
-                            cell.setCellValue((String) value);
-                        } else if (value instanceof Integer) {
-                            cell.setCellValue((Integer) value);
-                        } else if (value instanceof Double) {
-                            cell.setCellValue((Double) value);
-                        } // Thêm các kiểu dữ liệu khác nếu cần
+                        excelRow.createCell(column).setCellValue(value.toString());
                     }
                 }
             }
-            // Lưu workbook vào một tệp Excel
-            Date currentDate = Date.from(Instant.MIN);
-            saveWorkbook(workbook, "workSchedule.xlsx");
 
-            JOptionPane.showMessageDialog(null, "Exported to Excel successfully!");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error exporting to Excel: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            String directoryPath = "schedule/";
+            String fileName = "schedule_" + lbDateFrom.getText() + "-" + lbDateTo.getText() + ".xlsx";
+            // Create directory if it doesn't exist
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            // Construct the full file path
+            String filePath = directoryPath + fileName;
+
+            // Write the workbook to the generated file name
+            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                workbook.write(outputStream);
+            }
+
+            // Close the workbook
+            workbook.close();
+
+            JOptionPane.showMessageDialog(this, "Excel file exported successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to export Excel file.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_button1ActionPerformed
 
-    private void saveWorkbook(Workbook workbook, String fileName) throws IOException {
-        try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
-            workbook.write(outputStream);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hcmute.storemanagement.views.authen.swing.Button button1;
