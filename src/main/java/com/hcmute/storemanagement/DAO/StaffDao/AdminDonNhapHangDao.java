@@ -64,6 +64,42 @@ public class AdminDonNhapHangDao implements IAdminDonNhapHangDao {
         return donNhapHangList;
     }
 
+    public void insertDonNhapHang(DonNhapHang donNhapHang) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            // Đặt 'MaDonNhapHang' thành null để cơ sở dữ liệu tự sinh
+            String sql = "INSERT INTO DONNHAPHANG (NgayNhapHang, TongGiaTri, MaNhaCungCap) VALUES (?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set values from the DonNhapHang object
+            preparedStatement.setDate(1, new java.sql.Date(donNhapHang.getNgayNhapHang().getTime()));
+            preparedStatement.setInt(2, donNhapHang.getTongGiaTri());
+            preparedStatement.setString(3, donNhapHang.getMaNhaCungCap());
+
+            // Execute the statement
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions
+        } finally {
+            // Close resources in the reverse order of their creation
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exceptions
+            }
+        }
+    }
+
     public String getMaDonNhapHangCuoiCung() {
         List<DonNhapHang> donNhapHangList = getAllDonNhapHang();
 
@@ -150,5 +186,38 @@ public class AdminDonNhapHangDao implements IAdminDonNhapHangDao {
         }
 
         return false;
+    }
+
+    public void deleteDonNhapHang(String maDonNhapHang) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "DELETE FROM DONNHAPHANG WHERE MaDonNhapHang = ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set parameter for MaDonNhapHang
+            preparedStatement.setString(1, maDonNhapHang);
+
+            // Execute the statement
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions
+        } finally {
+            // Close resources in the reverse order of their creation
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exceptions
+            }
+        }
     }
 }

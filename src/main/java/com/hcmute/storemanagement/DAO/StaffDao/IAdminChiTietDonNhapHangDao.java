@@ -18,4 +18,6 @@ public interface IAdminChiTietDonNhapHangDao {
     boolean updateSoluong(String maDonNhapHang, String maSanPham, int soLuongMoi);
 
     boolean deleteGRNDetail(String maDonNhapHang, String maSanPham);
+
+    boolean insertChiTietDonNhapHang(String maDonNhapHang, String maSanPham, int soLuong);
 }

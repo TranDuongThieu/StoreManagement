@@ -16,14 +16,33 @@ import javax.swing.Icon;
  * @author DELL
  */
 public class ModelGRN {
+
     private Icon icon;
     private String GRNId;
     private String ProductId;
     private String ProductName;
-    private int Quantity;    
+    private int cost;
+    private int Quantity;
+    private int total;
 
     public Icon getIcon() {
         return icon;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public void setIcon(Icon icon) {
@@ -62,21 +81,23 @@ public class ModelGRN {
         this.Quantity = Quantity;
     }
 
-    public ModelGRN(Icon icon, String GRNId, String ProductId, String ProductName, int Quantity) {
+    public ModelGRN(Icon icon, String GRNId, String ProductId, String ProductName, int cost, int Quantity, int total) {
         this.icon = icon;
         this.GRNId = GRNId;
         this.ProductId = ProductId;
         this.ProductName = ProductName;
+        this.cost = cost;
         this.Quantity = Quantity;
+        this.total = total;
     }
 
+   
     public ModelGRN() {
     }
-    
-     public Object[] toRowTable(EventActionGRN event) {
+
+    public Object[] toRowTable(EventActionGRN event) {
         DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileGRN(icon, GRNId), ProductId, ProductName, Quantity, new ModelActionGRN(this, event)};
+        return new Object[]{new ModelProfileGRN(icon, GRNId), ProductId, ProductName, cost,Quantity, total, new ModelActionGRN(this, event)};
     }
 
-    
 }

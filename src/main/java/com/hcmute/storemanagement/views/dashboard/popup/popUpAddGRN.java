@@ -4,6 +4,9 @@
  */
 package com.hcmute.storemanagement.views.dashboard.popup;
 
+import com.hcmute.storemanagement.DAO.StaffDao.AdminChiTietDonNhapHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.IAdminChiTietDonNhapHangDao;
+import com.hcmute.storemanagement.models.ChiTietDonNhapHang;
 import com.hcmute.storemanagement.models.DonNhapHang;
 import com.hcmute.storemanagement.models.NhaCungCap;
 import com.hcmute.storemanagement.models.SanPham;
@@ -13,6 +16,10 @@ import com.hcmute.storemanagement.service.IAdminDonNhapHangService;
 import com.hcmute.storemanagement.service.IAdminNhaCungCapService;
 import com.hcmute.storemanagement.service.IStaffSanPhamService;
 import com.hcmute.storemanagement.service.StaffSanPhamService;
+import com.hcmute.storemanagement.views.dashboard.form.GRNForm;
+import com.hcmute.storemanagement.views.dashboard.model.ModelGRN;
+import com.hcmute.storemanagement.views.dashboard.swing.GRNTable.EventActionGRN;
+import com.hcmute.storemanagement.views.dashboard.swing.GRNTable.ModelProfileGRN;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -20,28 +27,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class popUpAddGRN extends javax.swing.JPanel {
-
+    
     IStaffSanPhamService productsv = new StaffSanPhamService();
     IAdminNhaCungCapService nccSv = new AdminNhaCungCapService();
     IAdminDonNhapHangService GRNsv = new AdminDonNhapHangService();
-
+    IAdminChiTietDonNhapHangDao GRNDetail = new AdminChiTietDonNhapHangDao();
+    
     List<SanPham> sanPhams = productsv.getAllSanPham();
     List<NhaCungCap> nccs = nccSv.getAllNhaCungCap();
-
+    private JFrame popupJframe;
     private String ProductId = sanPhams.get(0).getMaSanPham();
     private String SupplierId = nccs.get(0).getMaNhaCungCap();
-
-    public popUpAddGRN() {
+    private int total = 0;
+    public static String GRNID = "";
+    
+    public popUpAddGRN(JFrame popupJframe) {
+        this.popupJframe = popupJframe;
         initComponents();
         showDataCbbPrName();
         showDataCbbSpName();
-        initData();
-        txtCost.setText(String.valueOf(sanPhams.get(0).getGia()));
-    }
-
-    private void initData() {
         // lấy ngày hiện tại
         Date currentDate = new Date();
         // Đặt ngày hiện tại cho JDateChooser
@@ -49,11 +59,64 @@ public class popUpAddGRN extends javax.swing.JPanel {
         // set madon moi
         txtGRNID.setText(getGRNID());
         txtGRNID.setEditable(false);
+        //initData();
+        txtCost.setText(String.valueOf(sanPhams.get(0).getGia()));
     }
-
+    
+    private void initData() {
+        
+        EventActionGRN eventAction = new EventActionGRN() {
+            @Override
+            public void delete(ModelGRN student, ActionEvent e) {
+                // kiểm tra còn action ko
+                if (tbGrnDetail.isEditing()) {
+                    tbGrnDetail.getCellEditor().stopCellEditing();
+                }
+                int row = tbGrnDetail.getSelectedRow();
+                // lấy id product
+                Object productID = tbGrnDetail.getValueAt(row, 1);
+                String prdId = productID != null ? productID.toString() : "";
+                // xóa
+                GRNDetail.deleteGRNDetail(txtGRNID.getText(), prdId);
+                JOptionPane.showMessageDialog(popUpAddGRN.this, "Bạn đã xóa thành công");
+                initData();
+            }
+            
+            @Override
+            public void update(ModelGRN student, ActionEvent e) {
+                // kiểm tra còn action ko
+                if (tbGrnDetail.isEditing()) {
+                    tbGrnDetail.getCellEditor().stopCellEditing();
+                }
+                int row = tbGrnDetail.getSelectedRow();
+                ModelProfileGRN profileUser = (ModelProfileGRN) tbGrnDetail.getValueAt(row, 0);
+                String idGRN = profileUser.getId();
+                // lấy id product
+                Object productID = tbGrnDetail.getValueAt(row, 1);
+                String prdId = productID != null ? productID.toString() : "";
+                // lấy số lượng mới 
+                Object Quantity = tbGrnDetail.getValueAt(row, 4);
+                String quantitynew = Quantity != null ? Quantity.toString() : "";
+                GRNDetail.updateSoluong(idGRN, prdId, Integer.parseInt(quantitynew));
+                JOptionPane.showMessageDialog(popUpAddGRN.this, "Cập nhật thành công");
+                initData();
+                txtTotal.setText(String.valueOf(total()));
+            }
+        };
+        DefaultTableModel model = (DefaultTableModel) tbGrnDetail.getModel();
+        model.setRowCount(0);
+        List<ChiTietDonNhapHang> ctDonNhapHang = (List<ChiTietDonNhapHang>) GRNDetail.getGRNDetailgByGRNId(String.valueOf(txtGRNID.getText()));
+        for (ChiTietDonNhapHang ct : ctDonNhapHang) {
+            SanPham sanPham = productsv.getSanPhamById(ct.getMaSanPham());
+            byte[] imageData = sanPham.getHinhAnh(); // Lấy dữ liệu hình ảnh từ đối tượng sanPham
+            ImageIcon imageIcon = new ImageIcon(imageData);
+            model.addRow(new ModelGRN(imageIcon, ct.getMaDonNhapHang(), ct.getMaSanPham(), sanPham.getTenSanPham(), sanPham.getGia(), ct.getSoLuong(), sanPham.getGia() * ct.getSoLuong()).toRowTable(eventAction));
+        }
+    }
+    
     public String getGRNID() {
         String GRNID = GRNsv.getMaDonNhapHangCuoiCung();
-
+        
         if (GRNID.matches("DNH\\d+")) {
             int number = Integer.parseInt(GRNID.substring(3)); // Bỏ đi "TKNV" và lấy số phía sau
             number++;
@@ -62,7 +125,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
         }
         return GRNID;
     }
-
+    
     private void showDataCbbPrName() {
         // Tạo một DefaultComboBoxModel
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
@@ -91,14 +154,14 @@ public class popUpAddGRN extends javax.swing.JPanel {
                 String selectedProductId = parts[0];
                 ProductId = selectedProductId;
                 System.out.println("Selected Product ID: " + selectedProductId);
-
+                
                 SanPham sanPham = productsv.getSanPhamById(ProductId);
                 txtCost.setText(String.valueOf(sanPham.getGia()));
                 txtCost.setEditable(false);
             }
         });
     }
-
+    
     private void showDataCbbSpName() {
         // Tạo một DefaultComboBoxModel
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
@@ -126,7 +189,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
             }
         });
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -134,7 +197,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         panelBorder1 = new com.hcmute.storemanagement.views.dashboard.swing.PanelBorder();
         jScrollPane1 = new javax.swing.JScrollPane();
-        gRNTable1 = new com.hcmute.storemanagement.views.dashboard.swing.GRNTable.GRNTable();
+        tbGrnDetail = new com.hcmute.storemanagement.views.dashboard.swing.GRNTable.GRNTable();
         jLabel9 = new javax.swing.JLabel();
         button11 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
         txtGRNID = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
@@ -152,6 +215,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
         txtQuantity = new com.hcmute.storemanagement.views.dashboard.swing.TextInput();
         jLabel11 = new javax.swing.JLabel();
         button12 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
+        button13 = new com.hcmute.storemanagement.views.staff_dashboard.swing.Button1();
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 119, 253));
@@ -159,16 +223,24 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        gRNTable1.setBackground(new java.awt.Color(204, 204, 204));
-        gRNTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbGrnDetail.setBackground(new java.awt.Color(204, 204, 204));
+        tbGrnDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "GRN ID", "Product ID", "Product Name", "Cost", "Quantity", "Total", "Action"
             }
-        ));
-        jScrollPane1.setViewportView(gRNTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbGrnDetail);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 119, 253));
@@ -176,8 +248,13 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
         button11.setBackground(new java.awt.Color(30, 119, 253));
         button11.setForeground(new java.awt.Color(255, 255, 255));
-        button11.setText("Create GRN");
+        button11.setText("Finish");
         button11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        button11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button11ActionPerformed(evt);
+            }
+        });
 
         txtGRNID.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -191,7 +268,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Total");
+        jLabel4.setText("Total ($)");
 
         txtTotal.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -232,6 +309,21 @@ public class popUpAddGRN extends javax.swing.JPanel {
         button12.setForeground(new java.awt.Color(255, 255, 255));
         button12.setText("Add GRN detail");
         button12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        button12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clickAddGRNDetail(evt);
+            }
+        });
+
+        button13.setBackground(new java.awt.Color(255, 0, 51));
+        button13.setForeground(new java.awt.Color(255, 255, 255));
+        button13.setText("Delete GRN");
+        button13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        button13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button13clickAddGRNDetail(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -240,7 +332,6 @@ public class popUpAddGRN extends javax.swing.JPanel {
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,39 +340,37 @@ public class popUpAddGRN extends javax.swing.JPanel {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addGap(42, 42, 42)
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtGRNID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-                            .addComponent(CbbSupplierName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(CbbSupplierName, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(txtGRNID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelBorder1Layout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cbbProductName, 0, 255, Short.MAX_VALUE))
-                                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(panelBorder1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(81, 81, 81))
+                                .addComponent(button13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbbProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button11, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(button11, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel9)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 897, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,7 +405,9 @@ public class popUpAddGRN extends javax.swing.JPanel {
                             .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
-                        .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(button12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -345,19 +436,108 @@ public class popUpAddGRN extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateQuantity(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateQuantity
-        // TODO add your handling code here:ád
-        
-        
-        
+
+//        txtTotal.setText(String.valueOf(Integer.parseInt(txtCost.getText()) * Integer.valueOf(txtQuantity.getText())));
+
     }//GEN-LAST:event_updateQuantity
+
+    private void clickAddGRNDetail(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickAddGRNDetail
+        GRNID = txtGRNID.getText();
+        Date date = txtDate.getDate();
+        DonNhapHang donnhaphang = new DonNhapHang();
+        donnhaphang.setMaNhaCungCap(SupplierId);
+        donnhaphang.setNgayNhapHang(date);
+        donnhaphang.setTongGiaTri(0);
+        // tao 1 donnhaphang
+
+        String quantityText = txtQuantity.getText();
+        try {
+            int quantity = Integer.parseInt(quantityText);
+            
+            if (txtGRNID.getText().equals(GRNsv.getMaDonNhapHangCuoiCung())) {
+                if (txtQuantity.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
+                } else {
+                    boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
+                    if (checkInsert == true) {
+                        total = total();
+                        txtTotal.setText(String.valueOf(total));
+                        initData();
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
+                    }
+                }
+            } else {
+                GRNsv.insertDonNhapHang(donnhaphang);
+                
+                if (txtQuantity.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
+                } else {
+                    boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
+                    if (checkInsert == true) {
+                        total = total();
+                        txtTotal.setText(String.valueOf(total));
+                        initData();
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
+                    }
+                }
+            }
+            
+        } catch (NumberFormatException e) {
+            
+            JOptionPane.showMessageDialog(this, "Giá trị không hợp lệ. Vui lòng nhập một số nguyên.");
+        }
+
+        // add vào GRN detail 
+
+    }//GEN-LAST:event_clickAddGRNDetail
+    
+    private int total() {
+        int total = 0;
+        List<ChiTietDonNhapHang> listGRNdetail = GRNDetail.getGRNDetailgByGRNId(txtGRNID.getText());
+        
+        for (ChiTietDonNhapHang ct : listGRNdetail) {
+            SanPham sanPham = productsv.getSanPhamById(ct.getMaSanPham());
+            total = total + sanPham.getGia() * ct.getSoLuong();
+        }
+        return total;
+    }
+
+    private void button13clickAddGRNDetail(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button13clickAddGRNDetail
+        txtTotal.setText("");
+        txtQuantity.setText("");
+        GRNsv.deleteDonNhapHang(txtGRNID.getText());
+        initData();
+    }//GEN-LAST:event_button13clickAddGRNDetail
+
+    private void button11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button11ActionPerformed
+        if (txtGRNID.getText().equals(GRNsv.getMaDonNhapHangCuoiCung())) {
+            // cập nhật total 
+            GRNsv.updateTotalValueById(txtGRNID.getText(), total());
+            // kiểm tra T F 
+            int result = JOptionPane.showConfirmDialog(this, "Thêm đơn nhập hàng thành công, bạn có chắc chắn muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                popupJframe.dispose();
+                GRNID = "";
+            }
+        } else {
+            int result = JOptionPane.showConfirmDialog(this, "Chưa thêm đơn hàng, bạn có chắc chắn muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                popupJframe.dispose();
+            }
+        }
+    }//GEN-LAST:event_button11ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbbSupplierName;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button11;
     private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button12;
+    private com.hcmute.storemanagement.views.staff_dashboard.swing.Button1 button13;
     private javax.swing.JComboBox<String> cbbProductName;
-    private com.hcmute.storemanagement.views.dashboard.swing.GRNTable.GRNTable gRNTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -369,6 +549,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private com.hcmute.storemanagement.views.dashboard.swing.PanelBorder panelBorder1;
+    private com.hcmute.storemanagement.views.dashboard.swing.GRNTable.GRNTable tbGrnDetail;
     private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtCost;
     private com.toedter.calendar.JDateChooser txtDate;
     private com.hcmute.storemanagement.views.dashboard.swing.TextInput txtGRNID;

@@ -58,6 +58,47 @@ public class AdminChiTietDonNhapHangDao implements IAdminChiTietDonNhapHangDao {
         return chiTietDonNhapHangList;
     }
 
+    public boolean insertChiTietDonNhapHang(String maDonNhapHang, String maSanPham, int soLuong) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean success = false;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "INSERT INTO CHITIETDONNHAPHANG (MaDonNhapHang, MaSanPham, SoLuong) VALUES (?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set values
+            preparedStatement.setString(1, maDonNhapHang);
+            preparedStatement.setString(2, maSanPham);
+            preparedStatement.setInt(3, soLuong);
+
+            // Execute the statement
+            int rowsAffected = preparedStatement.executeUpdate();
+            // If rowsAffected is greater than 0, it means the insert was successful
+            if (rowsAffected > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions
+        } finally {
+            // Close resources in the reverse order of their creation
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exceptions
+            }
+        }
+        return success;
+    }
+
     public boolean updateSoluong(String maDonNhapHang, String maSanPham, int soLuongMoi) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

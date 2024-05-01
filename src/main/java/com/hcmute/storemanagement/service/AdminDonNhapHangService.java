@@ -37,4 +37,13 @@ public class AdminDonNhapHangService implements IAdminDonNhapHangService {
         return DonNhapHang.getMaDonNhapHangCuoiCung();
     }
 
+    @Override
+    public void insertDonNhapHang(DonNhapHang donNhapHang) {
+        DonNhapHang.insertDonNhapHang(donNhapHang);
+    }
+
+    @Override
+    public void deleteDonNhapHang(String maDonNhapHang) {
+        DonNhapHang.deleteDonNhapHang(maDonNhapHang);
+    }
 }

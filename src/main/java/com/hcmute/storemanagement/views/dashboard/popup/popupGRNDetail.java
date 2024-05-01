@@ -84,7 +84,7 @@ public class popupGRNDetail extends javax.swing.JPanel {
                 Object productID = tbGrnDetail.getValueAt(row, 1);
                 String prdId = productID != null ? productID.toString() : "";
                 // lấy số lượng mới 
-                Object Quantity = tbGrnDetail.getValueAt(row, 3);
+                Object Quantity = tbGrnDetail.getValueAt(row, 4);
                 String quantitynew = Quantity != null ? Quantity.toString() : "";
                 // cập nhật total và total payment
                 boolean checkUd = GRNDetail.updateSoluong(IdGRN, prdId, Integer.parseInt(quantitynew));
@@ -115,7 +115,7 @@ public class popupGRNDetail extends javax.swing.JPanel {
             SanPham sanPham = stProduct.getSanPhamById(ct.getMaSanPham());
             byte[] imageData = sanPham.getHinhAnh(); // Lấy dữ liệu hình ảnh từ đối tượng sanPham
             ImageIcon imageIcon = new ImageIcon(imageData);
-            model.addRow(new ModelGRN(imageIcon, ct.getMaDonNhapHang(), ct.getMaSanPham(), sanPham.getTenSanPham(), ct.getSoLuong()).toRowTable(eventAction));
+            model.addRow(new ModelGRN(imageIcon, ct.getMaDonNhapHang(), ct.getMaSanPham(), sanPham.getTenSanPham(), sanPham.getGia(), ct.getSoLuong(), sanPham.getGia() * ct.getSoLuong()).toRowTable(eventAction));
         }
     }
 
@@ -140,11 +140,11 @@ public class popupGRNDetail extends javax.swing.JPanel {
 
             },
             new String [] {
-                "GRN ID", "Product ID", "Product Name", "Quantity", "Action"
+                "GRN ID", "Product ID", "Product Name", "Cost", "Quantity", "Total", "Action"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

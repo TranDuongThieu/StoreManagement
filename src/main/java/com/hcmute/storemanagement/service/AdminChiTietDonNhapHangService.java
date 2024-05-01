@@ -32,4 +32,9 @@ public class AdminChiTietDonNhapHangService implements IAdminChiTietDonNhapHangS
         return GRNDetail.deleteGRNDetail(maDonNhapHang, maSanPham);
     }
 
+    @Override
+    public boolean insertChiTietDonNhapHang(String maDonNhapHang, String maSanPham, int soLuong) {
+        return GRNDetail.insertChiTietDonNhapHang(maDonNhapHang, maSanPham, soLuong);
+    }
+
 }

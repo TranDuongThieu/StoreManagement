@@ -20,4 +20,8 @@ public interface IAdminDonNhapHangService {
     boolean updateTotalValueById(String maDonNhapHang, int newTotalValue);
 
     String getMaDonNhapHangCuoiCung();
+
+    void insertDonNhapHang(DonNhapHang donNhapHang);
+
+    void deleteDonNhapHang(String maDonNhapHang);
 }

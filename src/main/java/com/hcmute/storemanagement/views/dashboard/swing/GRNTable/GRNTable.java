@@ -79,7 +79,7 @@ public class GRNTable extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 4) {
+        if (col == 6) {
             return new TableCellAcGRN();
         } else {
             return super.getCellEditor(row, col);

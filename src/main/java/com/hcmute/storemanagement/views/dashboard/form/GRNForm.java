@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class GRNForm extends javax.swing.JPanel {
 
     IAdminDonNhapHangService donNhapHang = new AdminDonNhapHangService();
+    private JFrame popupFrame;
 
     public GRNForm() {
         initComponents();
@@ -55,7 +56,6 @@ public class GRNForm extends javax.swing.JPanel {
         popupFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                // Gọi phương thức để cập nhật bảng sản phẩm trên trang sản phẩm sau khi cửa sổ popup đã đóng lại
                 initData();
             }
         });
@@ -193,22 +193,37 @@ public class GRNForm extends javax.swing.JPanel {
     }//GEN-LAST:event_clickAddGRN
 
     private void openPUAddGRN() {
-        JFrame popupFrame = new JFrame();
+        // tạo GRN mới 
+        popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null
-        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
+        popupFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Ngăn cửa sổ tự đóng khi nhấn "X"
         popupFrame.addWindowListener(new WindowAdapter() {
             @Override
+            public void windowClosing(WindowEvent e) {
+                int result = JOptionPane.showConfirmDialog(popupFrame, "Bạn chưa hoàn thành đơn nhập hàng, bạn có chắc chắn muốn thoát không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    popupFrame.dispose();
+                    donNhapHang.deleteDonNhapHang(String.valueOf(popUpAddGRN.GRNID));
+
+                }
+//                if (!popUpAddGRN.GRNID.equals("")) {
+//                    donNhapHang.deleteDonNhapHang(String.valueOf(popUpAddGRN.GRNID));
+//                }
+            }
+
+            @Override
             public void windowClosed(WindowEvent e) {
-                
+                initData();
             }
         });
-        popUpAddGRN billInfo = new popUpAddGRN();
+
+        popUpAddGRN billInfo = new popUpAddGRN(popupFrame);
         popupFrame.add(billInfo);
         popupFrame.pack();
-        popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
+        popupFrame.setLocationRelativeTo(null);
         popupFrame.setVisible(true);
-
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
