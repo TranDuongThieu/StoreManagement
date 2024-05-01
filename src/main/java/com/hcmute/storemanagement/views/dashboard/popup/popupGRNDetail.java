@@ -140,11 +140,11 @@ public class popupGRNDetail extends javax.swing.JPanel {
 
             },
             new String [] {
-                "GRN ID", "Product ID", "Product Name", "Cost", "Quantity", "Total", "Action"
+                "GRN ID", "Product ID", "Product Name", "Cost", "Quantity", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false, true
+                false, false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
