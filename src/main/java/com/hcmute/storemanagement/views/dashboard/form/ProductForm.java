@@ -147,6 +147,7 @@ public class ProductForm extends javax.swing.JPanel {
         }
     }
 
+    
     private void openPopupUpdate(SanPham selectedSanPham) {
         JFrame popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null

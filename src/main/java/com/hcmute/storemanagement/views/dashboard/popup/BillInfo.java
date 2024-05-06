@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.hcmute.storemanagement.DAO.StaffDao.IStaffKhachHangDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
+import java.text.DecimalFormat;
 
 
 public class BillInfo extends javax.swing.JPanel {
@@ -69,8 +70,8 @@ public class BillInfo extends javax.swing.JPanel {
     }
 
     private String formatTotalCost(int totalCost) {
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        return format.format(totalCost);
+        DecimalFormat df = new DecimalFormat("$#,##0.00");
+        return df.format(totalCost);
     }
 
 // Method to format the date

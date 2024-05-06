@@ -26,6 +26,7 @@ import com.hcmute.storemanagement.service.StaffKhachHangService;
 import com.hcmute.storemanagement.service.StaffNhanVienService;
 import com.hcmute.storemanagement.service.StaffSanPhamService;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelBill;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -107,15 +108,15 @@ public class BillDetail extends javax.swing.JPanel {
             row[2] = chitiet.getMaDonHang(); // Price
             row[3] = chitiet.getSoLuong(); // Quantity
             row[4] = sp.getSoLuongTrongKho();
-            row[5] = sp.getGia();
-            row[6] = sp.getGia() * chitiet.getSoLuong();
+            row[5] = formatTotalCost(sp.getGia());
+            row[6] = formatTotalCost(sp.getGia() * chitiet.getSoLuong());
             model.addRow(row);
         }
     }
 
     private String formatTotalCost(int totalCost) {
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        return format.format(totalCost);
+        DecimalFormat df = new DecimalFormat("$#,##0.00");
+        return df.format(totalCost);
 
     }
 

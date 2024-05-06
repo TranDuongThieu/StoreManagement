@@ -14,6 +14,7 @@ import com.hcmute.storemanagement.service.StaffKhachHangService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.dashboard.popup.BillDetail;
 import com.hcmute.storemanagement.views.dashboard.popup.popupAddAccount;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JFrame;
@@ -45,10 +46,16 @@ public class TransactionForm extends javax.swing.JPanel {
             rowData.add(don.getMaKhachHang());
             rowData.add(don.getMaNhanVien());
             rowData.add(don.getNgayDatHang());
-            rowData.add(don.getTongGiaTri());
+            rowData.add(formatTotalCost(don.getTongGiaTri()));
             // Thêm hàng vào model
             model.addRow(rowData);
         }
+    }
+
+    private String formatTotalCost(int totalCost) {
+        DecimalFormat df = new DecimalFormat("$#,##0.00");
+        return df.format(totalCost);
+
     }
 
     @SuppressWarnings("unchecked")

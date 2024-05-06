@@ -40,6 +40,7 @@ public class GeneratePDF {
         IAdminChiTietDonHang chitietDAO = new AdminChiTietDonHangDao();
         IStaffDonHangDao donhangDAO = new StaffDonHangDao();
         DonHang bill = donhangDAO.findBillById(billId);
+        System.out.println("KH: " + bill.getMaKhachHang());
         KhachHang cus = khachHangDao.getKhachHangByID(bill.getMaKhachHang());
         NhanVien staff = nvService.getStaffById(bill.getMaNhanVien());
         List<ChiTietDonHang> listChiTiet = chitietDAO.getChiTietDonHangById(bill.getMaDonHang());
@@ -136,14 +137,6 @@ public class GeneratePDF {
             document.add(line);
             document.add(new Paragraph(" "));
 
-            int discount = 0;
-            if (cus != null) {
-                if (cus.getDiemThanhVien() > 1000) {
-                    discount = 10;
-                } else if (cus.getDiemThanhVien() > 500) {
-                    discount = 5;
-                }
-            }
             int tempCost = 0;
             for (int i = 0; i < listChiTiet.size(); i++) {
                 tempCost += listSanPham.get(i).getGia() * listChiTiet.get(i).getSoLuong();
@@ -152,6 +145,7 @@ public class GeneratePDF {
             tmpCost.setAlignment(Element.ALIGN_RIGHT);
             document.add(tmpCost);
 
+            int discount = 100 - (int) Math.round((double) bill.getTongGiaTri() / tempCost * 100);
             Paragraph discountText = new Paragraph("Discount:   " + discount + "%", contentFont);
             discountText.setAlignment(Element.ALIGN_RIGHT);
             document.add(discountText);
@@ -272,7 +266,7 @@ public class GeneratePDF {
 
         GeneratePDF gen = new GeneratePDF();
 
-        gen.generateGRN("DNH001");
+        gen.generateGDN("DH018");
 
     }
 }

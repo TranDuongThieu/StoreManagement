@@ -110,7 +110,7 @@ public class ModelProduct {
     
     public Object[] toRowTable(EventActionProduct event) {
         DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileProduct(icon, maSanPham), tenSanPham, moTa, thoiHanBaoHanh,soLuongDaBan,soLuongTrongKho,gia, new ModelActionProduct(this, event)};
+        return new Object[]{new ModelProfileProduct(icon, maSanPham), tenSanPham, moTa, thoiHanBaoHanh,soLuongDaBan,soLuongTrongKho,df.format(gia), new ModelActionProduct(this, event)};
     }
     
 }

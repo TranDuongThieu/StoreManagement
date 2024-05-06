@@ -49,9 +49,8 @@ public class ModelCustomer {
     }
 
     public Object[] toRowTable() {
-        NumberFormat  format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileUser(icon, idCustomer), name, phone, point, numberOfBill, format.format(totalCost)};
+        return new Object[]{new ModelProfileUser(icon, idCustomer), name, phone, point, numberOfBill, df.format(totalCost)};
     }
 
     public int getPoint() {

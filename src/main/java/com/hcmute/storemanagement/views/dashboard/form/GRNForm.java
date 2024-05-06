@@ -11,6 +11,7 @@ import com.hcmute.storemanagement.views.dashboard.popup.popUpAddGRN;
 import com.hcmute.storemanagement.views.dashboard.popup.popupGRNDetail;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,11 +43,17 @@ public class GRNForm extends javax.swing.JPanel {
             Object[] row = new Object[4];
             row[0] = donNhap.getMaDonNhapHang(); // Product ID
             row[1] = donNhap.getNgayNhapHang(); // Product Name
-            row[2] = donNhap.getTongGiaTri(); // Price
+            row[2] = formatTotalCost(donNhap.getTongGiaTri()); // Price
             row[3] = donNhap.getMaNhaCungCap(); // Quantity
 
             model.addRow(row);
         }
+    }
+
+    private String formatTotalCost(int totalCost) {
+        DecimalFormat df = new DecimalFormat("$#,##0.00");
+        return df.format(totalCost);
+
     }
 
     private void openPopup(String IdGRN, Date date) {

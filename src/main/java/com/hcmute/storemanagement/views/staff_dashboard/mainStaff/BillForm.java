@@ -630,7 +630,7 @@ public class BillForm extends javax.swing.JPanel {
 
     private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
         // insert customer 
-        if (txtNameCustomer.getText().equals("") || txtPhoneCustomer.getText().equals("") ) {
+        if (txtNameCustomer.getText().equals("") || txtPhoneCustomer.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tên, số điện thoại và điểm!");
         } else {
             boolean checkAdd = staffKhachHangService.addKhachHang(txtNameCustomer.getText(), txtPhoneCustomer.getText());
@@ -650,7 +650,7 @@ public class BillForm extends javax.swing.JPanel {
 
         }
         // in hóa đơn 
-        generateAndSaveBill();
+
         // Cập nhật khách hàng mua đơn hàng đó 
         if (!idCus.equals("")) {
             staffDonHangService.updateCustomer(lbIdOrder.getText(), lbIdCustomer.getText());
@@ -663,7 +663,7 @@ public class BillForm extends javax.swing.JPanel {
                 staffKhachHangService.updateScore(idCus, newscore);
             }
         }
-
+        generateAndSaveBill();
         // Cập nhật total trong đơn hàng
         String totalPaymentText = lbTotalPayment.getText();
         String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
@@ -708,8 +708,6 @@ public class BillForm extends javax.swing.JPanel {
         txtDiscountCustomer.setText("");
         txtSearch.setText("");
     }
-
-    
 
     private void generateAndSaveBill() {
         GeneratePDF gen = new GeneratePDF();
@@ -791,12 +789,13 @@ public class BillForm extends javax.swing.JPanel {
         txtScoresCustomer.setText(String.valueOf(khachHang.getDiemThanhVien()));
         lbIdCustomer.setText(khachHang.getMaKhachHang());
         //txtScoresCustomer.setEditable(false);
-        if (khachHang.getDiemThanhVien() > 500) {
-            txtDiscountCustomer.setText("5%");
-        } else if (khachHang.getDiemThanhVien() > 1000) {
+        if (khachHang.getDiemThanhVien() > 1000) {
             txtDiscountCustomer.setText("10%");
-            txtDiscountCustomer.setEditable(false);
+
+        } else if (khachHang.getDiemThanhVien() > 500) {
+            txtDiscountCustomer.setText("5%");
         }
+        txtDiscountCustomer.setEditable(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -97,7 +97,7 @@ public class ModelGRN {
 
     public Object[] toRowTable(EventActionGRN event) {
         DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileGRN(icon, GRNId), ProductId, ProductName, cost,Quantity, total, new ModelActionGRN(this, event)};
+        return new Object[]{new ModelProfileGRN(icon, GRNId), ProductId, ProductName, df.format(cost),Quantity, df.format(total), new ModelActionGRN(this, event)};
     }
 
 }

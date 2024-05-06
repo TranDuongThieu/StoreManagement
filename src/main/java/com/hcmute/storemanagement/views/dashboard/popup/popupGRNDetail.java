@@ -118,6 +118,7 @@ public class popupGRNDetail extends javax.swing.JPanel {
             model.addRow(new ModelGRN(imageIcon, ct.getMaDonNhapHang(), ct.getMaSanPham(), sanPham.getTenSanPham(), sanPham.getGia(), ct.getSoLuong(), sanPham.getGia() * ct.getSoLuong()).toRowTable(eventAction));
         }
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

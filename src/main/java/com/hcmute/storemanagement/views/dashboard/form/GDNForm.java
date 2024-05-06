@@ -11,6 +11,7 @@ import com.hcmute.storemanagement.DAO.StaffDao.StaffKhachHangDao;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
 import com.hcmute.storemanagement.views.dashboard.popup.BillDetail;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,12 +21,13 @@ public class GDNForm extends javax.swing.JPanel {
 
     IStaffDonHangDao ordersv = new StaffDonHangDao();
     IStaffKhachHangDao CusDao = new StaffKhachHangDao();
+
     public GDNForm() {
         initComponents();
         initDate();
     }
 
-    private void initDate(){
+    private void initDate() {
         List<DonHang> listOrders = ordersv.selectAllOrders();
         DefaultTableModel model = (DefaultTableModel) tbGDN.getModel();
         model.setRowCount(0);
@@ -37,11 +39,17 @@ public class GDNForm extends javax.swing.JPanel {
             row[1] = order.getMaKhachHang(); // Product Name
             row[2] = order.getMaNhanVien(); // Price
             row[3] = order.getNgayDatHang(); // Quantity
-            row[4] = order.getTongGiaTri();
+            row[4] = formatTotalCost(order.getTongGiaTri());
             model.addRow(row);
         }
     }
-    
+
+    private String formatTotalCost(int totalCost) {
+        DecimalFormat df = new DecimalFormat("$#,##0.00");
+        return df.format(totalCost);
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -138,18 +146,18 @@ public class GDNForm extends javax.swing.JPanel {
 
             DonHang donhang = ordersv.findBillById(IdGRN);
             KhachHang khachHang = CusDao.getKhachHangByID(Idcus);
-            openPopup(donhang,khachHang);
-            
+            openPopup(donhang, khachHang);
+
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 hàng trong bảng");
         }
     }//GEN-LAST:event_clickShowGRNDetail
 
-      private static void openPopup(DonHang selectedDonHang, KhachHang khachHang) {
+    private static void openPopup(DonHang selectedDonHang, KhachHang khachHang) {
         JFrame popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null
         popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
-        BillDetail billInfo = new BillDetail(selectedDonHang, khachHang); 
+        BillDetail billInfo = new BillDetail(selectedDonHang, khachHang);
         popupFrame.add(billInfo);
         popupFrame.pack();
         popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ

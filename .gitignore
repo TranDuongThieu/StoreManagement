@@ -21,3 +21,4 @@ nbdist/
 *.nar
 *.lst
 hs_err_pid*
+*.pdf
