@@ -1,16 +1,19 @@
 package com.hcmute.storemanagement.views.dashboard.form;
 
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffTaiKhoanDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffNhanVienDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffTaiKhoanDao;
 import com.hcmute.storemanagement.models.NhanVien;
+import com.hcmute.storemanagement.models.TaiKhoan;
 import com.hcmute.storemanagement.service.StaffNhanVienService;
-import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.dashboard.model.modelStaff;
 import com.hcmute.storemanagement.views.dashboard.popup.popupAddAccount;
-import com.hcmute.storemanagement.views.dashboard.popup.popupAddStaff;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.EventActionUser;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.ModelProfileUser;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +29,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class StaffForm extends javax.swing.JPanel {
 
+    private JFrame popupFrame;
+
     StaffNhanVienService staffNhanVienService = new StaffNhanVienService();
+    IStaffTaiKhoanDao staffTaiKhoanDao = new StaffTaiKhoanDao();
     private Object variNameObj = null;
     private Object variPhoneObj = null;
     private Object variEmailObj = null;
@@ -59,11 +65,14 @@ public class StaffForm extends javax.swing.JPanel {
                 Object dayOfBirthObj = tbStaff.getValueAt(row, 5);
                 Object addressObj = tbStaff.getValueAt(row, 6);
                 Object cccdObj = tbStaff.getValueAt(row, 7);
+                Object Username = tbStaff.getValueAt(row, 8);
                 System.err.println("nameObj" + cccdObj);
                 // chuyen object sang string 
                 String phone = phoneObj != null ? phoneObj.toString() : "";
                 String gender = genderObj != null ? genderObj.toString() : "";
                 String cccd = cccdObj != null ? cccdObj.toString() : "";
+                String username = Username != null ? Username.toString() : "";
+
                 // Chuyen Object Dateofbieth sang Date
                 Date ngay = null;
                 if (dayOfBirthObj != null) {
@@ -78,12 +87,11 @@ public class StaffForm extends javax.swing.JPanel {
                         }
                     }
                 }
-                // check nulll xem người dùng có xóa đi cái gì ko
-
                 if (tbStaff.isEditing()) {
                     tbStaff.getCellEditor().stopCellEditing();
                 }
                 boolean checkDelete = staffNhanVienService.deleteStaffByUserId(id);
+                staffTaiKhoanDao.deleteAccount(username);
                 if (checkDelete == true) {
                     JOptionPane.showMessageDialog(StaffForm.this, "Xóa nhân viên thành công");
                     try {
@@ -148,7 +156,7 @@ public class StaffForm extends javax.swing.JPanel {
                 } else {
                     boolean check = checkAll(phone, gender, ngay, cccd, row);
                     if (check == true) {
-                        Boolean checkUpdate = staffNhanVienService.updateStaff(id, name, address, email, phone, cccd, ngay);
+                        Boolean checkUpdate = staffNhanVienService.updateStaff(id, name, address, email, phone, cccd, ngay, gender);
                         if (checkUpdate == true) {
                             JOptionPane.showMessageDialog(StaffForm.this, "Cập nhật nhân viên thành công");
                         } else {
@@ -168,7 +176,8 @@ public class StaffForm extends javax.swing.JPanel {
         ArrayList<NhanVien> staffList = staffController.getAllStaff();
         for (NhanVien staff : staffList) {
             ImageIcon icon = new ImageIcon("C:\\imagepj\\image\\user.png");
-            model.addRow(new modelStaff(icon, staff.getMaNhanVien(), staff.getTenNhanVien(), staff.getSoDienThoai(), staff.getEmail(), staff.getGioiTinh(), staff.getNgaySinh(), staff.getDiaChi(), staff.getCCCD()).toRowTable(eventAction));
+            TaiKhoan taiKhoan = staffTaiKhoanDao.getAccountByUsername(staff.getTenDangNhap());
+            model.addRow(new modelStaff(icon, staff.getMaNhanVien(), staff.getTenNhanVien(), staff.getSoDienThoai(), staff.getEmail(), staff.getGioiTinh(), staff.getNgaySinh(), staff.getDiaChi(), staff.getCCCD(), staff.getTenDangNhap(), taiKhoan.getMatKhau()).toRowTable(eventAction));
         }
     }
 
@@ -254,9 +263,17 @@ public class StaffForm extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Name", "Phone", "Email", "Gender", "Day of birth", "Address", "CCCD", "Action"
+                "ID", "Name", "Phone", "Email", "Gender", "Day of birth", "Address", "CCCD", "Username", "Password", "Action"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, true, true, true, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbStaff.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clickGetData(evt);
@@ -318,22 +335,33 @@ public class StaffForm extends javax.swing.JPanel {
     }//GEN-LAST:event_clickGetData
 
     private void clickOpenPopupStaff(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickOpenPopupStaff
-        openPopup();
+        openPopupAddAccount();
     }//GEN-LAST:event_clickOpenPopupStaff
 
-    private static void openPopup() {
-        // Tạo cửa sổ popup và hiển thị
-        JFrame parentFrame;
+    private void openPopupAddAccount() {
+        // tạo GRN mới 
+        popupFrame = new JFrame();
+        popupFrame.setTitle(null); // Đặt tiêu đề là null
+        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Ngăn cửa sổ tự đóng khi nhấn "X"
+        popupFrame.addWindowListener(new WindowAdapter() {
 
-        parentFrame = new JFrame();
-        parentFrame.setTitle(null); // Đặt tiêu đề là null
-        parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
-        popupAddAccount popupForm = new popupAddAccount(parentFrame);
-        parentFrame.add(popupForm);
-        parentFrame.pack();
-        parentFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
-        parentFrame.setVisible(true);
+            @Override
+            public void windowClosed(WindowEvent e) {
+                try {
+                    initData();
+                } catch (SQLException ex) {
+                    Logger.getLogger(StaffForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        popupAddAccount addAccount = new popupAddAccount(popupFrame);
+        popupFrame.add(addAccount);
+        popupFrame.pack();
+        popupFrame.setLocationRelativeTo(null);
+        popupFrame.setVisible(true);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

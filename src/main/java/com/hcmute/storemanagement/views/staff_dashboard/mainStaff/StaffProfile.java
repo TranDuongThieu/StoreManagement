@@ -771,7 +771,7 @@ public class StaffProfile extends javax.swing.JPanel {
         } else if (dateValue != null && dateValue.after(eighteenYearsAgo)) {
             JOptionPane.showMessageDialog(this, "Bạn chưa đủ 18 tuổi");
         } else {
-            boolean flagUpdate = staffNhanVienService.updateStaff(String.valueOf(PanelLoginAndRegister.GlobalVariables.userId), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtPhone.getText(), txtCccd.getText(), date);
+            boolean flagUpdate = staffNhanVienService.updateStaff(String.valueOf(PanelLoginAndRegister.GlobalVariables.userId), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtPhone.getText(), txtCccd.getText(), date, lbGender.getText());
             if (flagUpdate == true) {
                 profileStaff();
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");

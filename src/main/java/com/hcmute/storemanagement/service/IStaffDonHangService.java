@@ -22,4 +22,10 @@ public interface IStaffDonHangService {
     List<DonHang> getBillFromCusId(String cusId);
 
     List<DonHang> getBillFromStaff(String cusId);
+
+    void updateCustomer(String billId, String newCustomerId);
+
+    void updateTotal(String billId, double newTotal);
+
+    boolean deleteBill(String billId);
 }

@@ -10,6 +10,7 @@ import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
 import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffProfile;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,14 +23,16 @@ public class popupAddStaff extends javax.swing.JPanel {
     StaffNhanVienDao staffNhanVienDao = new StaffNhanVienDao();
     private String role;
     private String pass;
+    private JFrame popupJF;
 
 //    public popupAddStaff() {
 //        initComponents();
 //    }
-    public popupAddStaff(String role, String pass) {
+    public popupAddStaff(String role, String pass, JFrame popupJF) {
         initComponents();
         this.role = role;
         this.pass = pass;
+        this.popupJF = popupJF;
     }
 
     @SuppressWarnings("unchecked")
@@ -357,6 +360,7 @@ public class popupAddStaff extends javax.swing.JPanel {
         Date dateValue = txtDate.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date dateOfBirth = null;
+
         if (dateValue != null) {
             String formattedDate = sdf.format(dateValue);
             try {
@@ -364,7 +368,40 @@ public class popupAddStaff extends javax.swing.JPanel {
             } catch (ParseException ex) {
                 Logger.getLogger(StaffProfile.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (name.equals("") || phone.equals("") || email.equals("") ||gender == null || address.equals("") || cccd.equals("") || dateValue==null) {
+        }
+        // tính 18 tủi 
+        // Tính toán ngày 18 tuổi tính đến từ ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -18);
+        java.util.Date eighteenYearsAgo = calendar.getTime();
+
+        try {
+            long Cccd = Long.parseLong(txtCccd.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Căn cước của bạn chí được nhập giá trị số");
+            return;
+        }
+        try {
+            long Phone = Long.parseLong(txtPhone.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại của bạn chỉ được nhập giá trị số");
+            return;
+        }
+        // check độ dài và tuổi
+        if (txtCccd.getText().length() != 12) {
+            JOptionPane.showMessageDialog(this, "Căn cước của bạn phải đủ 12 số");
+        } else if (txtPhone.getText().length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại của bạn phải đủ 10 số");
+        } else if (dateValue != null && dateValue.after(eighteenYearsAgo)) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa đủ 18 tuổi");
+        } else if (dateValue != null) {
+            String formattedDate = sdf.format(dateValue);
+            try {
+                dateOfBirth = sdf.parse(formattedDate);
+            } catch (ParseException ex) {
+                Logger.getLogger(StaffProfile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (name.equals("") || phone.equals("") || email.equals("") || gender == null || address.equals("") || cccd.equals("") || dateValue == null) {
                 JOptionPane.showMessageDialog(this, "Dữ liệu không được để trống");
             } else {
                 // create account in SQL
@@ -375,10 +412,11 @@ public class popupAddStaff extends javax.swing.JPanel {
                     // tìm id với username 
                     String idStaff = staffNhanVienDao.getUserIdByUserName(userName);
                     // update nhan vien với mã id mới tạo 
-                    Boolean checkUpStaff = staffNhanVienDao.updateStaff(idStaff, name, address, email, phone, cccd, dateOfBirth);
+                    Boolean checkUpStaff = staffNhanVienDao.updateStaff(idStaff, name, address, email, phone, cccd, dateOfBirth, gender);
                     if (checkUpStaff == true) {
                         // update staff ( add staff nhưng mà khi tạo tk thì t đã tạo 1 staff defaul null rồi nên giờ update vào là được )
                         JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
+                        popupJF.dispose();
                     } else {
                         JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại");
                     }

@@ -200,7 +200,7 @@ public class GRNForm extends javax.swing.JPanel {
         // tạo GRN mới 
         popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null
-        popupFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Ngăn cửa sổ tự đóng khi nhấn "X"
+        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Ngăn cửa sổ tự đóng khi nhấn "X"
         popupFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

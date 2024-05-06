@@ -167,4 +167,41 @@ public class StaffTaiKhoanDao extends AbstractDao<TaiKhoan> implements IStaffTai
 
         return latestUsername;
     }
+
+    public boolean deleteAccount(String userName) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            // Lấy kết nối từ DBConnection (hàm getConnection)
+            connection = DBConnection.getConnection();
+
+            // Chuẩn bị câu lệnh SQL để xóa tài khoản từ cơ sở dữ liệu
+            String deleteQuery = "DELETE FROM TaiKhoan WHERE TenDangNhap = ?";
+            preparedStatement = connection.prepareStatement(deleteQuery);
+
+            // Thiết lập tham số cho câu lệnh xóa
+            preparedStatement.setString(1, userName);
+
+            // Thực thi câu lệnh xóa
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Kiểm tra số dòng bị ảnh hưởng để xác định xem xóa thành công hay không
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

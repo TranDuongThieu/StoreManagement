@@ -17,15 +17,16 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class popupAddProduct extends javax.swing.JPanel {
 
     IStaffSanPhamDao sanPhamDao = new StaffSanPhamDao();
-
-    public popupAddProduct() {
+    private JFrame popupFrame;
+    public popupAddProduct(JFrame popupFrame) {
         initComponents();
-
+        this.popupFrame = popupFrame;
     }
 
     @SuppressWarnings("unchecked")
@@ -88,7 +89,7 @@ public class popupAddProduct extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Category");
 
-        cbbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phones", "Laptops", "Tablets", "Accessorys" }));
+        cbbCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phones", "Laptops", "Tablets", "Accessories" }));
 
         javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
         panelBorder2.setLayout(panelBorder2Layout);
@@ -399,20 +400,31 @@ public class popupAddProduct extends javax.swing.JPanel {
         } else if (selectedValue.equals("Accessorys")) {
             idCategory = "DMSP004";
         }
-        product.setMaDanhMuc(idCategory);
-        product.setHinhAnh(imageData);
-        product.setGia(Integer.parseInt(txtCost.getText()));
-        product.setMoTa(txtDes.getText());
-        product.setThoiHanBaoHanh(txtGuarantee.getText());
-        product.setTenSanPham(txtName.getText());
-        product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
-        product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
-
-        boolean checkadd = sanPhamDao.insertProduct(product);
-        if (checkadd == true) {
-            JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+        if (idCategory.equals("") || imageData == null || txtCost.getText().equals("") || txtDes.getText().equals("") || txtGuarantee.getText().equals("") || txtName.getText().equals("") || txtSold.getText().equals("") || txtWarehouse.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
+            return;
         } else {
-            JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại");
+            try {
+                product.setMaDanhMuc(idCategory);
+                product.setHinhAnh(imageData);
+                product.setGia(Integer.parseInt(txtCost.getText()));
+                product.setMoTa(txtDes.getText());
+                product.setThoiHanBaoHanh(txtGuarantee.getText());
+                product.setTenSanPham(txtName.getText());
+                product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
+                product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+
+                boolean checkadd = sanPhamDao.insertProduct(product);
+                if (checkadd == true) {
+                    JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+                    popupFrame.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+            }
+
         }
 
 

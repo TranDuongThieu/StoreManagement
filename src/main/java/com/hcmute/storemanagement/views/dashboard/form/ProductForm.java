@@ -271,7 +271,7 @@ public class ProductForm extends javax.swing.JPanel {
                 initData();
             }
         });
-        popupAddProduct  addproduct = new popupAddProduct();
+        popupAddProduct  addproduct = new popupAddProduct(popupFrame);
         popupFrame.add(addproduct);
         popupFrame.pack();
         popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ

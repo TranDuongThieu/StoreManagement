@@ -5,10 +5,10 @@
 package com.hcmute.storemanagement.views.dashboard.popup;
 
 import com.hcmute.storemanagement.DAO.StaffDao.StaffTaiKhoanDao;
-import com.hcmute.storemanagement.views.staff_dashboard.mainStaff.StaffProfile;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.hcmute.storemanagement.views.dashboard.form.StaffForm;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -22,6 +22,7 @@ public class popupAddAccount extends javax.swing.JPanel {
 
     StaffTaiKhoanDao staffTaiKhoanDao = new StaffTaiKhoanDao();
     static JFrame parentFrame;
+    private JFrame popupFrame;
 
     public popupAddAccount(JFrame parentFrame) {
         initComponents();
@@ -252,7 +253,7 @@ public class popupAddAccount extends javax.swing.JPanel {
         String cfPass = txtCfPass.getText();
         if (pass.trim().length() > 6) {
             if (pass.equals(cfPass)) {
-                openPopup(role, pass);
+                openPopupAddStaff(role, pass);
             } else {
                 JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận không chính xác");
             }
@@ -262,17 +263,38 @@ public class popupAddAccount extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnAddStaffActionPerformed
 
-    private static void openPopup(String role, String pass) {
-        JFrame popupFrame = new JFrame();
-        popupFrame.setTitle(null); // Đặt tiêu đề là null
-        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
-        popupAddStaff popupForm = new popupAddStaff(role, pass); // Truyền role và pass vào
-        popupFrame.add(popupForm);
-        popupFrame.pack();
-        popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
-        popupFrame.setVisible(true);
-        parentFrame.setVisible(false);
+//    private static void openPopup(String role, String pass) {
+//        JFrame popupFrame = new JFrame();
+//        popupFrame.setTitle(null); // Đặt tiêu đề là null
+//        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
+//        popupAddStaff popupForm = new popupAddStaff(role, pass); // Truyền role và pass vào
+//        popupFrame.add(popupForm);
+//        popupFrame.pack();
+//        popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
+//        popupFrame.setVisible(true);
+//        parentFrame.setVisible(false);
+//
+//    }
 
+    private void openPopupAddStaff(String role, String pass) {
+        // tạo GRN mới 
+
+        popupFrame = new JFrame();
+        popupFrame.setTitle(null); // Đặt tiêu đề là null
+        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Ngăn cửa sổ tự đóng khi nhấn "X"
+        popupFrame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                
+                parentFrame.dispose();
+            }
+        });
+        popupAddStaff addAccount = new popupAddStaff(role, pass,popupFrame);
+        popupFrame.add(addAccount);
+        popupFrame.pack();
+        popupFrame.setLocationRelativeTo(null);
+        popupFrame.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

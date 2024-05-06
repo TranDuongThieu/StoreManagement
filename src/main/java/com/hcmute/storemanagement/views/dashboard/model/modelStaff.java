@@ -22,11 +22,13 @@ public class modelStaff {
     private Date ngaySinh;
     private String diaChi;
     private String CCCD;
+    private String userName;
+    private String password;
 
     public modelStaff() {
     }
 
-    public modelStaff(Icon icon, String IdUser, String tenUser, String soDienThoai, String email, String gioiTinh, Date ngaySinh, String diaChi, String CCCD) {
+    public modelStaff(Icon icon, String IdUser, String tenUser, String soDienThoai, String email, String gioiTinh, Date ngaySinh, String diaChi, String CCCD, String userName, String password) {
         this.icon = icon;
         this.IdUser = IdUser;
         this.tenUser = tenUser;
@@ -36,8 +38,27 @@ public class modelStaff {
         this.ngaySinh = ngaySinh;
         this.diaChi = diaChi;
         this.CCCD = CCCD;
+        this.userName = userName;
+        this.password = password;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+   
     public String getIdUser() {
         return IdUser;
     }
@@ -123,7 +144,7 @@ public class modelStaff {
 
     public Object[] toRowTable(EventActionUser event) {
         DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileUser(icon, IdUser),tenUser, soDienThoai, email, gioiTinh, ngaySinh, diaChi, CCCD, new ModelActionUser(this, event)};
+        return new Object[]{new ModelProfileUser(icon, IdUser),tenUser, soDienThoai, email, gioiTinh, ngaySinh, diaChi, CCCD, userName, password, new ModelActionUser(this, event)};
     }
 
 }

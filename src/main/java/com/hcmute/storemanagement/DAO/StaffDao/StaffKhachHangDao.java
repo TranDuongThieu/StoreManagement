@@ -68,6 +68,40 @@ public class StaffKhachHangDao extends AbstractDao<KhachHang> implements IStaffK
         return khachHangList;
     }
 
+    public void updateScore(String customerId, int newScore) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String query = "UPDATE KHACHHANG SET DiemThanhVien = ? WHERE MaKhachHang = ?";
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, newScore);
+            pstmt.setString(2, customerId);
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Điểm thành viên đã được cập nhật thành công cho khách hàng có mã: " + customerId);
+            } else {
+                System.out.println("Không tìm thấy khách hàng có mã: " + customerId);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public KhachHang getKhachHangByID(String maKhachHang) {
         KhachHang khachHang = null;
         Connection connection = null;
@@ -158,18 +192,17 @@ public class StaffKhachHangDao extends AbstractDao<KhachHang> implements IStaffK
         return khachHang;
     }
 
-    public boolean addKhachHang(String tenKhachHang, String soDienThoai, int diemThanhVien) {
+    public boolean addKhachHang(String tenKhachHang, String soDienThoai) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean success = false;
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "INSERT INTO KHACHHANG (TenKhachHang, SoDienThoai, DiemThanhVien) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO KHACHHANG (TenKhachHang, SoDienThoai) VALUES (?, ?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, tenKhachHang);
             preparedStatement.setString(2, soDienThoai);
-            preparedStatement.setInt(3, diemThanhVien);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
@@ -177,9 +210,9 @@ public class StaffKhachHangDao extends AbstractDao<KhachHang> implements IStaffK
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception
+            // Xử lý ngoại lệ
         } finally {
-            // Close resources (Connection, PreparedStatement)
+            // Đóng tài nguyên (Connection, PreparedStatement)
             try {
                 if (preparedStatement != null) {
                     preparedStatement.close();
@@ -189,7 +222,7 @@ public class StaffKhachHangDao extends AbstractDao<KhachHang> implements IStaffK
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Handle exception
+                // Xử lý ngoại lệ
             }
         }
 

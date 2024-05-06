@@ -185,7 +185,7 @@
                 <StringItem index="0" value="Phones"/>
                 <StringItem index="1" value="Laptops"/>
                 <StringItem index="2" value="Tablets"/>
-                <StringItem index="3" value="Accessorys"/>
+                <StringItem index="3" value="Accessories"/>
               </StringArray>
             </Property>
           </Properties>

@@ -33,11 +33,6 @@ public class StaffNhanVienService implements IStaffNhanVienService {
     }
 
     @Override
-    public boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
-        return staffNhanVienDao.updateStaff(id, ten, diaChi, email, phone, cccd, ngaySinh);
-    }
-
-    @Override
     public boolean deleteStaffByUserId(String userId) {
         return staffNhanVienDao.deleteStaffByUserId(userId);
     }
@@ -45,5 +40,10 @@ public class StaffNhanVienService implements IStaffNhanVienService {
     @Override
     public String getUserIdByUserName(String userName) {
         return staffNhanVienDao.getUserIdByUserName(userName);
+    }
+
+    @Override
+    public boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh, String gioiTinh) {
+        return staffNhanVienDao.updateStaff(id, ten, diaChi, email, phone, cccd, ngaySinh, gioiTinh);
     }
 }

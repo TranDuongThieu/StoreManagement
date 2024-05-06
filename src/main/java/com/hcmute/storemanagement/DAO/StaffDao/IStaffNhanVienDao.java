@@ -16,8 +16,9 @@ public interface IStaffNhanVienDao {
 
     NhanVien getStaffById(String userID);
 
-    boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh);
+    boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh, String gioiTinh);
 
     boolean deleteStaffByUserId(String userId);
+
     String getUserIdByUserName(String userName);
 }
