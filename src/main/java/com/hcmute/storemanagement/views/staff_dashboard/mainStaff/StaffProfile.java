@@ -777,6 +777,7 @@ public class StaffProfile extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
+                profileStaff();
             }
         }
     }//GEN-LAST:event_clickUpdateProfile

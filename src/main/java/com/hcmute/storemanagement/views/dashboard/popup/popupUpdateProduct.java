@@ -7,6 +7,7 @@ package com.hcmute.storemanagement.views.dashboard.popup;
 import com.hcmute.storemanagement.DAO.StaffDao.IStaffSanPhamDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffSanPhamDao;
 import com.hcmute.storemanagement.models.SanPham;
+import static com.microsoft.sqlserver.jdbc.StringUtils.isNumeric;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -20,16 +21,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class popupUpdateProduct extends javax.swing.JPanel {
-    
+
     private SanPham sanPham;
     IStaffSanPhamDao sanPhamDao = new StaffSanPhamDao();
-    
+
     public popupUpdateProduct(SanPham sanPham) {
         initComponents();
         this.sanPham = sanPham;
         showData();
     }
-    
+
     private void showData() {
         ImageIcon icon = new ImageIcon(sanPham.getHinhAnh()); // Đường dẫn của hình ảnh
         lbIconImage.setIcon(icon);
@@ -40,7 +41,7 @@ public class popupUpdateProduct extends javax.swing.JPanel {
         txtSold.setText(String.valueOf(sanPham.getSoLuongDaBan()));
         txtWarehouse.setText(String.valueOf(sanPham.getSoLuongTrongKho()));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -362,7 +363,6 @@ public class popupUpdateProduct extends javax.swing.JPanel {
         Graphics2D g2d = bufferedImage.createGraphics();
         icon.paintIcon(null, g2d, 0, 0);
         g2d.dispose();
-
         // Sử dụng ByteArrayOutputStream để ghi dữ liệu hình ảnh từ BufferedImage
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
@@ -370,27 +370,76 @@ public class popupUpdateProduct extends javax.swing.JPanel {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
         // Trích xuất mảng byte từ ByteArrayOutputStream
         byte[] imageData = outputStream.toByteArray();
         SanPham product = new SanPham();
-        // Đặt mảng byte vào thuộc tính HinhAnh của đối tượng sanPham
-        product.setMaSanPham(sanPham.getMaSanPham());
-        product.setHinhAnh(imageData);
-        product.setGia(Integer.parseInt(txtCost.getText()));
-        product.setMoTa(txtDes.getText());
-        product.setThoiHanBaoHanh(txtGuarantee.getText());
-        product.setTenSanPham(txtName.getText());
-        product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
-        product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
-        
-        sanPhamDao.updateSanPham(product);
-        JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-        
+
+//        if (txtCost.getText().equals("") || txtDes.getText().equals("") || txtGuarantee.getText().equals("") || txtName.getText().equals("") || txtSold.getText().equals("") || txtWarehouse.getText().equals("")) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
+//            return;
+//        } else {
+//
+//            if (Integer.parseInt(txtSold.getText()) > 0 && Integer.parseInt(txtWarehouse.getText()) > 0 && Integer.parseInt(txtCost.getText()) > 0) {
+//                // Đặt mảng byte vào thuộc tính HinhAnh của đối tượng sanPham
+//                try {
+//                    product.setMaSanPham(sanPham.getMaSanPham());
+//                    product.setHinhAnh(imageData);
+//                    product.setGia(Integer.parseInt(txtCost.getText()));
+//                    product.setMoTa(txtDes.getText());
+//                    product.setThoiHanBaoHanh(txtGuarantee.getText());
+//                    product.setTenSanPham(txtName.getText());
+//                    product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
+//                    product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+//
+//                    sanPhamDao.updateSanPham(product);
+//                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+//                } catch (Exception e) {
+//                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+//            }
+        if (txtCost.getText().equals("") || txtDes.getText().equals("") || txtGuarantee.getText().equals("") || txtName.getText().equals("") || txtSold.getText().equals("") || txtWarehouse.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
+            return;
+        } else {
+            String soldText = txtSold.getText();
+            String warehouseText = txtWarehouse.getText();
+            String costText = txtCost.getText();
+            if (isNumeric(soldText) && isNumeric(warehouseText) && isNumeric(costText)) {
+                int sold = Integer.parseInt(soldText);
+                int warehouse = Integer.parseInt(warehouseText);
+                int cost = Integer.parseInt(costText);
+
+                if (sold > 0 && warehouse > 0 && cost > 0) {
+                    // Thực hiện các hành động khi tất cả số nguyên đều lớn hơn 0
+                    try {
+                        product.setMaSanPham(sanPham.getMaSanPham());
+                        product.setHinhAnh(imageData);
+                        product.setGia(Integer.parseInt(txtCost.getText()));
+                        product.setMoTa(txtDes.getText());
+                        product.setThoiHanBaoHanh(txtGuarantee.getText());
+                        product.setTenSanPham(txtName.getText());
+                        product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
+                        product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+
+                        sanPhamDao.updateSanPham(product);
+                        JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+            }
+
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnChangeImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeImageActionPerformed
-        
+
         JFileChooser fileChooser = new JFileChooser(); // Tạo một hộp thoại chọn tệp
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Thiết lập thư mục mặc định là thư mục người dùng
         int result = fileChooser.showOpenDialog(this); // Hiển thị hộp thoại chọn tệp và đợi cho người dùng chọn một tệp

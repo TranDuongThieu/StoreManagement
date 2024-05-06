@@ -143,7 +143,7 @@ public class popupAddAccount extends javax.swing.JPanel {
         jLabel4.setText("Role");
 
         cbbRole.setBackground(new java.awt.Color(248, 248, 248));
-        cbbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "staff" }));
+        cbbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "staff" }));
 
         javax.swing.GroupLayout panelBorder4Layout = new javax.swing.GroupLayout(panelBorder4);
         panelBorder4.setLayout(panelBorder4Layout);

@@ -7,6 +7,7 @@ package com.hcmute.storemanagement.views.dashboard.popup;
 import com.hcmute.storemanagement.DAO.StaffDao.IStaffSanPhamDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffSanPhamDao;
 import com.hcmute.storemanagement.models.SanPham;
+import static com.microsoft.sqlserver.jdbc.StringUtils.isNumeric;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -24,6 +25,7 @@ public class popupAddProduct extends javax.swing.JPanel {
 
     IStaffSanPhamDao sanPhamDao = new StaffSanPhamDao();
     private JFrame popupFrame;
+
     public popupAddProduct(JFrame popupFrame) {
         initComponents();
         this.popupFrame = popupFrame;
@@ -404,26 +406,70 @@ public class popupAddProduct extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
             return;
         } else {
-            try {
-                product.setMaDanhMuc(idCategory);
-                product.setHinhAnh(imageData);
-                product.setGia(Integer.parseInt(txtCost.getText()));
-                product.setMoTa(txtDes.getText());
-                product.setThoiHanBaoHanh(txtGuarantee.getText());
-                product.setTenSanPham(txtName.getText());
-                product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
-                product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+            String soldText = txtSold.getText();
+            String warehouseText = txtWarehouse.getText();
+            String costText = txtCost.getText();
+            if (isNumeric(soldText) && isNumeric(warehouseText) && isNumeric(costText)) {
+                int sold = Integer.parseInt(soldText);
+                int warehouse = Integer.parseInt(warehouseText);
+                int cost = Integer.parseInt(costText);
 
-                boolean checkadd = sanPhamDao.insertProduct(product);
-                if (checkadd == true) {
-                    JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
-                    popupFrame.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại");
+                if (sold > 0 && warehouse > 0 && cost > 0) {
+                    // Thực hiện các hành động khi tất cả số nguyên đều lớn hơn 0
+                    try {
+                    product.setMaDanhMuc(idCategory);
+                    product.setHinhAnh(imageData);
+                    product.setGia(Integer.parseInt(txtCost.getText()));
+                    product.setMoTa(txtDes.getText());
+                    product.setThoiHanBaoHanh(txtGuarantee.getText());
+                    product.setTenSanPham(txtName.getText());
+                    product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
+                    product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+
+                    boolean checkadd = sanPhamDao.insertProduct(product);
+                    if (checkadd == true) {
+                        JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+                        popupFrame.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập số vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+                }
+            } else {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
             }
+            
+            
+
+//            if (Integer.parseInt(txtSold.getText()) > 0 && Integer.parseInt(txtWarehouse.getText()) > 0 && Integer.parseInt(txtCost.getText()) > 0) {
+//
+//                try {
+//                    product.setMaDanhMuc(idCategory);
+//                    product.setHinhAnh(imageData);
+//                    product.setGia(Integer.parseInt(txtCost.getText()));
+//                    product.setMoTa(txtDes.getText());
+//                    product.setThoiHanBaoHanh(txtGuarantee.getText());
+//                    product.setTenSanPham(txtName.getText());
+//                    product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
+//                    product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+//
+//                    boolean checkadd = sanPhamDao.insertProduct(product);
+//                    if (checkadd == true) {
+//                        JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+//                        popupFrame.dispose();
+//                    } else {
+//                        JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại");
+//                    }
+//                } catch (Exception e) {
+//                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Vui lòng nhập số dương vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+//            }
 
         }
 

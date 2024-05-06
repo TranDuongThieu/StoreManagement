@@ -168,6 +168,7 @@ public class TransactionForm extends javax.swing.JPanel {
         String idcust = IDcustomer != null ? IDcustomer.toString() : "";
         // tìm khách hàng bằng mã khách hàng
         khachHang = staffKhachHang.getKhachHangByID(idcust);
+        System.err.println("khach hang: " + khachHang.getTenKhachHang());
         if (rowIndex != -1) {
             openPopup(donhangs.get(rowIndex));
         } else {
@@ -176,9 +177,12 @@ public class TransactionForm extends javax.swing.JPanel {
     }//GEN-LAST:event_clickIconShowBilldetail
 
     private void detailBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailBtnActionPerformed
-        // TODO add your handling code here: int rowIndex = tableCustomer1.getSelectedRow();
         int rowIndex = tbAllBill.getSelectedRow();
-
+        Object IDcustomer = tbAllBill.getValueAt(rowIndex, 1);
+        String idcust = IDcustomer != null ? IDcustomer.toString() : "";
+        // tìm khách hàng bằng mã khách hàng
+        khachHang = staffKhachHang.getKhachHangByID(idcust);
+        System.err.println("khach hang: " + khachHang.getTenKhachHang());
         if (rowIndex != -1) {
             openPopup(donhangs.get(rowIndex));
         } else {

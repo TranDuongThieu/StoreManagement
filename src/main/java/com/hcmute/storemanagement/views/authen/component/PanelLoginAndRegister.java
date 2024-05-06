@@ -40,44 +40,41 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
     }
 
     private void initRegister() {
-        register.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]push"));
-        JLabel label = new JLabel("Create Account");
-        label.setFont(new Font("sansserif", 1, 30));
-        label.setForeground(new Color(7, 164, 121));
-        register.add(label);
+        //  register.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]push"));
+        // JLabel label = new JLabel("Create Account");
+        //label.setFont(new Font("sansserif", 1, 30));
+        // label.setForeground(new Color(7, 164, 121));
+        //register.add(label);
 
-        MyTextField txtUser = new MyTextField();
-        txtUser.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\user.png"));
-        txtUser.setHint("Username");
-        register.add(txtUser, "w 60%");
-
-        MyTextField txtTenNhanVien = new MyTextField();
-        txtTenNhanVien.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\user.png"));
-        txtTenNhanVien.setHint("Fullname");
-        register.add(txtTenNhanVien, "w 60%");
-
-        MyPasswordField txtPass = new MyPasswordField();
-        txtPass.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\pass.png"));
-        txtPass.setHint("Password");
-        register.add(txtPass, "w 60%");
-
-        MyPasswordField txtConfirmPass = new MyPasswordField();
-        txtConfirmPass.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\pass.png"));
-        txtConfirmPass.setHint("Confirm Password");
-        register.add(txtConfirmPass, "w 60%");
-
-        Button cmd = new Button();
-        cmd.setBackground(new Color(7, 164, 121));
-        cmd.setForeground(new Color(250, 250, 250));
-        cmd.setText("SIGN UP");
-        register.add(cmd, "w 40%, h 40");
-
-        cmd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                register(txtUser, txtTenNhanVien, txtPass, txtConfirmPass);
-            }
-        });
+//        MyTextField txtUser = new MyTextField();
+//        txtUser.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\user.png"));
+//        txtUser.setHint("Username");
+//        register.add(txtUser, "w 60%");
+//
+//        MyTextField txtTenNhanVien = new MyTextField();
+//        txtTenNhanVien.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\user.png"));
+//        txtTenNhanVien.setHint("Fullname");
+//        register.add(txtTenNhanVien, "w 60%");
+//        MyPasswordField txtPass = new MyPasswordField();
+//        txtPass.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\pass.png"));
+//        txtPass.setHint("Password");
+//        register.add(txtPass, "w 60%");
+//
+//        MyPasswordField txtConfirmPass = new MyPasswordField();
+//        txtConfirmPass.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\pass.png"));
+//        txtConfirmPass.setHint("Confirm Password");
+//        register.add(txtConfirmPass, "w 60%");
+//        Button cmd = new Button();
+//        cmd.setBackground(new Color(7, 164, 121));
+//        cmd.setForeground(new Color(250, 250, 250));
+//        cmd.setText("SIGN UP");
+//        register.add(cmd, "w 40%, h 40");
+//        cmd.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                register(txtUser, txtTenNhanVien, txtPass, txtConfirmPass);
+//            }
+//        });
     }
 
     public void register(MyTextField txtUser, MyTextField txtTenNhanVien, MyPasswordField txtPass, MyPasswordField txtConfirmPass) {
@@ -88,16 +85,20 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]25[]push"));
         JLabel label = new JLabel("Sign In");
         label.setFont(new Font("sansserif", 1, 30));
-        label.setForeground(new Color(7, 164, 121));
+        //  label.setForeground(new Color(7, 164, 121));
+        label.setForeground(new Color(30, 119, 253));
         login.add(label);
+        
         MyTextField txtEmail = new MyTextField();
         txtEmail.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\user.png"));
         txtEmail.setHint("Username");
         login.add(txtEmail, "w 60%");
+
         MyPasswordField txtPass = new MyPasswordField();
         txtPass.setPrefixIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\main\\java\\com\\hcmute\\storemanagement\\ultis\\icon\\pass.png"));
         txtPass.setHint("Password");
         login.add(txtPass, "w 60%");
+
         JButton cmdForget = new JButton("Forgot your password ?");
         cmdForget.setForeground(new Color(100, 100, 100));
         cmdForget.setFont(new Font("sansserif", 1, 12));
@@ -106,7 +107,8 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         cmdForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         login.add(cmdForget);
         Button cmd = new Button();
-        cmd.setBackground(new Color(7, 164, 121));
+//        cmd.setBackground(new Color(7, 164, 121));
+        cmd.setBackground(new Color(30, 119, 253));
         cmd.setForeground(new Color(250, 250, 250));
         cmd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +124,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
     }
 
     public class GlobalVariables {
+
         public static String userId; // Biến toàn cục lưu trữ ID của người dùng
         public static String fullName;
     }
@@ -140,12 +143,12 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 if (account.getQuyenNguoiDung().equals("admin")) {
                     new Dashboard().setVisible(true);
                     GlobalVariables.userId = id;
-                    GlobalVariables.fullName = name;                    
+                    GlobalVariables.fullName = name;
                     authenForm.closeForm();
                 } else if (account.getQuyenNguoiDung().equals("staff")) {
                     new StaffDashboard().setVisible(true);
                     GlobalVariables.userId = id;
-                    GlobalVariables.fullName = name;                 
+                    GlobalVariables.fullName = name;
                     authenForm.closeForm();
                 }
             } else {

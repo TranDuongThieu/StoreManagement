@@ -446,6 +446,12 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
     private void clickAddGRNDetail(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickAddGRNDetail
 
+        if(Integer.parseInt(txtQuantity.getText()) <= 0)
+        {
+            JOptionPane.showMessageDialog(this, "Đăng ký không thành công. Vui lòng nhập số lượng lớn hơn 0!");
+            return;
+        }
+        
         Date currentDate = new Date();
         Date dateValue = txtDate.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

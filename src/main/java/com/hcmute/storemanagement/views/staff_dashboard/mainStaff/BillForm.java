@@ -60,6 +60,7 @@ public class BillForm extends javax.swing.JPanel {
     public BillForm() throws SQLException {
         initComponents();
         txtScoresCustomer.setEditable(false);
+        txtDiscountCustomer.setEditable(false);
         ShowBill();
         initBilldetailTable();
     }
@@ -595,7 +596,7 @@ public class BillForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void enterSearch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterSearch
-
+        txtDiscountCustomer.setText("");
         findCustomer();
 
     }//GEN-LAST:event_enterSearch
@@ -701,22 +702,14 @@ public class BillForm extends javax.swing.JPanel {
         lbIdStaff.setText("");
         lbTotal.setText("");
         lbTotalPayment.setText("");
+        txtNameCustomer.setText("");
+        txtPhoneCustomer.setText("");
+        txtScoresCustomer.setText("");
+        txtDiscountCustomer.setText("");
+        txtSearch.setText("");
     }
-//    private void generateAndSaveBill() {
-//        String filename = "bill1.pdf";
-//        String content = "Hóa đơn\n\nTên sản phẩm: ABC\nGiá: $100\nSố lượng: 2\nTổng cộng: $200";
-//        // Tạo tài liệu PDF và thêm nội dung
-//        Document document = new Document();
-//        try {
-//            PdfWriter.getInstance(document, new FileOutputStream(filename));
-//            document.open();
-//            document.add(new Paragraph(content));
-//            document.close();
-//            System.out.println("Hóa đơn được tạo thành công và lưu vào máy tính!");
-//        } catch (DocumentException | FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
+
+    
 
     private void generateAndSaveBill() {
         GeneratePDF gen = new GeneratePDF();
@@ -765,6 +758,7 @@ public class BillForm extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteBillActionPerformed
 
     private void clSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clSearch
+        txtDiscountCustomer.setText("");
         findCustomer();
 
     }//GEN-LAST:event_clSearch
