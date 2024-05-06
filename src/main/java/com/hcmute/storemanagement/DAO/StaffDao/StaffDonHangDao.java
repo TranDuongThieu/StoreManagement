@@ -136,7 +136,7 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
                 String maNhanVien = resultSet.getString("MaNhanVien");
 
                 // Khởi tạo đối tượng DonHang với thông tin tìm được
-                donHang = new DonHang(maDonHang,maKhachHang,maNhanVien, ngayDatHang, tongGiaTri);
+                donHang = new DonHang(maDonHang, maKhachHang, maNhanVien, ngayDatHang, tongGiaTri);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -206,9 +206,8 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
 
         return donHangList;
     }
-    
-    
-     public List<DonHang> getBillFromStaff(String cusId) {
+
+    public List<DonHang> getBillFromStaff(String cusId) {
         List<DonHang> donHangList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -254,5 +253,59 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
         }
 
         return donHangList;
+    }
+
+    public List<DonHang> selectAllOrders() {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        List<DonHang> orders = new ArrayList<>();
+
+        try {
+            // Get connection from DBConnection class (getConnection method)
+            connection = DBConnection.getConnection();
+
+            // Create SQL query to retrieve all orders
+            String selectQuery = "SELECT * FROM DONHANG";
+            pstmt = connection.prepareStatement(selectQuery);
+
+            // Execute the query
+            resultSet = pstmt.executeQuery();
+
+            // Iterate through the results and create a list of orders
+            while (resultSet.next()) {
+                // Retrieve information for each order from the result set
+                String orderId = resultSet.getString("MaDonHang");
+                Date orderDate = resultSet.getDate("NgayDatHang");
+                int totalPrice = resultSet.getInt("TongGiaTri");
+                String customerId = resultSet.getString("MaKhachHang");
+                String staffId = resultSet.getString("MaNhanVien");
+
+                // Create an Order object from the retrieved information
+                DonHang order = new DonHang(orderId, customerId, staffId,orderDate, totalPrice);
+
+                // Add the order to the list
+                orders.add(order);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            // Close resources
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return orders;
     }
 }
