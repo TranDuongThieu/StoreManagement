@@ -479,16 +479,9 @@ public class popUpAddGRN extends javax.swing.JPanel {
                         initData();
 
                     } else {
-                        boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
-                        if (checkInsert == true) {
-                            total = total();
-                            txtTotal.setText(String.valueOf(total));
-                            initData();
-
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
-                        }
+                        JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
                     }
+
                 }
             } else {
                 GRNsv.insertDonNhapHang(donnhaphang);
@@ -504,15 +497,8 @@ public class popUpAddGRN extends javax.swing.JPanel {
                         initData();
 
                     } else {
-                        boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
-                        if (checkInsert == true) {
-                            total = total();
-                            txtTotal.setText(String.valueOf(total));
-                            initData();
+                        JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
 
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
-                        }
                     }
                 }
             }
