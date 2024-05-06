@@ -294,10 +294,10 @@ public class GeneralScheduleForm extends javax.swing.JPanel {
             }
 
             // Iterate over the table and add data to the Excel sheet
-            for (int row = 0; row < table1.getRowCount(); row++) {
+            for (int row = 0; row < tbWorkSchedule.getRowCount(); row++) {
                 Row excelRow = sheet.createRow(row + 1); // Shift row index by 1 to accommodate header row
-                for (int column = 0; column < table1.getColumnCount(); column++) {
-                    Object value = table1.getValueAt(row, column);
+                for (int column = 0; column < tbWorkSchedule.getColumnCount(); column++) {
+                    Object value = tbWorkSchedule.getValueAt(row, column);
                     if (value != null) {
                         excelRow.createCell(column).setCellValue(value.toString());
                     }
