@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface IAdminNhaCungCapService {
     List<NhaCungCap> getAllNhaCungCap();
+    NhaCungCap getById(String id);
 }

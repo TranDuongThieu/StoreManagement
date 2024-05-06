@@ -12,6 +12,7 @@ import com.hcmute.storemanagement.models.NhaCungCap;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.service.AdminDonNhapHangService;
 import com.hcmute.storemanagement.service.AdminNhaCungCapService;
+import com.hcmute.storemanagement.service.GeneratePDF;
 import com.hcmute.storemanagement.service.IAdminDonNhapHangService;
 import com.hcmute.storemanagement.service.IAdminNhaCungCapService;
 import com.hcmute.storemanagement.service.IStaffSanPhamService;
@@ -33,12 +34,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class popUpAddGRN extends javax.swing.JPanel {
-    
+
     IStaffSanPhamService productsv = new StaffSanPhamService();
     IAdminNhaCungCapService nccSv = new AdminNhaCungCapService();
     IAdminDonNhapHangService GRNsv = new AdminDonNhapHangService();
     IAdminChiTietDonNhapHangDao GRNDetail = new AdminChiTietDonNhapHangDao();
-    
+
     List<SanPham> sanPhams = productsv.getAllSanPham();
     List<NhaCungCap> nccs = nccSv.getAllNhaCungCap();
     private JFrame popupJframe;
@@ -46,7 +47,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
     private String SupplierId = nccs.get(0).getMaNhaCungCap();
     private int total = 0;
     public static String GRNID = "";
-    
+
     public popUpAddGRN(JFrame popupJframe) {
         this.popupJframe = popupJframe;
         initComponents();
@@ -62,9 +63,9 @@ public class popUpAddGRN extends javax.swing.JPanel {
         //initData();
         txtCost.setText(String.valueOf(sanPhams.get(0).getGia()));
     }
-    
+
     private void initData() {
-        
+
         EventActionGRN eventAction = new EventActionGRN() {
             @Override
             public void delete(ModelGRN student, ActionEvent e) {
@@ -81,7 +82,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(popUpAddGRN.this, "Bạn đã xóa thành công");
                 initData();
             }
-            
+
             @Override
             public void update(ModelGRN student, ActionEvent e) {
                 // kiểm tra còn action ko
@@ -113,10 +114,10 @@ public class popUpAddGRN extends javax.swing.JPanel {
             model.addRow(new ModelGRN(imageIcon, ct.getMaDonNhapHang(), ct.getMaSanPham(), sanPham.getTenSanPham(), sanPham.getGia(), ct.getSoLuong(), sanPham.getGia() * ct.getSoLuong()).toRowTable(eventAction));
         }
     }
-    
+
     public String getGRNID() {
         String GRNID = GRNsv.getMaDonNhapHangCuoiCung();
-        
+
         if (GRNID.matches("DNH\\d+")) {
             int number = Integer.parseInt(GRNID.substring(3)); // Bỏ đi "TKNV" và lấy số phía sau
             number++;
@@ -125,7 +126,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
         }
         return GRNID;
     }
-    
+
     private void showDataCbbPrName() {
         // Tạo một DefaultComboBoxModel
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
@@ -154,14 +155,14 @@ public class popUpAddGRN extends javax.swing.JPanel {
                 String selectedProductId = parts[0];
                 ProductId = selectedProductId;
                 System.out.println("Selected Product ID: " + selectedProductId);
-                
+
                 SanPham sanPham = productsv.getSanPhamById(ProductId);
                 txtCost.setText(String.valueOf(sanPham.getGia()));
                 txtCost.setEditable(false);
             }
         });
     }
-    
+
     private void showDataCbbSpName() {
         // Tạo một DefaultComboBoxModel
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
@@ -189,7 +190,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
             }
         });
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -453,7 +454,7 @@ public class popUpAddGRN extends javax.swing.JPanel {
         String quantityText = txtQuantity.getText();
         try {
             int quantity = Integer.parseInt(quantityText);
-            
+
             if (txtGRNID.getText().equals(GRNsv.getMaDonNhapHangCuoiCung())) {
                 if (txtQuantity.getText().equals("")) {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
@@ -463,42 +464,43 @@ public class popUpAddGRN extends javax.swing.JPanel {
                         total = total();
                         txtTotal.setText(String.valueOf(total));
                         initData();
-                        
+
                     } else {
                         JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
                     }
                 }
             } else {
                 GRNsv.insertDonNhapHang(donnhaphang);
-                
+
                 if (txtQuantity.getText().equals("")) {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
                 } else {
                     boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
                     if (checkInsert == true) {
+
                         total = total();
                         txtTotal.setText(String.valueOf(total));
                         initData();
-                        
+
                     } else {
                         JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
                     }
                 }
             }
-            
+
         } catch (NumberFormatException e) {
-            
+
             JOptionPane.showMessageDialog(this, "Giá trị không hợp lệ. Vui lòng nhập một số nguyên.");
         }
 
         // add vào GRN detail 
 
     }//GEN-LAST:event_clickAddGRNDetail
-    
+
     private int total() {
         int total = 0;
         List<ChiTietDonNhapHang> listGRNdetail = GRNDetail.getGRNDetailgByGRNId(txtGRNID.getText());
-        
+
         for (ChiTietDonNhapHang ct : listGRNdetail) {
             SanPham sanPham = productsv.getSanPhamById(ct.getMaSanPham());
             total = total + sanPham.getGia() * ct.getSoLuong();
@@ -518,6 +520,8 @@ public class popUpAddGRN extends javax.swing.JPanel {
             // cập nhật total 
             GRNsv.updateTotalValueById(txtGRNID.getText(), total());
             // kiểm tra T F 
+            GeneratePDF gen = new GeneratePDF();
+            gen.generateGRN(txtGRNID.getText());
             int result = JOptionPane.showConfirmDialog(this, "Thêm đơn nhập hàng thành công, bạn có chắc chắn muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 popupJframe.dispose();

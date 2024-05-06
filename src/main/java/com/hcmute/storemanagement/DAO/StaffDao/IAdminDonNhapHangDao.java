@@ -14,7 +14,7 @@ import java.util.List;
 public interface IAdminDonNhapHangDao {
 
     List<DonNhapHang> getAllDonNhapHang();
-
+    DonNhapHang getById(String id);
     int getTotalValueByMaDonNhapHang(String maDonNhapHang);
 
     boolean updateTotalValueById(String maDonNhapHang, int newTotalValue);

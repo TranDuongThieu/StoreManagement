@@ -61,4 +61,50 @@ public class AdminNhaCungCapDao implements IAdminNhaCungCapDao {
 
         return nhaCungCaps;
     }
+
+    @Override
+    public NhaCungCap getById(String id) {
+        NhaCungCap nhaCungCap = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM NHACUNGCAP WHERE MaNhaCungCap = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Retrieve data from the result set and create a NhaCungCap object
+                nhaCungCap = new NhaCungCap();
+                nhaCungCap.setMaNhaCungCap(resultSet.getString("MaNhaCungCap"));
+                nhaCungCap.setTenNhaCungCap(resultSet.getString("TenNhaCungCap"));
+                nhaCungCap.setDiaChi(resultSet.getString("DiaChi"));
+                nhaCungCap.setSoDienThoai(resultSet.getString("SoDienThoai"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions
+        } finally {
+            // Close resources in the reverse order of their creation
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exceptions
+            }
+        }
+
+        return nhaCungCap;
+    }
 }

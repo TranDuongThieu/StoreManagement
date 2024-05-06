@@ -22,4 +22,9 @@ public class AdminNhaCungCapService implements IAdminNhaCungCapService {
         return adnccDao.getAllNhaCungCap();
     }
 
+    @Override
+    public NhaCungCap getById(String id) {
+        return adnccDao.getById(id);
+    }
+
 }

@@ -9,6 +9,7 @@ import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.service.AdminChiTietDonHangService;
+import com.hcmute.storemanagement.service.GeneratePDF;
 import com.hcmute.storemanagement.service.IAdminChiTietDonHangService;
 import com.hcmute.storemanagement.service.IStaffChiTietDonHangService;
 import com.hcmute.storemanagement.service.IStaffDonHangService;
@@ -715,49 +716,10 @@ public class BillForm extends javax.swing.JPanel {
 //    }
 
     private void generateAndSaveBill() {
-        // Lấy ngày hiện tại
-
-        Date currentDate = new Date();
-        String date = String.valueOf(currentDate);
-        String FILE_NAME = "Bill" + String.valueOf(lbIdOrder.getText()) + ".pdf";
-        // Tạo tài liệu PDF với kích thước A7 và lề 50 đơn vị cho mỗi cạnh
-        Document document = new Document(PageSize.A8, 30, 30, 30, 30);
-
-        try {
-            PdfWriter.getInstance(document, new FileOutputStream(FILE_NAME));
-            document.open();
-
-            Font titleFont = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.BLACK);
-            Font contentFont = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL, BaseColor.BLACK);
-
-            Paragraph title = new Paragraph("Bill", titleFont);
-            title.setAlignment(Element.ALIGN_CENTER);
-            document.add(title);
-
-            document.add(new Paragraph("\n")); // Add empty line
-
-            // Add content
-            String[] contentLines = {
-                "ID order:               " + String.valueOf(lbIdOrder.getText()),
-                "ID customer:            " + String.valueOf(lbIdCustomer.getText()),
-                "ID Staff:                " + String.valueOf(lbIdStaff.getText()),
-                "Date:                     " + String.valueOf(lbDate.getText()),
-                "Total:                     " + String.valueOf(lbTotal.getText()),
-                "Discount:               " + String.valueOf(lbDiscount.getText()),
-                "Total payment:       " + String.valueOf(lbTotalPayment.getText())
-            };
-
-            for (String line : contentLines) {
-                Paragraph content = new Paragraph(line, contentFont);
-                document.add(content);
-            }
-
-            document.close();
-            System.out.println("Hóa đơn được tạo thành công và lưu vào máy tính!");
-            JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công");
-        } catch (DocumentException | FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
+        GeneratePDF gen = new GeneratePDF();
+        gen.generateGDN(lbIdOrder.getText());
+        System.out.println("Hóa đơn được tạo thành công và lưu vào máy tính!");
+        JOptionPane.showMessageDialog(this, "Xuất hóa đơn thành công");
     }
 
     private void clickReload(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickReload
