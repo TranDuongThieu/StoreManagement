@@ -159,7 +159,7 @@ public class ProductForm extends javax.swing.JPanel {
                 initData();
             }
         });
-        popupUpdateProduct billInfo = new popupUpdateProduct(selectedSanPham);
+        popupUpdateProduct billInfo = new popupUpdateProduct(selectedSanPham,popupFrame);
         popupFrame.add(billInfo);
         popupFrame.pack();
         popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ

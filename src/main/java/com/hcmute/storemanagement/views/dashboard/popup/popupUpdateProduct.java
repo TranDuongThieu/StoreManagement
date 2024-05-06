@@ -17,19 +17,21 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class popupUpdateProduct extends javax.swing.JPanel {
-    
+
     private SanPham sanPham;
+    private JFrame popUpJF;
     IStaffSanPhamDao sanPhamDao = new StaffSanPhamDao();
-    
+
     public popupUpdateProduct(SanPham sanPham) {
         initComponents();
         this.sanPham = sanPham;
         showData();
     }
-    
+
     private void showData() {
         ImageIcon icon = new ImageIcon(sanPham.getHinhAnh()); // Đường dẫn của hình ảnh
         lbIconImage.setIcon(icon);
@@ -40,7 +42,7 @@ public class popupUpdateProduct extends javax.swing.JPanel {
         txtSold.setText(String.valueOf(sanPham.getSoLuongDaBan()));
         txtWarehouse.setText(String.valueOf(sanPham.getSoLuongTrongKho()));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -371,26 +373,40 @@ public class popupUpdateProduct extends javax.swing.JPanel {
             ex.printStackTrace();
         }
 
-        // Trích xuất mảng byte từ ByteArrayOutputStream
-        byte[] imageData = outputStream.toByteArray();
-        SanPham product = new SanPham();
-        // Đặt mảng byte vào thuộc tính HinhAnh của đối tượng sanPham
-        product.setMaSanPham(sanPham.getMaSanPham());
-        product.setHinhAnh(imageData);
-        product.setGia(Integer.parseInt(txtCost.getText()));
-        product.setMoTa(txtDes.getText());
-        product.setThoiHanBaoHanh(txtGuarantee.getText());
-        product.setTenSanPham(txtName.getText());
-        product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
-        product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
-        
-        sanPhamDao.updateSanPham(product);
-        JOptionPane.showMessageDialog(this, "Cập nhật thành công");
-        
+        if (txtName.getText().equals("") || txtDes.getText().equals("") || txtCost.getText().equals("") || txtGuarantee.getText().equals("") || txtSold.getText().equals("") || txtWarehouse.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin");
+            return;
+        } else {
+            try {
+                // Trích xuất mảng byte từ ByteArrayOutputStream
+                byte[] imageData = outputStream.toByteArray();
+                SanPham product = new SanPham();
+                // Đặt mảng byte vào thuộc tính HinhAnh của đối tượng sanPham
+                product.setMaSanPham(sanPham.getMaSanPham());
+                product.setHinhAnh(imageData);
+                product.setGia(Integer.parseInt(txtCost.getText()));
+                product.setMoTa(txtDes.getText());
+                product.setThoiHanBaoHanh(txtGuarantee.getText());
+                product.setTenSanPham(txtName.getText());
+                product.setSoLuongDaBan(Integer.parseInt(txtSold.getText()));
+                product.setSoLuongTrongKho(Integer.parseInt(txtWarehouse.getText()));
+
+                sanPhamDao.updateSanPham(product);
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+
+                popUpJF.dispose();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số vào các ô (Số sản phẩm bán ra, kho hàng, giá tiền)");
+            }
+
+        }
+
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnChangeImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeImageActionPerformed
-        
+
         JFileChooser fileChooser = new JFileChooser(); // Tạo một hộp thoại chọn tệp
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Thiết lập thư mục mặc định là thư mục người dùng
         int result = fileChooser.showOpenDialog(this); // Hiển thị hộp thoại chọn tệp và đợi cho người dùng chọn một tệp
