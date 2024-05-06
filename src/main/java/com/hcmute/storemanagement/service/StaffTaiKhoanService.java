@@ -30,4 +30,9 @@ public class StaffTaiKhoanService implements IStaffTaiKhoanService {
         return staffTaiKhoanDao.getLatestAccountUsername();
     }
 
+    @Override
+    public boolean deleteAccount(String userName) {
+        return staffTaiKhoanDao.deleteAccount(userName);
+    }
+
 }

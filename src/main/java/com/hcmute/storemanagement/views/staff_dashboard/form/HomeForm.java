@@ -1,7 +1,10 @@
 package com.hcmute.storemanagement.views.staff_dashboard.form;
 
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffSanPhamDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffChiTietDonHangDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffSanPhamDao;
+import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.models.ThongTinSanPham;
 import com.hcmute.storemanagement.service.StaffDonHangService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
@@ -27,6 +30,7 @@ public class HomeForm extends javax.swing.JPanel {
     public static String valueID = "";
     StaffDonHangService staffDonHangService = new StaffDonHangService();
     StaffChiTietDonHangDao staffChiTietDonHangDao = new StaffChiTietDonHangDao();
+    IStaffSanPhamDao sanPham = new StaffSanPhamDao();
 
     public void setEvent(EventItem event) {
         this.event = event;
@@ -84,7 +88,7 @@ public class HomeForm extends javax.swing.JPanel {
         lb6.setText("");
         lb7.setText("");
         lb8.setText("");
-        txtQuantity.setText("0");
+        txtQuantity.setText("1");
         for (ThongTinSanPham thongTin : ttSanPham) {
             s = s + thongTin.getTenLoaiThongSo() + ": " + thongTin.getGiaTriThongSo();
             if (count == 4) {
@@ -436,11 +440,11 @@ public class HomeForm extends javax.swing.JPanel {
 
 
     private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
+
         if (Integer.parseInt(txtQuantity.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ!");
             txtQuantity.setText("0");
-        }
-        else if (txtQuantity.getText().equals("0")) {
+        } else if (txtQuantity.getText().equals("0")) {
             JOptionPane.showMessageDialog(this, "Vui lòng cập nhật số lượng!");
         } else if (Integer.parseInt(txtQuantity.getText()) > Integer.valueOf(lbWarehouse.getText())) {
             JOptionPane.showMessageDialog(this, "Số lượng trong kho không đủ!");
@@ -465,30 +469,42 @@ public class HomeForm extends javax.swing.JPanel {
             }
             int quantity = Integer.parseInt(txtQuantity.getText());
             int total = price * quantity; // tổng tiền
-            globalBillId.totalGlb = globalBillId.totalGlb + total;
+
             // id staff
             String idStaff = PanelLoginAndRegister.GlobalVariables.userId;
             // lấy mã bill để tạo billdetail
             if (globalBillId.BillId == null) {
-                // tạo 1 cái bill với
-                staffDonHangService.addBill(total, idStaff);
+                globalBillId.totalGlb = globalBillId.totalGlb + total;
+                // tạo 1 bill với
+                staffDonHangService.addBill(globalBillId.totalGlb, idStaff);
                 // gán mã bill
                 globalBillId.BillId = staffDonHangService.getLastInsertedBillId();
                 // Tạo 1 bill detail từ bill và mã đơn (valueID, billID, quantity)
                 staffChiTietDonHangDao.createChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), quantity);
                 JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
             } else {
-                // add sản phẩm vào bill detail 
-                // check xem sản phẩm có được add trước đó chưa nếu có thì trả về số lượng
-                int quantityCheck = staffChiTietDonHangDao.checkChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId));
-                if (quantityCheck != 0) {
-                    // nếu đã có thì update số lượng lên
-                    int sumQuantity = quantityCheck + Integer.parseInt(txtQuantity.getText());
-                    staffChiTietDonHangDao.updateSoLuong(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), sumQuantity);
-                    JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
+                int quantityspInBillDetail = staffChiTietDonHangDao.checkChiTietDonHang(globalBillId.BillId, globalBillId.productId);
+                int tongsanpham = quantityspInBillDetail + Integer.parseInt(txtQuantity.getText());
+                SanPham sanphamtrongkho = sanPham.getSanPhamById(globalBillId.productId);
+
+                if (tongsanpham > sanphamtrongkho.getSoLuongTrongKho()) {
+                    JOptionPane.showMessageDialog(this, "Bạn đã thêm sản phẩm vược quá số lượng còn lại trong kho!");
                 } else {
-                    staffChiTietDonHangDao.createChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), Integer.valueOf(txtQuantity.getText()));
-                    JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
+                    globalBillId.totalGlb = globalBillId.totalGlb + total;
+                    // cập nhật tiền trong bill
+                    staffDonHangService.updateTotal(globalBillId.BillId, globalBillId.totalGlb);
+                    // add sản phẩm vào bill detail 
+                    // check xem sản phẩm có được add trước đó chưa nếu có thì trả về số lượng
+                    int quantityCheck = staffChiTietDonHangDao.checkChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId));
+                    if (quantityCheck != 0) {
+                        // nếu đã có thì update số lượng lên
+                        int sumQuantity = quantityCheck + Integer.parseInt(txtQuantity.getText());
+                        staffChiTietDonHangDao.updateSoLuong(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), sumQuantity);
+                        JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
+                    } else {
+                        staffChiTietDonHangDao.createChiTietDonHang(String.valueOf(globalBillId.BillId), String.valueOf(globalBillId.productId), Integer.valueOf(txtQuantity.getText()));
+                        JOptionPane.showMessageDialog(this, "Thêm thành công sản phẩm");
+                    }
                 }
             }
         }

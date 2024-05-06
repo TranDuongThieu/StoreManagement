@@ -178,13 +178,12 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
         return nhanVien;
     }
 
-    @Override
-    public boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh) {
+    public boolean updateStaff(String id, String ten, String diaChi, String email, String phone, String cccd, Date ngaySinh, String gioiTinh) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = DBConnection.getConnection();
-            String sql = "UPDATE NHANVIEN SET TenNhanVien = ?, DiaChi = ?, Email = ?, SoDienThoai = ?, CCCD = ?, NgaySinh = ? WHERE MaNhanVien = ?";
+            String sql = "UPDATE NHANVIEN SET TenNhanVien = ?, DiaChi = ?, Email = ?, SoDienThoai = ?, CCCD = ?, NgaySinh = ?, GioiTinh = ? WHERE MaNhanVien = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, ten);
             preparedStatement.setString(2, diaChi);
@@ -192,7 +191,8 @@ public class StaffNhanVienDao extends AbstractDao<NhanVien> implements IStaffNha
             preparedStatement.setString(4, phone);
             preparedStatement.setString(5, cccd);
             preparedStatement.setTimestamp(6, new Timestamp(ngaySinh.getTime()));
-            preparedStatement.setString(7, id);
+            preparedStatement.setString(7, gioiTinh);
+            preparedStatement.setString(8, id);
             preparedStatement.executeUpdate();
             return true; // Trả về true nếu câu lệnh UPDATE được thực thi thành công
         } catch (SQLException e) {

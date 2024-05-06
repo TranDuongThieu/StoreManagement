@@ -19,5 +19,7 @@ public interface IStaffKhachHangService {
 
     KhachHang getKhachHangByPhoneNumber(String soDienThoai);
 
-    boolean addKhachHang(String tenKhachHang, String soDienThoai, int diemThanhVien);
+boolean addKhachHang(String tenKhachHang, String soDienThoai);
+    void updateScore(String customerId, int newScore);
+
 }

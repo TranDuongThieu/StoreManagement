@@ -20,6 +20,7 @@ import com.hcmute.storemanagement.service.StaffKhachHangService;
 import com.hcmute.storemanagement.service.StaffSanPhamService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
 import com.hcmute.storemanagement.views.staff_dashboard.form.HomeForm;
+import com.hcmute.storemanagement.views.staff_dashboard.form.HomeForm.globalBillId;
 import com.hcmute.storemanagement.views.staff_dashboard.model.ModelBill;
 import com.hcmute.storemanagement.views.staff_dashboard.model.billDetailTable.EventActionBilldetail;
 import com.itextpdf.text.BaseColor;
@@ -42,10 +43,12 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.time.LocalDate;
 import java.util.Date;
+import org.apache.xmlbeans.impl.xb.xsdschema.TotalDigitsDocument;
 
 public class BillForm extends javax.swing.JPanel {
 
     int quanttOld = 0;
+    public String idCus = "";
 
     IStaffDonHangService staffDonHangService = new StaffDonHangService();
     IStaffKhachHangService staffKhachHangService = new StaffKhachHangService();
@@ -424,7 +427,7 @@ public class BillForm extends javax.swing.JPanel {
         iconSearch.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\search.png")); // NOI18N
         iconSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                clickSearch(evt);
+                clSearch(evt);
             }
         });
 
@@ -591,25 +594,17 @@ public class BillForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void enterSearch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterSearch
-        String txtSearch = this.txtSearch.getText();
 
-        // tìm khách hàng bằng mã id hoặc sdt 
-        IStaffKhachHangService staffCus = new StaffKhachHangService();
-        KhachHang khByID = staffCus.getKhachHangByID(txtSearch);
-        KhachHang khByPhone = staffCus.getKhachHangByPhoneNumber(txtSearch);
-        if (khByID != null) {
-            showCusWithId(khByID);
-        } else if (khByPhone != null) {
-            showCusWithId(khByPhone);
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm được khách hàng phù hợp!");
-        }
+        findCustomer();
+
     }//GEN-LAST:event_enterSearch
 
     private void btnAddDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiscountActionPerformed
         if (txtDiscountCustomer.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa đủ điểm để được giảm giá!");
         } else {
+
+            //
             lbDiscount.setText(txtDiscountCustomer.getText());
 
             String amountString = lbTotal.getText();
@@ -622,15 +617,21 @@ public class BillForm extends javax.swing.JPanel {
             System.err.println("Discount: " + discount);
 
             lbTotalPayment.setText(String.valueOf(total - ((total * discount) / 100) + "$"));
+            // cập nhật total trong bill
+            String totalPaymentText = lbTotalPayment.getText();
+            String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
+            int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol);
+            staffDonHangService.updateTotal(lbIdOrder.getText(), totalPayment);
+
         }
     }//GEN-LAST:event_btnAddDiscountActionPerformed
 
     private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
         // insert customer 
-        if (txtNameCustomer.getText().equals("") || txtPhoneCustomer.getText().equals("") || txtScoresCustomer.getText().equals("")) {
+        if (txtNameCustomer.getText().equals("") || txtPhoneCustomer.getText().equals("") ) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tên, số điện thoại và điểm!");
         } else {
-            boolean checkAdd = staffKhachHangService.addKhachHang(txtNameCustomer.getText(), txtPhoneCustomer.getText(), Integer.parseInt(txtScoresCustomer.getText()));
+            boolean checkAdd = staffKhachHangService.addKhachHang(txtNameCustomer.getText(), txtPhoneCustomer.getText());
             if (checkAdd == true) {
                 JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công \n Bạn có thể tra cứu thông tin khách hàng này");
             } else {
@@ -638,21 +639,6 @@ public class BillForm extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnAddCustomerActionPerformed
-
-    private void clickSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickSearch
-        String txtSearch = this.txtSearch.getText();
-
-        // tìm khách hàng bằng mã id hoặc sdt 
-        IStaffKhachHangService staffCus = new StaffKhachHangService();
-        KhachHang khByID = staffCus.getKhachHangByID(txtSearch);
-        KhachHang khByPhone = staffCus.getKhachHangByPhoneNumber(txtSearch);
-        if (khByID != null) {
-            showCusWithId(khByID);
-        } else if (khByPhone != null) {
-            showCusWithId(khByPhone);
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm được khách hàng phù hợp!");
-        }    }//GEN-LAST:event_clickSearch
 
     private void btnExFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExFileActionPerformed
 
@@ -662,8 +648,26 @@ public class BillForm extends javax.swing.JPanel {
 
         }
         // in hóa đơn 
-
         generateAndSaveBill();
+        // Cập nhật khách hàng mua đơn hàng đó 
+        if (!idCus.equals("")) {
+            staffDonHangService.updateCustomer(lbIdOrder.getText(), lbIdCustomer.getText());
+            // Cập nhật điểm khách hàng 
+            if (!(lbDiscount.getText()).equals("")) {
+                String totalPaymentText = lbTotalPayment.getText();
+                String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
+                int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100;
+                int newscore = totalPayment;
+                staffKhachHangService.updateScore(idCus, newscore);
+            }
+        }
+
+        // Cập nhật total trong đơn hàng
+        String totalPaymentText = lbTotalPayment.getText();
+        String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
+        int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol);
+        staffDonHangService.updateTotal(lbIdOrder.getText(), totalPayment);
+
         // cập nhật số lượng sản phẩm còn trong kho
         List<ChiTietDonHang> chitietdonhang = (List<ChiTietDonHang>) adBillDetail.getChiTietDonHangById(HomeForm.globalBillId.BillId);
         for (ChiTietDonHang ct : chitietdonhang) {
@@ -673,7 +677,6 @@ public class BillForm extends javax.swing.JPanel {
             // update sold
             int sold = sanPham.getSoLuongDaBan() + Integer.valueOf(ct.getSoLuong());
             stProduct.updateSoLuongDaBan(sanPham.getMaSanPham(), sold);
-
         }
         // Cập nhật số lượng sản phẩm đã bán
 
@@ -786,6 +789,7 @@ public class BillForm extends javax.swing.JPanel {
     }//GEN-LAST:event_clickCellTable
 
     private void deleteBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBillActionPerformed
+        staffDonHangService.deleteBill(lbIdOrder.getText());
         // TODO add your handling code here:
         HomeForm.globalBillId.BillId = null;
         HomeForm.globalBillId.productId = null;
@@ -797,6 +801,31 @@ public class BillForm extends javax.swing.JPanel {
         }
         nullBill();
     }//GEN-LAST:event_deleteBillActionPerformed
+
+    private void clSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clSearch
+        findCustomer();
+
+    }//GEN-LAST:event_clSearch
+
+    private void findCustomer() {
+
+        String txtSearch = this.txtSearch.getText();
+        // tìm khách hàng bằng mã id hoặc sdt 
+        IStaffKhachHangService staffCus = new StaffKhachHangService();
+        KhachHang khByID = staffCus.getKhachHangByID(txtSearch);
+        KhachHang khByPhone = staffCus.getKhachHangByPhoneNumber(txtSearch);
+
+        if (khByID != null) {
+            showCusWithId(khByID);
+            idCus = khByID.getMaKhachHang();
+        } else if (khByPhone != null) {
+            showCusWithId(khByPhone);
+            idCus = khByPhone.getMaKhachHang();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm được khách hàng phù hợp!");
+        }
+    }
 
     private void showCusWithId(KhachHang khachHang) {
         txtNameCustomer.setText(khachHang.getTenKhachHang());

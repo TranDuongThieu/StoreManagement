@@ -17,4 +17,6 @@ public interface IStaffTaiKhoanDao {
     boolean createAccount(String password, String role);
 
     String getLatestAccountUsername();
+
+    boolean deleteAccount(String userName);
 }

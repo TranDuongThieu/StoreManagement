@@ -16,14 +16,47 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author DELL
- */
 public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHangDao {
 
     public StaffDonHangDao() {
         super(DonHang.class);
+    }
+
+    public boolean deleteBill(String billId) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try {
+            // Lấy kết nối từ DBConnection (hàm getConnection)
+            connection = DBConnection.getConnection();
+
+            // Chuẩn bị câu lệnh SQL để xóa hóa đơn từ cơ sở dữ liệu
+            String deleteQuery = "DELETE FROM DONHANG WHERE MaDonHang = ?";
+            pstmt = connection.prepareStatement(deleteQuery);
+
+            // Thiết lập tham số cho câu lệnh xóa
+            pstmt.setString(1, billId);
+
+            // Thực thi câu lệnh xóa
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Kiểm tra số dòng bị ảnh hưởng để xác định xem xóa thành công hay không
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public String addBill(double total, String idStaff) {
@@ -77,6 +110,41 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
         }
 
         return generatedId;
+    }
+
+    public void updateTotal(String billId, double newTotal) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DBConnection.getConnection();
+
+            String updateQuery = "UPDATE DONHANG SET TongGiaTri = ? WHERE MaDonHang = ?";
+            pstmt = connection.prepareStatement(updateQuery);
+            pstmt.setDouble(1, newTotal);
+            pstmt.setString(2, billId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Tổng tiền đã được cập nhật thành công cho đơn hàng có mã: " + billId);
+            } else {
+                System.out.println("Không tìm thấy đơn hàng có mã: " + billId);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public String getLastInsertedBillId() {
@@ -157,6 +225,40 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
             }
         }
         return donHang;
+    }
+
+    public void updateCustomer(String billId, String newCustomerId) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String query = "UPDATE DONHANG SET MaKhachHang = ? WHERE MaDonHang = ?";
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, newCustomerId);
+            pstmt.setString(2, billId);
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Thông tin khách hàng đã được cập nhật thành công cho đơn hàng có mã: " + billId);
+            } else {
+                System.out.println("Không tìm thấy đơn hàng có mã: " + billId);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            // Đóng tài nguyên
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public List<DonHang> getBillFromCusId(String cusId) {
@@ -282,7 +384,7 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
                 String staffId = resultSet.getString("MaNhanVien");
 
                 // Create an Order object from the retrieved information
-                DonHang order = new DonHang(orderId, customerId, staffId,orderDate, totalPrice);
+                DonHang order = new DonHang(orderId, customerId, staffId, orderDate, totalPrice);
 
                 // Add the order to the list
                 orders.add(order);

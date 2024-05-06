@@ -40,4 +40,19 @@ public class StaffDonHangService implements IStaffDonHangService {
     public List<DonHang> getBillFromStaff(String cusId) {
         return staffDonHangDao.getBillFromStaff(cusId);
     }
+
+    @Override
+    public void updateCustomer(String billId, String newCustomerId) {
+        staffDonHangDao.updateCustomer(billId, newCustomerId);
+    }
+
+    @Override
+    public void updateTotal(String billId, double newTotal) {
+        staffDonHangDao.updateTotal(billId, newTotal);
+    }
+
+    @Override
+    public boolean deleteBill(String billId) {
+        return staffDonHangDao.deleteBill(billId);
+    }
 }

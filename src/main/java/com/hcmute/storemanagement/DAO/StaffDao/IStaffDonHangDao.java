@@ -25,4 +25,10 @@ public interface IStaffDonHangDao {
     List<DonHang> getBillFromStaff(String cusId);
 
     List<DonHang> selectAllOrders();
+
+    void updateCustomer(String billId, String newCustomerId);
+
+    void updateTotal(String billId, double newTotal);
+
+    boolean deleteBill(String billId);
 }
