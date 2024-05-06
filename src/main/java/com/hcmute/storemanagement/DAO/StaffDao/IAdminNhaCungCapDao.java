@@ -12,6 +12,6 @@ import java.util.List;
  * @author DELL
  */
 public interface IAdminNhaCungCapDao {
-
+    NhaCungCap getById(String id);
     List<NhaCungCap> getAllNhaCungCap();
 }

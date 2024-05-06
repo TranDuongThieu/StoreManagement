@@ -18,6 +18,50 @@ import java.util.List;
  * @author DELL
  */
 public class AdminDonNhapHangDao implements IAdminDonNhapHangDao {
+    public DonNhapHang getById(String id) {
+        DonNhapHang donNhapHang = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM DONNHAPHANG WHERE MaDonNhapHang = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Retrieve data from the result set and create a DonNhapHang object
+                donNhapHang = new DonNhapHang();
+                donNhapHang.setMaDonNhapHang(resultSet.getString("MaDonNhapHang"));
+                donNhapHang.setNgayNhapHang(resultSet.getDate("NgayNhapHang"));
+                donNhapHang.setTongGiaTri(resultSet.getInt("TongGiaTri"));
+                donNhapHang.setMaNhaCungCap(resultSet.getString("MaNhaCungCap"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions
+        } finally {
+            // Close resources in the reverse order of their creation
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exceptions
+            }
+        }
+
+        return donNhapHang;
+    }
 
     public List<DonNhapHang> getAllDonNhapHang() {
         List<DonNhapHang> donNhapHangList = new ArrayList<DonNhapHang>();

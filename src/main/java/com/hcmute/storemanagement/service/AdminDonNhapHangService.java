@@ -46,4 +46,9 @@ public class AdminDonNhapHangService implements IAdminDonNhapHangService {
     public void deleteDonNhapHang(String maDonNhapHang) {
         DonNhapHang.deleteDonNhapHang(maDonNhapHang);
     }
+
+    @Override
+    public DonNhapHang getById(String id) {
+        return DonNhapHang.getById(id);
+    }
 }

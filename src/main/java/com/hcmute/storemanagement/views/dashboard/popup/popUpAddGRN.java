@@ -12,6 +12,7 @@ import com.hcmute.storemanagement.models.NhaCungCap;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.service.AdminDonNhapHangService;
 import com.hcmute.storemanagement.service.AdminNhaCungCapService;
+import com.hcmute.storemanagement.service.GeneratePDF;
 import com.hcmute.storemanagement.service.IAdminDonNhapHangService;
 import com.hcmute.storemanagement.service.IAdminNhaCungCapService;
 import com.hcmute.storemanagement.service.IStaffSanPhamService;
@@ -466,13 +467,17 @@ public class popUpAddGRN extends javax.swing.JPanel {
         String quantityText = txtQuantity.getText();
         try {
             int quantity = Integer.parseInt(quantityText);
-            if (quantity < 0 || Integer.parseInt(txtCost.getText()) < 0) {
-                JOptionPane.showMessageDialog(this, "Thêm không thành công, không được nhập số âm");
-            } else {
 
-                if (txtGRNID.getText().equals(GRNsv.getMaDonNhapHangCuoiCung())) {
-                    if (txtQuantity.getText().equals("")) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
+            if (txtGRNID.getText().equals(GRNsv.getMaDonNhapHangCuoiCung())) {
+                if (txtQuantity.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
+                } else {
+                    boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
+                    if (checkInsert == true) {
+                        total = total();
+                        txtTotal.setText(String.valueOf(total));
+                        initData();
+
                     } else {
                         boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
                         if (checkInsert == true) {
@@ -484,11 +489,20 @@ public class popUpAddGRN extends javax.swing.JPanel {
                             JOptionPane.showMessageDialog(this, "Thêm không thành công, vui lòng chỉnh sửa trong bảng");
                         }
                     }
-                } else {
-                    GRNsv.insertDonNhapHang(donnhaphang);
+                }
+            } else {
+                GRNsv.insertDonNhapHang(donnhaphang);
 
-                    if (txtQuantity.getText().equals("")) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
+                if (txtQuantity.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng");
+                } else {
+                    boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
+                    if (checkInsert == true) {
+
+                        total = total();
+                        txtTotal.setText(String.valueOf(total));
+                        initData();
+
                     } else {
                         boolean checkInsert = GRNDetail.insertChiTietDonNhapHang(String.valueOf(txtGRNID.getText()), ProductId, Integer.parseInt(txtQuantity.getText()));
                         if (checkInsert == true) {
@@ -536,6 +550,8 @@ public class popUpAddGRN extends javax.swing.JPanel {
             // cập nhật total 
             GRNsv.updateTotalValueById(txtGRNID.getText(), total());
             // kiểm tra T F 
+            GeneratePDF gen = new GeneratePDF();
+            gen.generateGRN(txtGRNID.getText());
             int result = JOptionPane.showConfirmDialog(this, "Thêm đơn nhập hàng thành công, bạn có chắc chắn muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 popupJframe.dispose();
