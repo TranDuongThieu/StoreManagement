@@ -5,17 +5,21 @@
 package com.hcmute.storemanagement.views.dashboard.form;
 
 import com.hcmute.storemanagement.DAO.StaffDao.IStaffDonHangDao;
+import com.hcmute.storemanagement.DAO.StaffDao.IStaffKhachHangDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
-import com.hcmute.storemanagement.models.ChiTietDonHang;
+import com.hcmute.storemanagement.DAO.StaffDao.StaffKhachHangDao;
 import com.hcmute.storemanagement.models.DonHang;
-import com.hcmute.storemanagement.models.SanPham;
-import java.util.ArrayList;
+import com.hcmute.storemanagement.models.KhachHang;
+import com.hcmute.storemanagement.views.dashboard.popup.BillDetail;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class GDNForm extends javax.swing.JPanel {
 
     IStaffDonHangDao ordersv = new StaffDonHangDao();
+    IStaffKhachHangDao CusDao = new StaffKhachHangDao();
     public GDNForm() {
         initComponents();
         initDate();
@@ -75,7 +79,7 @@ public class GDNForm extends javax.swing.JPanel {
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\imagepj\\icon\\eye.png")); // NOI18N
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2clickShowGRNDetail(evt);
+                clickShowGRNDetail(evt);
             }
         });
 
@@ -122,35 +126,36 @@ public class GDNForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel2clickShowGRNDetail(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2clickShowGRNDetail
-//        int rowIndex = tbGRN.getSelectedRow();
-//        if (rowIndex != -1) {
-//            Object IDGRN = tbGRN.getValueAt(rowIndex, 0);
-//            String IdGRN = IDGRN != null ? IDGRN.toString() : "";
-//            System.err.println("IDHRN: " + IdGRN);
-//
-//            Object Date = tbGRN.getValueAt(rowIndex, 1);
-//            String dateString = Date != null ? Date.toString() : "";
-//            Date date = null;
-//
-//            if (!dateString.isEmpty()) {
-//                try {
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                    date = dateFormat.parse(dateString);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (rowIndex != -1) {
-//                openPopup(IdGRN, date);
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Please select a row.");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 hàng trong bảng");
-//        }
-    }//GEN-LAST:event_jLabel2clickShowGRNDetail
+    private void clickShowGRNDetail(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickShowGRNDetail
+        int rowIndex = tbGDN.getSelectedRow();
+        if (rowIndex != -1) {
+            Object IDGRN = tbGDN.getValueAt(rowIndex, 0);
+            String IdGRN = IDGRN != null ? IDGRN.toString() : "";
+            System.err.println("IDHRN: " + IdGRN);
 
+            Object IDCus = tbGDN.getValueAt(rowIndex, 1);
+            String Idcus = IDCus != null ? IDCus.toString() : "";
+
+            DonHang donhang = ordersv.findBillById(IdGRN);
+            KhachHang khachHang = CusDao.getKhachHangByID(Idcus);
+            openPopup(donhang,khachHang);
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 hàng trong bảng");
+        }
+    }//GEN-LAST:event_clickShowGRNDetail
+
+      private static void openPopup(DonHang selectedDonHang, KhachHang khachHang) {
+        JFrame popupFrame = new JFrame();
+        popupFrame.setTitle(null); // Đặt tiêu đề là null
+        popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
+        BillDetail billInfo = new BillDetail(selectedDonHang, khachHang); 
+        popupFrame.add(billInfo);
+        popupFrame.pack();
+        popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ
+        popupFrame.setVisible(true);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
