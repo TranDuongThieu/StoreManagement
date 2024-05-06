@@ -7,6 +7,7 @@ package com.hcmute.storemanagement.views.dashboard.mainAdmin;
 import com.hcmute.storemanagement.views.authen.Authen;
 import com.hcmute.storemanagement.views.dashboard.event.EventMenuSelected;
 import com.hcmute.storemanagement.views.dashboard.form.CustomerForm;
+import com.hcmute.storemanagement.views.dashboard.form.GDNForm;
 import com.hcmute.storemanagement.views.dashboard.form.GRNForm;
 import com.hcmute.storemanagement.views.dashboard.form.GeneralScheduleForm;
 import com.hcmute.storemanagement.views.dashboard.form.ProductForm;
@@ -65,6 +66,8 @@ public class Dashboard extends javax.swing.JFrame {
                 }
                 else if (index == 9) {
                     setForm(new GRNForm());
+                } else if (index == 10) {
+                    setForm(new GDNForm());
                 }
                 else if (index == 12) {
                     dispose();

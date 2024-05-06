@@ -165,26 +165,30 @@ public class GRNForm extends javax.swing.JPanel {
 
     private void clickShowGRNDetail(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clickShowGRNDetail
         int rowIndex = tbGRN.getSelectedRow();
-        Object IDGRN = tbGRN.getValueAt(rowIndex, 0);
-        String IdGRN = IDGRN != null ? IDGRN.toString() : "";
-        System.err.println("IDHRN: " + IdGRN);
-
-        Object Date = tbGRN.getValueAt(rowIndex, 1);
-        String dateString = Date != null ? Date.toString() : "";
-        Date date = null;
-
-        if (!dateString.isEmpty()) {
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                date = dateFormat.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
         if (rowIndex != -1) {
-            openPopup(IdGRN, date);
+            Object IDGRN = tbGRN.getValueAt(rowIndex, 0);
+            String IdGRN = IDGRN != null ? IDGRN.toString() : "";
+            System.err.println("IDHRN: " + IdGRN);
+
+            Object Date = tbGRN.getValueAt(rowIndex, 1);
+            String dateString = Date != null ? Date.toString() : "";
+            Date date = null;
+
+            if (!dateString.isEmpty()) {
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    date = dateFormat.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (rowIndex != -1) {
+                openPopup(IdGRN, date);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a row.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a row.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 hàng trong bảng");
         }
     }//GEN-LAST:event_clickShowGRNDetail
 
