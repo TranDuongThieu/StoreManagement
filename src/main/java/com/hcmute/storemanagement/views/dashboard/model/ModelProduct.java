@@ -4,6 +4,7 @@
  */
 package com.hcmute.storemanagement.views.dashboard.model;
 
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.views.dashboard.swing.ProductTable.EventActionProduct;
 import com.hcmute.storemanagement.views.dashboard.swing.ProductTable.ModelActionProduct;
 import com.hcmute.storemanagement.views.dashboard.swing.ProductTable.ModelProfileProduct;
@@ -109,8 +110,9 @@ public class ModelProduct {
   
     
     public Object[] toRowTable(EventActionProduct event) {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileProduct(icon, maSanPham), tenSanPham, moTa, thoiHanBaoHanh,soLuongDaBan,soLuongTrongKho,df.format(gia), new ModelActionProduct(this, event)};
+            FormatPrice format = new FormatPrice();
+
+        return new Object[]{new ModelProfileProduct(icon, maSanPham), tenSanPham, moTa, thoiHanBaoHanh,soLuongDaBan,soLuongTrongKho,format.format(gia), new ModelActionProduct(this, event)};
     }
     
 }

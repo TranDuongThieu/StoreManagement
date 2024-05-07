@@ -34,7 +34,7 @@ public class popupAddAccount extends javax.swing.JPanel {
 
     public String getUsername() {
         String username = staffTaiKhoanDao.getLatestAccountUsername();
-
+        if (username == null) username = "TKNV001";
         if (username.matches("TKNV\\d+")) {
             int number = Integer.parseInt(username.substring(4)); // Bỏ đi "TKNV" và lấy số phía sau
             number++;

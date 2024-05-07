@@ -10,6 +10,7 @@ import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffKhachHangDao;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.views.dashboard.popup.BillDetail;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -21,6 +22,7 @@ public class GDNForm extends javax.swing.JPanel {
 
     IStaffDonHangDao ordersv = new StaffDonHangDao();
     IStaffKhachHangDao CusDao = new StaffKhachHangDao();
+    FormatPrice format = new FormatPrice();
 
     public GDNForm() {
         initComponents();
@@ -39,16 +41,11 @@ public class GDNForm extends javax.swing.JPanel {
             row[1] = order.getMaKhachHang(); // Product Name
             row[2] = order.getMaNhanVien(); // Price
             row[3] = order.getNgayDatHang(); // Quantity
-            row[4] = formatTotalCost(order.getTongGiaTri());
+            row[4] = format.format(order.getTongGiaTri());
             model.addRow(row);
         }
     }
 
-    private String formatTotalCost(int totalCost) {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return df.format(totalCost);
-
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
