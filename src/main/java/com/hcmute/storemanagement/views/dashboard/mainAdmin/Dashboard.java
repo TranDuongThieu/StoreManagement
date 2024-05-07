@@ -21,26 +21,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 
-/**
- *
- * @author thieu
- */
 public class Dashboard extends javax.swing.JFrame {
-
 
     private DashBoardProductForm staffDashboardProduct;
     private StaffForm staffForm;
     private GeneralScheduleForm generalScheduleForm;
     private CustomerForm customerForm;
 
-    /**
-     * Creates new form Dashboard
-     */
     public Dashboard() throws SQLException {
         initComponents();
-//        setBackground(new Color(0, 0, 0, 0));
-        menu1.initMoving(Dashboard.this);
-     
+//        setBackground(new Color(0, 0, 0, 0));     
         staffForm = new StaffForm();
         generalScheduleForm = new GeneralScheduleForm();
         customerForm = new CustomerForm();
@@ -131,7 +121,6 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    
     public static void main(String args[]) {
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
