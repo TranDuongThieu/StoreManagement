@@ -652,13 +652,19 @@ public class BillForm extends javax.swing.JPanel {
         // in hóa đơn 
 
         // Cập nhật khách hàng mua đơn hàng đó 
-        if (!idCus.equals("")) {
+        if (!lbIdCustomer.getText().equals("")) {
             staffDonHangService.updateCustomer(lbIdOrder.getText(), lbIdCustomer.getText());
             // Cập nhật điểm khách hàng 
-            if (!(lbDiscount.getText()).equals("")) {
+            if ((lbDiscount.getText()).equals("5%") || (lbDiscount.getText()).equals("10%")) {
                 String totalPaymentText = lbTotalPayment.getText();
                 String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
                 int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100;
+                int newscore = totalPayment;
+                staffKhachHangService.updateScore(idCus, newscore);
+            } else{
+                String totalPaymentText = lbTotalPayment.getText();
+                String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
+                int totalPayment = Integer.parseInt(txtScoresCustomer.getText())+Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100;
                 int newscore = totalPayment;
                 staffKhachHangService.updateScore(idCus, newscore);
             }
