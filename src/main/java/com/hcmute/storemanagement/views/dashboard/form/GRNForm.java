@@ -6,6 +6,7 @@ package com.hcmute.storemanagement.views.dashboard.form;
 
 import com.hcmute.storemanagement.models.DonNhapHang;
 import com.hcmute.storemanagement.service.AdminDonNhapHangService;
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.service.IAdminDonNhapHangService;
 import com.hcmute.storemanagement.views.dashboard.popup.popUpAddGRN;
 import com.hcmute.storemanagement.views.dashboard.popup.popupGRNDetail;
@@ -28,6 +29,7 @@ public class GRNForm extends javax.swing.JPanel {
 
     IAdminDonNhapHangService donNhapHang = new AdminDonNhapHangService();
     private JFrame popupFrame;
+    FormatPrice format = new FormatPrice();
 
     public GRNForm() {
         initComponents();
@@ -43,18 +45,13 @@ public class GRNForm extends javax.swing.JPanel {
             Object[] row = new Object[4];
             row[0] = donNhap.getMaDonNhapHang(); // Product ID
             row[1] = donNhap.getNgayNhapHang(); // Product Name
-            row[2] = formatTotalCost(donNhap.getTongGiaTri()); // Price
+            row[2] = format.format(donNhap.getTongGiaTri()); // Price
             row[3] = donNhap.getMaNhaCungCap(); // Quantity
 
             model.addRow(row);
         }
     }
 
-    private String formatTotalCost(int totalCost) {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return df.format(totalCost);
-
-    }
 
     private void openPopup(String IdGRN, Date date) {
         JFrame popupFrame = new JFrame();

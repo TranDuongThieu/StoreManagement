@@ -4,6 +4,7 @@
  */
 package com.hcmute.storemanagement.views.dashboard.model;
 
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.EventActionUser;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.ModelActionUser;
 import com.hcmute.storemanagement.views.dashboard.swing.TableUser.ModelProfileUser;
@@ -49,8 +50,9 @@ public class ModelCustomer {
     }
 
     public Object[] toRowTable() {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileUser(icon, idCustomer), name, phone, point, numberOfBill, df.format(totalCost)};
+            FormatPrice format = new FormatPrice();
+
+        return new Object[]{new ModelProfileUser(icon, idCustomer), name, phone, point, numberOfBill, format.format(totalCost)};
     }
 
     public int getPoint() {

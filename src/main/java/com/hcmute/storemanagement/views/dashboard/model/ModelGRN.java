@@ -4,6 +4,7 @@
  */
 package com.hcmute.storemanagement.views.dashboard.model;
 
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.views.dashboard.swing.GRNTable.EventActionGRN;
 import com.hcmute.storemanagement.views.dashboard.swing.GRNTable.ModelActionGRN;
 import com.hcmute.storemanagement.views.dashboard.swing.GRNTable.ModelProfileGRN;
@@ -91,13 +92,13 @@ public class ModelGRN {
         this.total = total;
     }
 
-   
     public ModelGRN() {
     }
 
     public Object[] toRowTable(EventActionGRN event) {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return new Object[]{new ModelProfileGRN(icon, GRNId), ProductId, ProductName, df.format(cost),Quantity, df.format(total), new ModelActionGRN(this, event)};
+        FormatPrice format = new FormatPrice();
+
+        return new Object[]{new ModelProfileGRN(icon, GRNId), ProductId, ProductName, format.format(cost), Quantity, format.format(total), new ModelActionGRN(this, event)};
     }
 
 }

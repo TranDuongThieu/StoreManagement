@@ -46,7 +46,7 @@ public class ProductForm extends javax.swing.JPanel {
         EventActionProduct eventAction = new EventActionProduct() {
             @Override
             public void delete(ModelProduct student, ActionEvent e) {
-                 if (tbProduct.isEditing()) {
+                if (tbProduct.isEditing()) {
                     tbProduct.getCellEditor().stopCellEditing();
                 }
                 int row = tbProduct.getSelectedRow();
@@ -76,7 +76,13 @@ public class ProductForm extends javax.swing.JPanel {
                     String guarantee = (String) tbProduct.getValueAt(rowIndex, 3);
                     Integer sold = (Integer) tbProduct.getValueAt(rowIndex, 4); // Lấy giá trị Integer từ bảng
                     Integer warehouse = (Integer) tbProduct.getValueAt(rowIndex, 5); // Lấy giá trị Integer từ bảng
-                    Integer cost = (Integer) tbProduct.getValueAt(rowIndex, 6); // Lấy giá trị Integer từ bảng
+                    String valueString = (String) tbProduct.getValueAt(rowIndex, 6);
+
+// Remove the dollar sign
+                    String numericValueString = valueString.replaceAll("[^\\d.]", "");
+
+// Parse the remaining substring as an integer
+                    int cost = Integer.parseInt(numericValueString);// Lấy giá trị Integer từ bảng
 
                     Icon icon = profileprd.getIcon(); // Lấy đối tượng Icon từ profileprd
 
@@ -147,7 +153,6 @@ public class ProductForm extends javax.swing.JPanel {
         }
     }
 
-    
     private void openPopupUpdate(SanPham selectedSanPham) {
         JFrame popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null
@@ -260,7 +265,7 @@ public class ProductForm extends javax.swing.JPanel {
         openPopupAdd();
     }//GEN-LAST:event_clickOPPopupAddPd
 
-    private void openPopupAdd( ) {
+    private void openPopupAdd() {
         JFrame popupFrame = new JFrame();
         popupFrame.setTitle(null); // Đặt tiêu đề là null
         popupFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Đóng cửa sổ popup khi đóng
@@ -272,7 +277,7 @@ public class ProductForm extends javax.swing.JPanel {
                 initData();
             }
         });
-        popupAddProduct  addproduct = new popupAddProduct(popupFrame);
+        popupAddProduct addproduct = new popupAddProduct(popupFrame);
         popupFrame.add(addproduct);
         popupFrame.pack();
         popupFrame.setLocationRelativeTo(null); // Căn giữa cửa sổ

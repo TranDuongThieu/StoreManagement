@@ -91,7 +91,9 @@ public class popUpAddGRN extends javax.swing.JPanel {
                 if (tbGrnDetail.isEditing()) {
                     tbGrnDetail.getCellEditor().stopCellEditing();
                 }
+
                 int row = tbGrnDetail.getSelectedRow();
+
                 ModelProfileGRN profileUser = (ModelProfileGRN) tbGrnDetail.getValueAt(row, 0);
                 String idGRN = profileUser.getId();
                 // lấy id product
@@ -99,11 +101,21 @@ public class popUpAddGRN extends javax.swing.JPanel {
                 String prdId = productID != null ? productID.toString() : "";
                 // lấy số lượng mới 
                 Object Quantity = tbGrnDetail.getValueAt(row, 4);
-                String quantitynew = Quantity != null ? Quantity.toString() : "";
-                GRNDetail.updateSoluong(idGRN, prdId, Integer.parseInt(quantitynew));
-                JOptionPane.showMessageDialog(popUpAddGRN.this, "Cập nhật thành công");
-                initData();
-                txtTotal.setText(String.valueOf(total()));
+                int quantitynew = 0;
+                try {
+                    quantitynew = Integer.parseInt(Quantity.toString());
+                } catch (Exception error) {
+                    JOptionPane.showMessageDialog(popUpAddGRN.this, "Nhập số lượng hợp lệ");
+                }
+                if (quantitynew > 0) {
+                    GRNDetail.updateSoluong(idGRN, prdId, quantitynew);
+                    JOptionPane.showMessageDialog(popUpAddGRN.this, "Cập nhật thành công");
+                    initData();
+                    txtTotal.setText(String.valueOf(total()));
+                } else {
+
+                    JOptionPane.showMessageDialog(popUpAddGRN.this, "Nhập số lượng hợp lệ");
+                }
             }
         };
         DefaultTableModel model = (DefaultTableModel) tbGrnDetail.getModel();
@@ -119,7 +131,9 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
     public String getGRNID() {
         String GRNID = GRNsv.getMaDonNhapHangCuoiCung();
-
+        if (GRNID == null) {
+            GRNID = "DNH000";
+        }
         if (GRNID.matches("DNH\\d+")) {
             int number = Integer.parseInt(GRNID.substring(3)); // Bỏ đi "TKNV" và lấy số phía sau
             number++;
@@ -446,12 +460,16 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
     private void clickAddGRNDetail(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickAddGRNDetail
 
-        if(Integer.parseInt(txtQuantity.getText()) <= 0)
-        {
+        try {
+            int quantity = Integer.parseInt(txtQuantity.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Nhập số lượng hợp lệ");
+        }
+        if (Integer.parseInt(txtQuantity.getText()) <= 0) {
             JOptionPane.showMessageDialog(this, "Đăng ký không thành công. Vui lòng nhập số lượng lớn hơn 0!");
             return;
         }
-        
+
         Date currentDate = new Date();
         Date dateValue = txtDate.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -472,7 +490,6 @@ public class popUpAddGRN extends javax.swing.JPanel {
 
         String quantityText = txtQuantity.getText();
         try {
-            int quantity = Integer.parseInt(quantityText);
 
             if (txtGRNID.getText().equals(GRNsv.getMaDonNhapHangCuoiCung())) {
                 if (txtQuantity.getText().equals("")) {
@@ -547,6 +564,11 @@ public class popUpAddGRN extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(this, "Thêm đơn nhập hàng thành công, bạn có chắc chắn muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 popupJframe.dispose();
+                List<ChiTietDonNhapHang> listGRNdetail = GRNDetail.getGRNDetailgByGRNId(txtGRNID.getText());
+                for (ChiTietDonNhapHang ct : listGRNdetail) {
+                    SanPham sanPham = productsv.getSanPhamById(ct.getMaSanPham());
+                    productsv.updateSoLuongTrongKho(ct.getMaSanPham(), sanPham.getSoLuongTrongKho() + ct.getSoLuong());
+                }
                 GRNID = "";
             }
         } else {

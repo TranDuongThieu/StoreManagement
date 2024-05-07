@@ -118,11 +118,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtPass">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -178,11 +173,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtCfPass">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -323,11 +313,6 @@
       </Layout>
       <SubComponents>
         <Component class="com.hcmute.storemanagement.views.dashboard.swing.TextInput" name="txtUsername">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

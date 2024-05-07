@@ -113,10 +113,21 @@ public class BillForm extends javax.swing.JPanel {
                 Object Cost = tbBilldetail.getValueAt(row, 5);
                 String orderid = orderID != null ? orderID.toString() : "";
                 String productid = ProductID != null ? ProductID.toString() : "";
-                int quantity = Quantity != null ? Integer.parseInt(Quantity.toString()) : 0;
+
                 int cost = Cost != null ? Integer.parseInt(Cost.toString()) : 0;
                 // kt số lượng trong kho 
                 int qtWhouse = stProduct.getSoLuongTrongKhoByMaSanPham(productid);
+                try {
+                    int quantityCheck = (Integer.parseInt(String.valueOf(Quantity)));
+                } catch (Exception err) {
+                    JOptionPane.showMessageDialog(BillForm.this, "Vui lòng nhập số lượng hợp lệ");
+                    try {
+                        initBilldetailTable();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                int quantity = Quantity != null ? Integer.parseInt(Quantity.toString()) : 0;
                 if (quantity <= 0) {
                     JOptionPane.showMessageDialog(BillForm.this, "Vui lòng nhập số lượng lớn hơn 0");
                     try {
@@ -663,7 +674,7 @@ public class BillForm extends javax.swing.JPanel {
                 staffKhachHangService.updateScore(idCus, newscore);
             }
         }
-        generateAndSaveBill();
+
         // Cập nhật total trong đơn hàng
         String totalPaymentText = lbTotalPayment.getText();
         String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
@@ -681,7 +692,7 @@ public class BillForm extends javax.swing.JPanel {
             stProduct.updateSoLuongDaBan(sanPham.getMaSanPham(), sold);
         }
         // Cập nhật số lượng sản phẩm đã bán
-
+        generateAndSaveBill();
         // gán biến global về 0
         HomeForm.globalBillId.BillId = null;
         HomeForm.globalBillId.productId = null;

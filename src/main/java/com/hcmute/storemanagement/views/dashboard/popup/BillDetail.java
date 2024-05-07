@@ -14,6 +14,7 @@ import com.hcmute.storemanagement.models.KhachHang;
 import com.hcmute.storemanagement.models.NhanVien;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.service.AdminChiTietDonHangService;
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.service.IAdminChiTietDonHangService;
 import com.hcmute.storemanagement.service.IStaffChiTietDonHangService;
 import com.hcmute.storemanagement.service.IStaffDonHangService;
@@ -41,6 +42,8 @@ import javax.swing.table.DefaultTableModel;
  * @author DELL
  */
 public class BillDetail extends javax.swing.JPanel {
+
+    FormatPrice format = new FormatPrice();
 
     private DonHang donhang;
     private KhachHang khachhang;
@@ -84,14 +87,14 @@ public class BillDetail extends javax.swing.JPanel {
             cusPhone.setText("");
             staffName.setText(nhanvien.getTenNhanVien());
             staffPhone.setText(nhanvien.getSoDienThoai());
-            totalCostText.setText(formatTotalCost(donhang.getTongGiaTri()));
+            totalCostText.setText(format.format(donhang.getTongGiaTri()));
             datePayment.setText(formatDate(donhang.getNgayDatHang()));
         } else {
             cusName.setText(khachhang.getTenKhachHang());
             cusPhone.setText(khachhang.getSoDienThoai());
             staffName.setText(nhanvien.getTenNhanVien());
             staffPhone.setText(nhanvien.getSoDienThoai());
-            totalCostText.setText(formatTotalCost(donhang.getTongGiaTri()));
+            totalCostText.setText(format.format(donhang.getTongGiaTri()));
             datePayment.setText(formatDate(donhang.getNgayDatHang()));
         }
 
@@ -108,16 +111,10 @@ public class BillDetail extends javax.swing.JPanel {
             row[2] = chitiet.getMaDonHang(); // Price
             row[3] = chitiet.getSoLuong(); // Quantity
             row[4] = sp.getSoLuongTrongKho();
-            row[5] = formatTotalCost(sp.getGia());
-            row[6] = formatTotalCost(sp.getGia() * chitiet.getSoLuong());
+            row[5] = format.format(sp.getGia());
+            row[6] = format.format(sp.getGia() * chitiet.getSoLuong());
             model.addRow(row);
         }
-    }
-
-    private String formatTotalCost(int totalCost) {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return df.format(totalCost);
-
     }
 
 // Method to format the date

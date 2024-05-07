@@ -9,6 +9,7 @@ import com.hcmute.storemanagement.DAO.StaffDao.IStaffKhachHangDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffDonHangDao;
 import com.hcmute.storemanagement.models.DonHang;
 import com.hcmute.storemanagement.models.KhachHang;
+import com.hcmute.storemanagement.service.FormatPrice;
 import com.hcmute.storemanagement.service.IStaffKhachHangService;
 import com.hcmute.storemanagement.service.StaffKhachHangService;
 import com.hcmute.storemanagement.views.authen.component.PanelLoginAndRegister;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class TransactionForm extends javax.swing.JPanel {
+    FormatPrice format = new FormatPrice();
 
     IStaffDonHangDao bill = new StaffDonHangDao();
     List<DonHang> donhangs;
@@ -46,17 +48,12 @@ public class TransactionForm extends javax.swing.JPanel {
             rowData.add(don.getMaKhachHang());
             rowData.add(don.getMaNhanVien());
             rowData.add(don.getNgayDatHang());
-            rowData.add(formatTotalCost(don.getTongGiaTri()));
+            rowData.add(format.format(don.getTongGiaTri()));
             // Thêm hàng vào model
             model.addRow(rowData);
         }
     }
 
-    private String formatTotalCost(int totalCost) {
-        DecimalFormat df = new DecimalFormat("$#,##0.00");
-        return df.format(totalCost);
-
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

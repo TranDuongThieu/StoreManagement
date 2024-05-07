@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 public class GeneratePDF {
 
+    FormatPrice format = new FormatPrice();
+
     public void generateGDN(String billId) {
         IStaffKhachHangDao khachHangDao = new StaffKhachHangDao();
         IStaffNhanVienService nvService = new StaffNhanVienService();
@@ -50,7 +52,7 @@ public class GeneratePDF {
             SanPham sp = spService.getSanPhamById(chitiet.getMaSanPham());
             listSanPham.add(sp);
         }
-        String FILE_NAME = "Bill-" + billId + ".pdf";
+        String FILE_NAME = "Bill/GDN/Bill-" + billId + ".pdf";
 
         try {
             Document document = new Document(PageSize.A4);
@@ -81,6 +83,7 @@ public class GeneratePDF {
             PdfPCell cusName;
             PdfPCell staffId;
             PdfPCell staffName;
+            PdfPCell cusPhone;
             // Customer Info
             staffId = new PdfPCell(new Phrase("Staff ID: " + staff.getMaNhanVien())); // Applying bold font to the header cell
             staffName = new PdfPCell(new Phrase("Staff Name: " + staff.getTenNhanVien())); // Applying bold font to the header cell
@@ -90,41 +93,48 @@ public class GeneratePDF {
             if (cus != null) {
                 cusId = new PdfPCell(new Phrase("Customer ID: " + cus.getMaKhachHang())); // Applying bold font to the header cell
                 cusName = new PdfPCell(new Phrase("Customer Name: " + cus.getTenKhachHang()));
+                cusPhone = new PdfPCell(new Phrase("Customer Phone: " + cus.getSoDienThoai()));
+                System.out.println(cus.getSoDienThoai());
                 cusId.setBorder(0);
                 cusName.setBorder(0);
+                cusPhone.setBorder(0);
                 info.addCell(cusId);
                 info.addCell(staffId);
                 info.addCell(cusName);
                 info.addCell(staffName);
+                info.addCell(cusPhone);
             } else {
                 info.addCell(staffId);
+                info.addCell("");
                 info.addCell(staffName);
             }
             document.add(info);
             // Content
             // Content
-            PdfPTable table = new PdfPTable(4); // 4 columns
+            PdfPTable table = new PdfPTable(5); // 4 columns
             table.setWidthPercentage(100);
 
             PdfPCell headerCell1 = new PdfPCell(new Phrase("Product ID", headerFont)); // Applying bold font to the header cell
             PdfPCell headerCell2 = new PdfPCell(new Phrase("Product Name", headerFont)); // Applying bold font to the header cell
             PdfPCell headerCell3 = new PdfPCell(new Phrase("Quantity", headerFont)); // Applying bold font to the header cell
             PdfPCell headerCell4 = new PdfPCell(new Phrase("Price", headerFont)); // Applying bold font to the header cell
-
+            PdfPCell headerCell5 = new PdfPCell(new Phrase("Total", headerFont));
             headerCell1.setPadding(5);
             headerCell2.setPadding(5);
             headerCell3.setPadding(5);
             headerCell4.setPadding(5);
-
+            headerCell5.setPadding(5);
             table.addCell(headerCell1);
             table.addCell(headerCell2);
             table.addCell(headerCell3);
             table.addCell(headerCell4);
+            table.addCell(headerCell5);
             for (int i = 0; i < listChiTiet.size(); i++) {
                 table.addCell(listChiTiet.get(i).getMaSanPham());
                 table.addCell(listSanPham.get(i).getTenSanPham());
                 table.addCell(String.valueOf(listChiTiet.get(i).getSoLuong()));
-                table.addCell(String.valueOf(listSanPham.get(i).getGia()));
+                table.addCell(String.valueOf("$" + listSanPham.get(i).getGia()));
+                table.addCell(String.valueOf("$" + listSanPham.get(i).getGia() * listChiTiet.get(i).getSoLuong()));
             }
             document.add(new Paragraph(" "));
             document.add(new Paragraph(" "));
@@ -141,7 +151,7 @@ public class GeneratePDF {
             for (int i = 0; i < listChiTiet.size(); i++) {
                 tempCost += listSanPham.get(i).getGia() * listChiTiet.get(i).getSoLuong();
             }
-            Paragraph tmpCost = new Paragraph("Temporary Cost:   " + String.valueOf(tempCost), contentFont);
+            Paragraph tmpCost = new Paragraph("Temporary Cost:   $" + String.valueOf(tempCost), contentFont);
             tmpCost.setAlignment(Element.ALIGN_RIGHT);
             document.add(tmpCost);
 
@@ -150,7 +160,7 @@ public class GeneratePDF {
             discountText.setAlignment(Element.ALIGN_RIGHT);
             document.add(discountText);
 
-            Paragraph total = new Paragraph("Total Cost:   " + bill.getTongGiaTri(), contentFont);
+            Paragraph total = new Paragraph("Total Cost:   $" + bill.getTongGiaTri(), contentFont);
             total.setAlignment(Element.ALIGN_RIGHT);
             document.add(total);
 
@@ -176,7 +186,7 @@ public class GeneratePDF {
             SanPham sp = spService.getSanPhamById(chitiet.getMaSanPham());
             listSanPham.add(sp);
         }
-        String FILE_NAME = "GRN_Bill-" + billId + ".pdf";
+        String FILE_NAME = "Bill/GRN/Bill-" + billId + ".pdf";
 
         try {
             Document document = new Document(PageSize.A4);
@@ -212,28 +222,33 @@ public class GeneratePDF {
 
             // Content
             // Content
-            PdfPTable table = new PdfPTable(4); // 4 columns
+            PdfPTable table = new PdfPTable(5); // 4 columns
             table.setWidthPercentage(100);
 
             PdfPCell headerCell1 = new PdfPCell(new Phrase("Product ID", headerFont)); // Applying bold font to the header cell
             PdfPCell headerCell2 = new PdfPCell(new Phrase("Product Name", headerFont)); // Applying bold font to the header cell
             PdfPCell headerCell3 = new PdfPCell(new Phrase("Quantity", headerFont)); // Applying bold font to the header cell
             PdfPCell headerCell4 = new PdfPCell(new Phrase("Price", headerFont)); // Applying bold font to the header cell
-
+            PdfPCell headerCell5 = new PdfPCell(new Phrase("Total", headerFont));
             headerCell1.setPadding(5);
             headerCell2.setPadding(5);
             headerCell3.setPadding(5);
             headerCell4.setPadding(5);
+            headerCell5.setPadding(5);
 
             table.addCell(headerCell1);
             table.addCell(headerCell2);
             table.addCell(headerCell3);
             table.addCell(headerCell4);
+            table.addCell(headerCell5);
+
             for (int i = 0; i < listChiTiet.size(); i++) {
                 table.addCell(listChiTiet.get(i).getMaSanPham());
                 table.addCell(listSanPham.get(i).getTenSanPham());
                 table.addCell(String.valueOf(listChiTiet.get(i).getSoLuong()));
-                table.addCell(String.valueOf(listSanPham.get(i).getGia()));
+                table.addCell(String.valueOf("$" + listSanPham.get(i).getGia()));
+                table.addCell(String.valueOf("$" + listSanPham.get(i).getGia() * listChiTiet.get(i).getSoLuong()));
+
             }
             document.add(new Paragraph(" "));
             document.add(new Paragraph(" "));
@@ -250,7 +265,7 @@ public class GeneratePDF {
             for (int i = 0; i < listChiTiet.size(); i++) {
                 tempCost += listSanPham.get(i).getGia() * listChiTiet.get(i).getSoLuong();
             }
-            Paragraph tmpCost = new Paragraph("Total Cost:   " + String.valueOf(tempCost), contentFont);
+            Paragraph tmpCost = new Paragraph("Total Cost:   $" + String.valueOf(tempCost), contentFont);
             tmpCost.setAlignment(Element.ALIGN_RIGHT);
             document.add(tmpCost);
 
@@ -266,7 +281,7 @@ public class GeneratePDF {
 
         GeneratePDF gen = new GeneratePDF();
 
-        gen.generateGDN("DH018");
+        gen.generateGDN("DH001");
 
     }
 }

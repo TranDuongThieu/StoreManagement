@@ -441,6 +441,13 @@ public class HomeForm extends javax.swing.JPanel {
 
     private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
 
+        try {
+            int quantity = Integer.parseInt(txtQuantity.getText());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ!");
+            txtQuantity.setText("0");
+        }
         if (Integer.parseInt(txtQuantity.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ!");
             txtQuantity.setText("0");
