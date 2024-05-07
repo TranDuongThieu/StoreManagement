@@ -7,6 +7,7 @@ package com.hcmute.storemanagement.service;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffNhanVienDao;
 import com.hcmute.storemanagement.DAO.StaffDao.StaffSanPhamDao;
 import com.hcmute.storemanagement.models.SanPham;
+import com.hcmute.storemanagement.views.dashboard.chart.ModelSanPhamBanChay;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -78,6 +79,11 @@ public class StaffSanPhamService implements IStaffSanPhamService {
     @Override
     public boolean insertProduct(SanPham sanPham) {
         return staffSanPhamDao.insertProduct(sanPham);
+    }
+
+    @Override
+    public ModelSanPhamBanChay getTotalMaxOfProduct(int month, int year) {
+        return staffSanPhamDao.getTotalMaxOfProduct(month, year);
     }
 
 }

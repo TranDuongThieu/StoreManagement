@@ -1,4 +1,5 @@
-package com.raven.chart.blankchart;
+//package com.raven.chart.blankchart;
+package com.hcmute.storemanagement.views.dashboard.chart.blankchart;
 
 public class NiceScale {
 

@@ -7,6 +7,7 @@ package com.hcmute.storemanagement.DAO.StaffDao;
 import com.hcmute.storemanagement.DAO.AbstractDao.AbstractDao;
 import com.hcmute.storemanagement.models.SanPham;
 import com.hcmute.storemanagement.service.DBConnection;
+import com.hcmute.storemanagement.views.dashboard.chart.ModelSanPhamBanChay;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -554,6 +555,40 @@ public class StaffSanPhamDao extends AbstractDao<SanPham> implements IStaffSanPh
                 e.printStackTrace();
             }
         }
+    }
+
+    public ModelSanPhamBanChay getTotalMaxOfProduct(int month, int year) {
+        ModelSanPhamBanChay result = null;
+        try {
+            // Kết nối tới cơ sở dữ liệu SQL Server
+            Connection conn = DBConnection.getConnection();
+            // Chuẩn bị truy vấn SQL
+            String query = "SELECT * FROM dbo.func_TimSanPhamBanChayTrongThang(?, ?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, Integer.toString(month));
+            statement.setString(2, Integer.toString(year));
+            // Thực thi truy vấn
+            ResultSet resultSet = statement.executeQuery();
+            // Xử lý kết quả truy vấn
+            if (resultSet.next()) {
+                String maSanPham = resultSet.getString("MaSanPham");
+                String tenSanPham = resultSet.getString("TenSanPham");
+                int gia = resultSet.getInt("Gia");
+                int tongLuotBan = resultSet.getInt("TongLuotBan");
+
+                // Tạo đối tượng ModelSanPhamBanChay từ kết quả truy vấn
+                result = new ModelSanPhamBanChay(maSanPham, tenSanPham, gia, tongLuotBan);
+            }
+
+            // Đóng kết nối và giải phóng tài nguyên
+            conn.close();
+            statement.close();
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 }

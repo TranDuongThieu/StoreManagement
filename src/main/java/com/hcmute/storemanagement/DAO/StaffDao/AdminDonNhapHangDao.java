@@ -18,6 +18,7 @@ import java.util.List;
  * @author DELL
  */
 public class AdminDonNhapHangDao implements IAdminDonNhapHangDao {
+
     public DonNhapHang getById(String id) {
         DonNhapHang donNhapHang = null;
         Connection connection = null;
@@ -61,6 +62,47 @@ public class AdminDonNhapHangDao implements IAdminDonNhapHangDao {
         }
 
         return donNhapHang;
+    }
+
+    public int getTotalAmountByMonthAndYear(int month, int year) {
+        int totalAmount = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT SUM(TongGiaTri) AS TotalAmount FROM DONNHAPHANG WHERE YEAR(NgayNhapHang) = ? AND MONTH(NgayNhapHang) = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalAmount = resultSet.getInt("TotalAmount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Xử lý ngoại lệ
+        } finally {
+            // Đóng tài nguyên (Connection, PreparedStatement, ResultSet)
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Xử lý ngoại lệ
+            }
+        }
+
+        return totalAmount;
     }
 
     public List<DonNhapHang> getAllDonNhapHang() {

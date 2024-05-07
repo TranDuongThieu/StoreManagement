@@ -31,4 +31,6 @@ public interface IStaffDonHangDao {
     void updateTotal(String billId, double newTotal);
 
     boolean deleteBill(String billId);
+
+    int getTotalRevenueByMonthAndYear(int month, int year);
 }

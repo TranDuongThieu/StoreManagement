@@ -410,4 +410,45 @@ public class StaffDonHangDao extends AbstractDao<DonHang> implements IStaffDonHa
 
         return orders;
     }
+
+    public int getTotalRevenueByMonthAndYear(int month, int year) {
+        int totalRevenue = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT SUM(TongGiaTri) AS TotalRevenue FROM DONHANG WHERE YEAR(NgayDatHang) = ? AND MONTH(NgayDatHang) = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalRevenue = resultSet.getInt("TotalRevenue");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception
+        } finally {
+            // Close resources (Connection, PreparedStatement, ResultSet)
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle exception
+            }
+        }
+
+        return totalRevenue;
+    }
 }

@@ -55,4 +55,9 @@ public class StaffDonHangService implements IStaffDonHangService {
     public boolean deleteBill(String billId) {
         return staffDonHangDao.deleteBill(billId);
     }
+
+    @Override
+    public int getTotalRevenueByMonthAndYear(int month, int year) {
+        return staffDonHangDao.getTotalRevenueByMonthAndYear(month, year);
+    }
 }

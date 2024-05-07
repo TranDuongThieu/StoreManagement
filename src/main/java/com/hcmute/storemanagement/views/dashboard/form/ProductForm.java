@@ -76,6 +76,7 @@ public class ProductForm extends javax.swing.JPanel {
                     String guarantee = (String) tbProduct.getValueAt(rowIndex, 3);
                     Integer sold = (Integer) tbProduct.getValueAt(rowIndex, 4); // Lấy giá trị Integer từ bảng
                     Integer warehouse = (Integer) tbProduct.getValueAt(rowIndex, 5); // Lấy giá trị Integer từ bảng
+                    //
                     Integer cost = (Integer) tbProduct.getValueAt(rowIndex, 6); // Lấy giá trị Integer từ bảng
 
                     Icon icon = profileprd.getIcon(); // Lấy đối tượng Icon từ profileprd

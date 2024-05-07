@@ -5,6 +5,7 @@
 package com.hcmute.storemanagement.DAO.StaffDao;
 
 import com.hcmute.storemanagement.models.SanPham;
+import com.hcmute.storemanagement.views.dashboard.chart.ModelSanPhamBanChay;
 import java.util.List;
 
 /**
@@ -36,4 +37,6 @@ public interface IStaffSanPhamDao {
     void updateSanPham(SanPham sanPham);
 
     boolean insertProduct(SanPham sanPham);
+
+    ModelSanPhamBanChay getTotalMaxOfProduct(int month, int year);
 }

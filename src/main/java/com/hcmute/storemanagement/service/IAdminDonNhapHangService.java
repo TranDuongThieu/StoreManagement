@@ -14,7 +14,9 @@ import java.util.List;
 public interface IAdminDonNhapHangService {
 
     List<DonNhapHang> getAllDonNhapHang();
+
     DonNhapHang getById(String id);
+
     int getTotalValueByMaDonNhapHang(String maDonNhapHang);
 
     boolean updateTotalValueById(String maDonNhapHang, int newTotalValue);
@@ -24,4 +26,6 @@ public interface IAdminDonNhapHangService {
     void insertDonNhapHang(DonNhapHang donNhapHang);
 
     void deleteDonNhapHang(String maDonNhapHang);
+
+    int getTotalAmountByMonthAndYear(int month, int year);
 }

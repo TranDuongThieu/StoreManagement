@@ -1,8 +1,11 @@
-package com.raven.chart;
+package com.hcmute.storemanagement.views.dashboard.chart;
 
-import com.raven.chart.blankchart.BlankPlotChart;
-import com.raven.chart.blankchart.BlankPlotChatRender;
-import com.raven.chart.blankchart.SeriesSize;
+import com.hcmute.storemanagement.views.dashboard.chart.blankchart.BlankPlotChart;
+import com.hcmute.storemanagement.views.dashboard.chart.blankchart.BlankPlotChatRender;
+import com.hcmute.storemanagement.views.dashboard.chart.blankchart.SeriesSize;
+import com.raven.chart.LegendItem;
+import com.raven.chart.ModelChart;
+import com.raven.chart.ModelLegend;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -171,8 +174,8 @@ public class Chart extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        blankPlotChart = new com.raven.chart.blankchart.BlankPlotChart();
         panelLegend = new javax.swing.JPanel();
+        blankPlotChart = new com.hcmute.storemanagement.views.dashboard.chart.blankchart.BlankPlotChart();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -183,26 +186,26 @@ public class Chart extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelLegend, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                    .addComponent(blankPlotChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(blankPlotChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelLegend, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(blankPlotChart, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
+                .addComponent(blankPlotChart, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelLegend, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.raven.chart.blankchart.BlankPlotChart blankPlotChart;
+    private com.hcmute.storemanagement.views.dashboard.chart.blankchart.BlankPlotChart blankPlotChart;
     private javax.swing.JPanel panelLegend;
     // End of variables declaration//GEN-END:variables
 }

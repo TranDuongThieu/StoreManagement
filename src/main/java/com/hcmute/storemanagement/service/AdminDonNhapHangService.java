@@ -51,4 +51,9 @@ public class AdminDonNhapHangService implements IAdminDonNhapHangService {
     public DonNhapHang getById(String id) {
         return DonNhapHang.getById(id);
     }
+
+    @Override
+    public int getTotalAmountByMonthAndYear(int month, int year) {
+        return DonNhapHang.getTotalAmountByMonthAndYear(month, year);
+    }
 }

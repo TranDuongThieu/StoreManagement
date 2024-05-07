@@ -1,4 +1,4 @@
-package com.raven.chart.blankchart;
+package com.hcmute.storemanagement.views.dashboard.chart.blankchart;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
