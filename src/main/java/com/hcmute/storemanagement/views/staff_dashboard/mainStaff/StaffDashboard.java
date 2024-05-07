@@ -32,7 +32,7 @@ public class StaffDashboard extends javax.swing.JFrame {
             public void selected(int index) {
                 // all product
                 System.err.println(index);
-                if (index == 1){
+                if (index == 1) {
                     try {
                         setForm(new DashBoardProductForm(1));
                     } catch (SQLException ex) {
@@ -40,7 +40,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                     }
                 }
                 // all phone
-                if (index == 2){
+                if (index == 2) {
                     try {
                         setForm(new DashBoardProductForm(2));
                     } catch (SQLException ex) {
@@ -48,7 +48,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                     }
                 }
                 // all laptop
-                if (index == 3){
+                if (index == 3) {
                     try {
                         setForm(new DashBoardProductForm(3));
                     } catch (SQLException ex) {
@@ -56,7 +56,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                     }
                 }
                 // all tablet
-                if (index == 4){
+                if (index == 4) {
                     try {
                         setForm(new DashBoardProductForm(4));
                     } catch (SQLException ex) {
@@ -64,7 +64,7 @@ public class StaffDashboard extends javax.swing.JFrame {
                     }
                 }
                 // all Accessory
-                if (index == 5){
+                if (index == 5) {
                     try {
                         setForm(new DashBoardProductForm(5));
                     } catch (SQLException ex) {
@@ -72,42 +72,41 @@ public class StaffDashboard extends javax.swing.JFrame {
                     }
                 }
                 // Bill
-                if (index == 8){
+                if (index == 8) {
                     try {
                         setForm(new BillForm());
                     } catch (SQLException ex) {
                         Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
                 // Bill
-                if (index == 9){
-                        setForm(new TransactionForm());                    
+                if (index == 9) {
+                    setForm(new TransactionForm());
                 }
-                
-                
-                if (index == 12){
-                        setForm(new StaffProfile());
-                   
+
+                if (index == 12) {
+                    setForm(new StaffProfile());
+
                 }
-                if (index == 13){
+                if (index == 13) {
                     try {
                         setForm(new StaffDashboardWorkSchedule());
                     } catch (SQLException ex) {
                         Logger.getLogger(StaffDashboard.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
+
                 if (index == 15) {
                     dispose();
                     new Authen().setVisible(true);
                 }
             }
         });
-        
+
     }
-   
-     private void setForm(JComponent com) {
+
+    private void setForm(JComponent com) {
         mainPanelStaff.removeAll();
         mainPanelStaff.add(com);
         mainPanelStaff.repaint();
