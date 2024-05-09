@@ -607,6 +607,8 @@ public class BillForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void enterSearch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterSearch
+        lbDiscount.setText("0");
+        lbTotalPayment.setText(lbTotal.getText());
         txtDiscountCustomer.setText("");
         findCustomer();
 
@@ -615,8 +617,7 @@ public class BillForm extends javax.swing.JPanel {
     private void btnAddDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiscountActionPerformed
         if (txtDiscountCustomer.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa đủ điểm để được giảm giá!");
-            lbDiscount.setText("0");
-            lbTotalPayment.setText(lbTotal.getText());
+
         } else {
 
             //
@@ -633,7 +634,6 @@ public class BillForm extends javax.swing.JPanel {
             int discount = Integer.parseInt(cleanLastString);
             System.err.println("Discount: " + discount);
 
-            
             lbTotalPayment.setText(String.valueOf(total - ((total * discount) / 100) + "$"));
             // cập nhật total trong bill
             String totalPaymentText = lbTotalPayment.getText();
@@ -671,16 +671,28 @@ public class BillForm extends javax.swing.JPanel {
         if (!lbIdCustomer.getText().equals("")) {
             staffDonHangService.updateCustomer(lbIdOrder.getText(), lbIdCustomer.getText());
             // Cập nhật điểm khách hàng 
-            if ((lbDiscount.getText()).equals("5%") || (lbDiscount.getText()).equals("10%")) {
+            if ((lbDiscount.getText()).equals("5%")) {
+                KhachHang kh = staffKhachHangService.getKhachHangByID(lbIdCustomer.getText());
+
                 String totalPaymentText = lbTotalPayment.getText();
                 String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
-                int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100;
+                int dtv = kh.getDiemThanhVien();
+                int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100 + (dtv - 500);
                 int newscore = totalPayment;
                 staffKhachHangService.updateScore(idCus, newscore);
-            } else{
+            } else if ((lbDiscount.getText()).equals("10%")) {
+                KhachHang kh = staffKhachHangService.getKhachHangByID(lbIdCustomer.getText());
+
                 String totalPaymentText = lbTotalPayment.getText();
                 String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
-                int totalPayment = Integer.parseInt(txtScoresCustomer.getText())+Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100;
+                int dtv = kh.getDiemThanhVien();
+                int totalPayment = Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100 + (dtv - 1000);
+                int newscore = totalPayment;
+                staffKhachHangService.updateScore(idCus, newscore);
+            } else {
+                String totalPaymentText = lbTotalPayment.getText();
+                String totalPaymentWithoutSymbol = totalPaymentText.replace("$", "");
+                int totalPayment = Integer.parseInt(txtScoresCustomer.getText()) + Integer.parseInt(totalPaymentWithoutSymbol) * 10 / 100;
                 int newscore = totalPayment;
                 staffKhachHangService.updateScore(idCus, newscore);
             }
@@ -778,6 +790,8 @@ public class BillForm extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteBillActionPerformed
 
     private void clSearch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clSearch
+        lbDiscount.setText("0");
+        lbTotalPayment.setText(lbTotal.getText());
         txtDiscountCustomer.setText("");
         findCustomer();
 
