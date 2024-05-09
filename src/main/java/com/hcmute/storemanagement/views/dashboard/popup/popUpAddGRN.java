@@ -459,7 +459,8 @@ public class popUpAddGRN extends javax.swing.JPanel {
     }//GEN-LAST:event_updateQuantity
 
     private void clickAddGRNDetail(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickAddGRNDetail
-
+        CbbSupplierName.setEnabled(false);
+        txtDate.setEnabled(false);
         try {
             int quantity = Integer.parseInt(txtQuantity.getText());
         } catch (Exception e) {
@@ -471,12 +472,17 @@ public class popUpAddGRN extends javax.swing.JPanel {
         }
 
         Date currentDate = new Date();
+        currentDate.setHours(0); // Đặt giờ thành 0 để so sánh chỉ ngày, không tính giờ
+        currentDate.setMinutes(0); // Đặt phút thành 0
+        currentDate.setSeconds(0); // Đặt giây thành 0
+
         Date dateValue = txtDate.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String userId = PanelLoginAndRegister.GlobalVariables.userId;
-        // check null
+        dateValue.setHours(0);
+        dateValue.setMinutes(0);
+        dateValue.setSeconds(0);
+
         if (dateValue != null && dateValue.before(currentDate)) {
-            JOptionPane.showMessageDialog(this, "Đăng ký không thành công. Vui lòng chọn ngày sau ngày hiện tại!");
+            JOptionPane.showMessageDialog(this, "Đăng ký không thành công. Không chọn ngày trong quá khứ!");
             return;
         }
 

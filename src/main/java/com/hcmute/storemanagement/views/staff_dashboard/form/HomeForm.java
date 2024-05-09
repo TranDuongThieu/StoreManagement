@@ -39,6 +39,7 @@ public class HomeForm extends javax.swing.JPanel {
     private EventItem event;
 
     public HomeForm() {
+        //txtQuantity.setEnabled(false);
         initComponents();
         scroll.setVerticalScrollBar(new ScrollBar());
     }
@@ -448,6 +449,13 @@ public class HomeForm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ!");
             txtQuantity.setText("0");
         }
+        
+        if(lbWarehouse.getText().equals("") && lbSold.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm!");
+            return;
+        }
+        
         if (Integer.parseInt(txtQuantity.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ!");
             txtQuantity.setText("0");
