@@ -615,6 +615,8 @@ public class BillForm extends javax.swing.JPanel {
     private void btnAddDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiscountActionPerformed
         if (txtDiscountCustomer.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa đủ điểm để được giảm giá!");
+            lbDiscount.setText("0");
+            lbTotalPayment.setText(lbTotal.getText());
         } else {
 
             //
@@ -625,10 +627,13 @@ public class BillForm extends javax.swing.JPanel {
             int total = Integer.parseInt(cleanAmountString);
             System.err.println("Total: " + total);
             String discString = txtDiscountCustomer.getText();
-            String cleanLastString = amountString.substring(0, discString.length() - 1);
+            System.out.println(discString);
+//            String cleanLastString = amountString.substring(0, discString.length() - 1);
+            String cleanLastString = discString.replace("%", "");
             int discount = Integer.parseInt(cleanLastString);
             System.err.println("Discount: " + discount);
 
+            
             lbTotalPayment.setText(String.valueOf(total - ((total * discount) / 100) + "$"));
             // cập nhật total trong bill
             String totalPaymentText = lbTotalPayment.getText();

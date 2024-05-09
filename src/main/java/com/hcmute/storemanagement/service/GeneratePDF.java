@@ -156,6 +156,9 @@ public class GeneratePDF {
             document.add(tmpCost);
 
             int discount = 100 - (int) Math.round((double) bill.getTongGiaTri() / tempCost * 100);
+            if (discount != 0) {
+                discount = Math.abs(discount - 5) < Math.abs(10 - discount) ? 5 : 10;
+            }
             Paragraph discountText = new Paragraph("Discount:   " + discount + "%", contentFont);
             discountText.setAlignment(Element.ALIGN_RIGHT);
             document.add(discountText);
